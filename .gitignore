@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -41,3 +42,26 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+=======
+realm.depend
+realm.layout
+Thumbs.db
+# Object and compiled files:
+*.o
+*.exe
+*.obj
+
+# Visual Studio files:
+*.log
+*.pdb
+*.sdf
+*.idb
+*.suo
+*.tlog
+*.ilk
+*.filters
+*.opensdf
+
+#git files
+.gitattributes
+>>>>>>> fb00e83fc43addc07b7de601b2d77d2b9db9df60
