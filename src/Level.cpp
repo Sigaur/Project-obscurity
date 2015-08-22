@@ -41,10 +41,64 @@ void Level::setBox(int y, int x, Box valeur){ _carte[y][x] = valeur; }
 Box  Level::getBox(int y, int x){ return _carte[y][x]; }
 
 /************************            fonction                          *****************************/
+Level * generationMap(int difficulter)
+{
+	srand(time(0));
 
+	Box* Type = creationType();
+	Level* Map = new Level;
+
+
+	
+	int tampon=0;
+
+	for (int i = 0; i < NBLIGNE; i++)
+	{
+		for (int j = 0; j < NBCASE; j++)
+		{
+			if (i == 0 )
+					{ tampon = 0; }//premiere colonne tous est vide
+			if (i%(difficulter+4) == 0)
+					{tampon = 0;}//premiere colonne tous est vide
+			else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
+
+
+	
+			
+			else
+			{
+				if (rand() % 2 == 0)
+					{
+						tampon = rand() % (NBTYPE + 1);
+					}
+				else
+					{
+						tampon = rand() % 2;
+					}
+
+			}
+
+<<<<<<< HEAD
 void Level::afficher_box(int valeur)
 {
     m_sprites[valeur].draw_tile(500, 500, 1);
+}
+=======
+		
+			cout << tampon;
+
+>>>>>>> 80748d073dd13242ba37ed2b06b9cdf1379863de
+
+			Map->setBox(i, j, Type[tampon].getContenu());
+
+		}
+		cout << endl;
+	}
+
+
+
+
+	return Map;
 }
 
 
