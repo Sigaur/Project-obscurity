@@ -12,6 +12,12 @@ Level::Level(RenderWindow *app, View *view1)
 	{
         _carte[i] = new Box[NBCASE];
 	}
+<<<<<<< HEAD
+=======
+    /*m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);*/
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 
 	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
 	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
@@ -45,14 +51,22 @@ Box  Level::getBox(int y, int x){ return _carte[y][x]; }
 int Level::getBoxint(int y, int x){ return _carte[y][x].getContenu(); }
 
 /************************            fonction                          *****************************/
+<<<<<<< HEAD
 
 Level * generationMap(RenderWindow *app, View *view1, int difficulter)
+=======
+/*Level * generationMap(int difficulter)
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 {
 	srand(time(NULL));
 
 	Box* Type = creationType();
+<<<<<<< HEAD
 
 	Level* Map = new Level(app,view1);
+=======
+	//Level* Map = new Level;
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 
 
 	
@@ -72,6 +86,20 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 		
 		
 		for (int j = 0; j < NBCASE; j++)
+<<<<<<< HEAD
+=======
+		{
+			if (i == 0 )
+					{ tampon = 0; }//premiere colonne tous est vide
+			if (i%(difficulter+4) == 0)
+					{tampon = 0;}//premiere colonne tous est vide
+			//else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
+
+
+	
+			
+			else
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 			{
 				if (caillou > 0)
 					{
@@ -125,6 +153,10 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 					{ Map->setBox(i + 1, 4, Type[0].getContenu()); }
 			}
 
+<<<<<<< HEAD
+=======
+			//Map->setBox(i, j, Type[tampon].getContenu());
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 
 		}
 	
@@ -132,8 +164,8 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 
 
 
-	return Map;
-}
+	//return Map;
+}*/
 
 int* randomplace()
 {
