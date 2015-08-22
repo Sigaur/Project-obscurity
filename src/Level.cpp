@@ -15,9 +15,15 @@ Level::Level(RenderWindow *app, View *view1)
 
 
 
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
+
+
+    for (int i = 0; i < 11; i++)
+    {
+        string path = "resources/obstacle" + std::to_string(i) + ".png";
+
+        m_sprites.push_back(My_Sprite{ m_app, path, m_view1 });
+    }
+	
 	
 }
 
@@ -43,9 +49,16 @@ Box**  Level::getMap(){ return _carte; }
 void Level::setBox(int y, int x, Box valeur){ _carte[y][x] = valeur; }
 Box  Level::getBox(int y, int x)
 { 	if ((y >= 0 && y < NBLIGNE) && (x >= 0 && x < NBCASE))
-		{return _carte[y][x];}
-	return NULL; 
+		{return _carte[y][x];}	return NULL; 
 }
+
+
+void Level::setBoxLight(int y, int x, int light)
+{_carte[y][x].setLight(light);}
+
+void Level::setBoxInt(int y, int x, int contenu)
+{_carte[y][x].setContenu(contenu);}
+
 
 
 int Level::getBoxint(int y, int x)
@@ -54,8 +67,17 @@ int Level::getBoxint(int y, int x)
 
 	return 0;
 }
-	
-	
+int Level::getBoxLight(int y, int x)
+{
+	if ((y >= 0 && y < NBLIGNE) && (x >= 0 && x<NBCASE))
+	{
+		return _carte[y][x].getLight();
+	}
+
+	return 0;
+}
+
+
 
 /************************            fonction                          *****************************/
 
@@ -84,29 +106,28 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 		for (int j = 0; j < NBCASE; j++)
 		{
 			
-		
-
-	
 				if (caillou > 0)
 				{
-					Map->setBox(i, ordre[j], Type[1]);
+					Map->setBoxInt(i, ordre[j], 1);
 					caillou--;
 				}
 				else if (mob > 0)
 				{
 					//on definie un mob de la liste de mob definie
 					//Map->setBox(i, ordre[j], Type[1 + random() % (NBTYPE - 2)]);
-					Map->setBox(i, ordre[j], Type[2]);
+					Map->setBoxInt(i, ordre[j], 2);
 
 					mob--;
 				}
 				else
 				{//par defaut on met du vide sinon
-					Map->setBox(i, ordre[j], Type[0]);
+					Map->setBoxInt(i, ordre[j], 0);
 				}
 				//la premiere ligne est vide
 				if (i == 0)
-					Map->setBox(i, j, Type[0]);
+				{
+					Map->setBoxInt(i, j, 0);
+				}
 			}
 
 			delete ordre;
@@ -116,19 +137,15 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 		for (int i = 0; i < NBLIGNE; i++)
 		{
 
-
-
-
-
 			if (Map->getBoxint(i, 0) == 0 && Map->getBoxint(i, 1) == 1 && Map->getBoxint(i + 1, 0) == 1)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map->setBox(i, 1, Type[0]);
+					Map->setBoxInt(i, 1, 0);
 				}
 				else
 				{
-					Map->setBox(i + 1, 0, Type[0]);
+					Map->setBoxInt(i + 1, 0, 0);
 				}
 			}
 
@@ -136,11 +153,11 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map->setBox(i, 3, Type[0]);
+					Map->setBoxInt(i, 3, 0);
 				}
 				else
 				{
-					Map->setBox(i + 1, 4, Type[0]);
+					Map->setBoxInt(i + 1, 4, 0);
 				}
 			}
 		}
@@ -148,20 +165,21 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 //--------------------------------------------------------------------------------------------------
 // affichage lumiere
 		for (int i = 0; i < NBLIGNE-1; i++)
-		{
-			for (int j = 0; i < NBLIGNE; i++)
-			{
-				if (Map->getBoxint(i+1,j)>1)//si il ya un mob = on eclaire
-					{ }
-				else
-					{ }
-
+		{	for (int j = 0; j < NBCASE; j++)
+			{if (Map->getBoxint(i+1,j)>1)//si il ya un mob = on eclaire
+					{
+						Map->setBoxLight(i,j,1); 
+					}
+			else
+					{
+						Map->setBoxLight(i, j, 0);
+					}
 			}
-
 		}
 	
 
 
+		 
 
 	return Map;
 }
@@ -207,9 +225,10 @@ int* randomplace()
 
 
 
-void Level::afficher_box(int valeur)
+void Level::afficher_box(int valeur, int x_get, int y_get)
 {
-    m_sprites[valeur].draw_tile(500, 500, 1);
+    m_sprites[valeur].draw(x_get * 248, y_get * 216);
+  //  cout << "x_get " << x_get << " y_get" << y_get << " box valeur  " << valeur << endl;
 }
 		
 
@@ -222,14 +241,32 @@ void Level::afficher_box(int valeur)
 
 void affichage_Level(Level* leLevel)
 {
-	cout << endl;
+	//cout << endl;
 	int i,j;
 	for (i = 0; i<NBLIGNE; i++)
 	{
 		for (j = 0; j<NBCASE; j++)
 		{
-		
-			afficher_box(leLevel->getBoxint(i,j));
+            leLevel->afficher_box(leLevel->getBox(i, j).get_pattern(), i, j);
+
+		}
+
+	//	cout << endl;
+
+	}
+	//cout << endl;
+}
+
+void affichage_Level_light(Level* leLevel)
+{
+	cout << endl;
+	int i, j;
+	for (i = 0; i<NBLIGNE; i++)
+	{
+		for (j = 0; j<NBCASE; j++)
+		{
+
+			afficher_box(leLevel->getBoxLight(i, j));
 		}
 
 		cout << endl;
