@@ -16,6 +16,9 @@ int main()
     {
         int screen_y = 1080;
         int screen_x = 1920;
+		sf::Time mainTime;
+		float secTime;
+
         RenderWindow app(VideoMode(screen_x, screen_y), "SFML window" );
         app.setFramerateLimit(60);
         View view1(FloatRect(0, 0, screen_x, screen_y));
@@ -23,11 +26,16 @@ int main()
 
         Game_Manager game_manager1(&app, view1, screen_x, screen_y);
 
+		sf::Clock mainClock;
+
         // Start the game loop
         while (app.isOpen() )
-		{/*
-            game_manager1.update();
-            game_manager1.draw();*/
+		{
+			mainTime = mainClock.restart();
+			secTime = mainTime.asSeconds();
+			secTime *= 100;
+            game_manager1.update(secTime);
+            game_manager1.draw();
         }
     }
     catch (const std::exception &ex)

@@ -16,6 +16,7 @@
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
+#include "Player.h"
 
 
 using namespace sf;
@@ -34,7 +35,7 @@ public:
     Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y);
     void draw();
     void quit();
-    void update();
+	void update(float secTime);
     void show_action_button(Button &button);
     void set_info();
     void set_building_menu();

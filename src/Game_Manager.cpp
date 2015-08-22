@@ -128,9 +128,9 @@ if (isEvent)
 return ret;
 }
 
-void Game_Manager::update()
+void Game_Manager::update(float secTime)
 {
-
+	cout << secTime << endl;
     bool isEvent = handle_input_events();
 
     if (is_menu_visible)
