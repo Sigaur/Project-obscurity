@@ -13,6 +13,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, myPlayer()
 	, player_sprite(app, "resources/pike.png", &m_view1)
 	, m_view2(view2)
+	, world_sprite(app, "resources/test.png", &m_view1)
 {
     is_menu_visible = true;
     is_info = false;
@@ -135,8 +136,15 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
-	cout << secTime << "   ";
-	cout << myPlayer.getPosY() << endl;
+	/*cout << secTime << "   ";
+	cout << myPlayer.getPosY() << endl;*/
+	cout << m_view2.getCenter().x / 248 << "   " << m_view2.getCenter().y << endl;
+
+
+	/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+	sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
+	//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+
 
     bool isEvent = handle_input_events();
 
@@ -161,7 +169,13 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
-	player_sprite.draw((20), (myPlayer.getPosY() * 216));
+	m_app->setView(m_view2);
+	//Changes on the world
+	world_sprite.draw(0, 0);
+	m_view2.move(5, 0);
+	m_app->setView(m_view1);
+	//Changes on the HUD, player
+	player_sprite.draw((myPlayer.getPosX() * 248), (myPlayer.getPosY() * 216));
     m_app->display();
 }
 
