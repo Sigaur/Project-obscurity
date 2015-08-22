@@ -20,6 +20,8 @@ public:
 	void update(float secTime);
 	void moveDown();
 	void moveUp();
+	void moveRight(float move);
+	void moveLeft(float move);
 	void setMovable(int set);
 	int isMovable();
 	int isLight();

@@ -2,7 +2,7 @@
 
 Player::Player()
 	: m_posY(3)
-	, m_posX(0)
+	, m_posX(1)
 	, m_energy(100)
 	, m_isMovable(1)
 	, m_isLight(0)
@@ -70,7 +70,7 @@ void Player::setLight(int set)
 
 void Player::update(float secTime)
 {	
-	cout << m_energy << "    " << m_totalLight<< endl;
+	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
 		m_totalLight += secTime;
@@ -91,4 +91,14 @@ void Player::update(float secTime)
 			m_totalLight = 0.0;
 		}
 	}
+}
+
+void Player::moveRight(float move)
+{
+	m_posX += move;
+}
+
+void Player::moveLeft(float move)
+{
+	m_posX -= move;
 }
