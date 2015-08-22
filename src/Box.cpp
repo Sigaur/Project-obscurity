@@ -4,9 +4,23 @@ Box::Box() :_contenu(0), _light(0)
 {
   
 }
+<<<<<<< HEAD
 
 Box::Box(int contenu) : _contenu(contenu){}
 Box::Box(const Box& arg) : _contenu(arg.getContenu()){}
+=======
+Box::Box(int contenu) : _contenu(contenu){
+    srand(time(0));
+   m_pattern = rand()% 10;
+}
+
+Box::Box(const Box& arg) : _contenu(arg.getContenu()){
+    srand(time(0));
+    m_pattern = rand() % 10;   
+    //cout << "random" << m_pattern << endl;
+
+}
+>>>>>>> 3d038c233d792f1d9d4cc7dc3db6a5cea85b62f5
 
 
 int		Box::getContenu()const			{ return _contenu; }
@@ -69,12 +83,15 @@ Box Box::operator = (const Box& original)
 	return *this;
 }
 
-
+int Box::get_pattern()
+{
+    return m_pattern;
+}
 
 
 void afficher_box(Box box)
 {
-	cout << box.getContenu();
+	//cout << box.getContenu();
 }
 
 

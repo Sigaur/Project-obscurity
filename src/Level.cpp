@@ -15,9 +15,15 @@ Level::Level(RenderWindow *app, View *view1)
 
 
 
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
-	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
+
+
+    for (int i = 0; i < 11; i++)
+    {
+        string path = "resources/obstacle" + std::to_string(i) + ".png";
+
+        m_sprites.push_back(My_Sprite{ m_app, path, m_view1 });
+    }
+	
 	
 }
 
@@ -219,9 +225,10 @@ int* randomplace()
 
 
 
-void Level::afficher_box(int valeur)
+void Level::afficher_box(int valeur, int x_get, int y_get)
 {
-    m_sprites[valeur].draw_tile(500, 500, 1);
+    m_sprites[valeur].draw(x_get * 248, y_get * 216);
+  //  cout << "x_get " << x_get << " y_get" << y_get << " box valeur  " << valeur << endl;
 }
 		
 
@@ -234,20 +241,20 @@ void Level::afficher_box(int valeur)
 
 void affichage_Level(Level* leLevel)
 {
-	cout << endl;
+	//cout << endl;
 	int i,j;
 	for (i = 0; i<NBLIGNE; i++)
 	{
 		for (j = 0; j<NBCASE; j++)
 		{
-		
-			afficher_box(leLevel->getBoxint(i,j));
+            leLevel->afficher_box(leLevel->getBox(i, j).get_pattern(), i, j);
+
 		}
 
-		cout << endl;
+	//	cout << endl;
 
 	}
-	cout << endl;
+	//cout << endl;
 }
 
 void affichage_Level_light(Level* leLevel)

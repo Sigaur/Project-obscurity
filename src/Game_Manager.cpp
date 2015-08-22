@@ -301,6 +301,9 @@ void Game_Manager::draw()
 	m_app->setView(m_view2);
 	//Changes on the world
 	world_sprite.draw(0, 0);
+
+    affichage_Level(Map);
+
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
