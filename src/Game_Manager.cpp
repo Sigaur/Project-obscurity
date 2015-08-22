@@ -64,7 +64,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     m_grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
 }
-
+/*
 void Game_Manager::execute_action(Action action)
 {
     switch (action)
@@ -104,8 +104,6 @@ void Game_Manager::execute_action(Action action)
     }
 }
 
-/* x_mouse, y_mouse are in window coordinate (pixels)
-x_cursor, y_cursor are in m_grid coordinate */
 void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
 {
     static sf::Clock mouse_move_clock;
@@ -697,3 +695,4 @@ void Game_Manager::create_city(int x, int y)
     m_cities[m_cities.size() - 1].create_city();
     m_grid(x, y).is_city = true;
 }
+*/
