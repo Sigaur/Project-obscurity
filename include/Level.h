@@ -29,13 +29,13 @@ public:
 	void setBoxLight(int y, int x, int light);
 	void setBoxPattern(int y, int x, int Pattern);
 
-	Box getBox		(int y, int x);
-	int getBoxint	(int y, int x);
-	int getBoxLight	(int y, int x);
-	int getBoxPattern(int y, int x);
+	Box getBox(int y, int x)const;
+	int getBoxint(int y, int x)const;
+	int getBoxLight(int y, int x)const;
+	int getBoxPattern(int y, int x)const;
     
     void setMap(Box**);
-	Box**  getMap();
+	Box**  getMap()const;
 
 
 	/************************            fonction                          *****************************/

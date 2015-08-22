@@ -2,9 +2,10 @@
 /************************            Constructeur Destructeur          *****************************/
 Box::Box() :_contenu(0), _light(0)
 {
+
 	srand(time(0));
 	//_pattern = rand() % 10;
-	_pattern = _contenu ;;
+	_pattern = _contenu ;
 
 }
 
@@ -12,14 +13,15 @@ Box::Box(int contenu) : _contenu(contenu), _light(0){
     srand(time(0));
 	//_pattern = rand() % 10;
 
-	_pattern = _contenu ;;
+	_pattern = _contenu ;
 
 
 }
 
-Box::Box(const Box& arg) : _contenu(arg.getContenu()), _light(arg.getLight()), _pattern(arg.getContenu())
+Box::Box(const Box& arg) : _contenu(arg.getContenu()), _light(arg.getLight()), _pattern(arg.getPattern())
 {
- 
+	
+	//cout << endl << "Box =" << _contenu  << _light << _pattern <<endl;
 
 }
 

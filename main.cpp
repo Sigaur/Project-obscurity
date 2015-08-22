@@ -15,6 +15,7 @@ using namespace sf;
 
 int main()
 {
+	srand((int)time(NULL));
 
 	try
     {
