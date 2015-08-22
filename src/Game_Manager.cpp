@@ -66,13 +66,16 @@ void Game_Manager::execute_action(Action action)
     switch (action)
 	{
     case ACT_GO_UP:
-		if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla - 1, posXPla) != 1))
+		if (myPlayer.getPosY() > 0)
 		{
-			myPlayer.moveUp();
-		}
-		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.75))
-		{
-			myPlayer.moveUp();
+			if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla - 1, posXPla) != 1))
+			{
+				myPlayer.moveUp();
+			}
+			else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.75))
+			{
+				myPlayer.moveUp();
+			}
 		}
         break;
 
@@ -99,13 +102,16 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
     case ACT_GO_DOWN:
-		if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla + 1, posXPla) != 1))
+		if (myPlayer.getPosY() < 4)
 		{
-			myPlayer.moveDown();
-		}
-		else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.75))
-		{
-			myPlayer.moveDown();
+			if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla + 1, posXPla) != 1))
+			{
+				myPlayer.moveDown();
+			}
+			else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.75))
+			{
+				myPlayer.moveDown();
+			}
 		}
         break;
     case ACT_GO_LEFT:
@@ -195,6 +201,7 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
+	cout << "test1" << endl;
     if (is_menu_visible)
     {
         menu1.update();

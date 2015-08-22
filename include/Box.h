@@ -9,7 +9,7 @@
 
 #define NBCASE 5
 #define NBLIGNE 10
-#define NBTYPE 5
+#define NBTYPE 3
 using namespace std;
 
 
@@ -21,8 +21,7 @@ class Box
 private:
 	int _contenu;//0= vide   1=un obstacle physique  2=personnage
     int m_pattern;
-	bool light;
-
+	int _light;
     My_Sprite m_sprite;
 public:
 	/************************            Constructeur Destructeur          *****************************/
@@ -38,7 +37,8 @@ public:
 	int   getContenu()const;
 	void  setContenu(int contenu);
 
-
+	int  getLight()const;
+	void  setLight(int light);
 
 
 

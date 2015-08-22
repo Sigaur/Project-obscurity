@@ -47,10 +47,21 @@ Box**  Level::getMap(){ return _carte; }
 
 
 void Level::setBox(int y, int x, Box valeur){ _carte[y][x] = valeur; }
-Box  Level::getBox(int y, int x){ return _carte[y][x]; }
+Box  Level::getBox(int y, int x)
+{ 	if ((y >= 0 && y < NBLIGNE) && (x >= 0 && x < NBCASE))
+		{return _carte[y][x];}
+	return NULL; 
+}
 
 
-int Level::getBoxint(int y, int x){ return _carte[y][x].getContenu(); }
+int Level::getBoxint(int y, int x)
+{ if ((y >= 0 && y < NBLIGNE) && (x>=0 && x<NBCASE))
+	{return _carte[y][x].getContenu();}
+
+	return 0;
+}
+	
+	
 
 /************************            fonction                          *****************************/
 
@@ -60,20 +71,15 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 	srand((int)time(NULL));
 
 	Box* Type = creationType();
-
-
 	Level* Map = new Level(app,view1);
-
 
 	
 	int mob,caillou,obstacle;
 	int *ordre=NULL;
-	int tampon;
-	
+
 
 	for (int i = 0; i < NBLIGNE; i++)
 	{
-
 
 		ordre = randomplace();
 		obstacle = rand() % (NBCASE - 1);
@@ -82,23 +88,11 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 
 
 		for (int j = 0; j < NBCASE; j++)
-
 		{
-			if (i == 0)
-			{
-				tampon = 0;
-			}//premiere colonne tous est vide
-			if (i % (difficulter + 4) == 0)
-			{
-				tampon = 0;
-			}//premiere colonne tous est vide
-			//else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
+			
+		
 
-
-
-
-			else
-			{
+	
 				if (caillou > 0)
 				{
 					Map->setBox(i, ordre[j], Type[1]);
@@ -107,7 +101,9 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 				else if (mob > 0)
 				{
 					//on definie un mob de la liste de mob definie
-					Map->setBox(i, ordre[j], Type[2 + random() % (NBTYPE - 2)]);
+					//Map->setBox(i, ordre[j], Type[1 + random() % (NBTYPE - 2)]);
+					Map->setBox(i, ordre[j], Type[2]);
+
 					mob--;
 				}
 				else
@@ -117,11 +113,9 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 				//la premiere ligne est vide
 				if (i == 0)
 					Map->setBox(i, j, Type[0]);
-
 			}
 
-
-			//delete ordre;
+			delete ordre;
 		}
 
 		//verification de securiter
@@ -155,12 +149,23 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 					Map->setBox(i + 1, 4, Type[0]);
 				}
 			}
-
-
-
 		}
 
-	}
+//--------------------------------------------------------------------------------------------------
+// affichage lumiere
+		for (int i = 0; i < NBLIGNE-1; i++)
+		{
+			for (int j = 0; i < NBLIGNE; i++)
+			{
+				if (Map->getBoxint(i+1,j)>1)//si il ya un mob = on eclaire
+					{ }
+				else
+					{ }
+
+			}
+
+		}
+	
 
 
 
@@ -231,7 +236,6 @@ void affichage_Level(Level* leLevel)
 		for (j = 0; j<NBCASE; j++)
 		{
             leLevel->afficher_box(leLevel->getBox(i, j).get_pattern(), i, j);
-
 
 		}
 

@@ -17,10 +17,11 @@ Box::Box(const Box& arg) : _contenu(arg.getContenu()){
 }
 
 
-int   Box::getContenu()const{ return _contenu; }
-void  Box::setContenu(int contenu){ _contenu = contenu; }
+int		Box::getContenu()const			{ return _contenu; }
+void	Box::setContenu(int contenu)	{ _contenu = contenu; }
 
-
+int		Box::getLight()const			{ return _light; }
+void	Box::setLight(int light)		{ _light = light; }
 
 
 
@@ -29,11 +30,13 @@ Box* creationType()
 	Box* list = new Box[NBTYPE];
 
 	list[0].setContenu(0);//vide
-	list[1].setContenu(1);//mob
-	list[2].setContenu(2);//obstacle
+	list[1].setContenu(1);//obstacle
+	list[2].setContenu(2);//mob
+	/*
 	list[3].setContenu(3);
 	list[4].setContenu(4);
 	list[5].setContenu(5);
+	*/
 		//etc a completer par la suite
 
 	return list;
