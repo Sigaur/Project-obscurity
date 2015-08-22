@@ -15,7 +15,7 @@ Box::Box(int contenu) : _contenu(contenu), _light(0){
 
 	_pattern = _contenu ;
 
-
+	
 }
 
 Box::Box(const Box& arg) : _contenu(arg.getContenu()), _light(arg.getLight()), _pattern(arg.getPattern())
