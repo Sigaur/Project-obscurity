@@ -66,9 +66,9 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 void Game_Manager::execute_action(Action action)
 {
-	int posXPla = m_view2.getCenter().x / 248 - 4;
+	int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
 	int posYpla = myPlayer.getPosY();
-	float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
+	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 
     switch (action)
     {
@@ -83,6 +83,10 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
     case ACT_GO_RIGHT:
+		if ((myPlayer.getPosX() < 1000) && (map[posYpla][posXPla + 1] == 0))
+		{
+			myPlayer.moveRight(0.01);
+		}
         break;
     case ACT_GO_DOWN:
 		if ((map[posYpla + 1][posXPla + 1] != 1) && (map[posYpla + 1][posXPla] != 1))
@@ -190,10 +194,10 @@ void Game_Manager::update(float secTime)
         /*cout << secTime << "   ";
         cout << myPlayer.getPosY() << endl;*/
         //cout << (m_view2.getCenter().x / 248) - 4 << endl;
-        int posXPla = m_view2.getCenter().x / 248 - 4;
+        int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
         int posYpla = myPlayer.getPosY();
 
-		float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
+		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 
         /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
         sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/

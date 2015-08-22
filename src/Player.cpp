@@ -92,3 +92,13 @@ void Player::update(float secTime)
 		}
 	}
 }
+
+void Player::moveRight(float move)
+{
+	m_posX += move;
+}
+
+void Player::moveLeft(float move)
+{
+	m_posX -= move;
+}
