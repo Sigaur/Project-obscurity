@@ -138,7 +138,7 @@ void Game_Manager::update(float secTime)
 {
 	/*cout << secTime << "   ";
 	cout << myPlayer.getPosY() << endl;*/
-	cout << m_view2.getCenter().x / 248 << "   " << m_view2.getCenter().y << endl;
+	cout << m_view2.getCenter().x / 248 << endl;
 
 
 	/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));

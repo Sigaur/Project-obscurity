@@ -70,8 +70,8 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_n
     int random = Random::get_int(0, rand_limit);
     m_file = file + std::to_string(random) + ".png";
     //cout<< file<<endl;
-    ifstream file_check(m_file);
-    while(file_check.is_open() == false && rand_limit != 1 )
+    std::ifstream file_check(m_file);
+    while (file_check.is_open() == false && rand_limit != 1)
     {
         rand_limit--;
         random = rand() % rand_limit;
