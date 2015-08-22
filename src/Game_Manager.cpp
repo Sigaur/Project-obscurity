@@ -181,10 +181,18 @@ void Game_Manager::update(float secTime)
         map[3][16] = 2;
         map[3][18] = 2;
 
-        if (map[posYpla][posXPla + 1] == 0)
+        if (map[posYpla][posXPla + 1] != 1)
         {
             m_view2.move(5, 0);
         }
+		if (map[posYpla][posXPla + 1] == 2)
+		{
+			myPlayer.setMovable(0);
+		}
+		else if (myPlayer.isMovable() == 0)
+		{
+			myPlayer.setMovable(1);
+		}
 
     }
 
@@ -217,7 +225,7 @@ void Game_Manager::draw()
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
-        player_sprite.draw((myPlayer.getPosX() * 248), (myPlayer.getPosY() * 216));
+    player_sprite.draw((myPlayer.getPosX() * 248 - 20), (myPlayer.getPosY() * 216));
 
     }
     m_app->display();

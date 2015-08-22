@@ -45,3 +45,13 @@ void Player::moveDown()
 		}
 	}
 }
+
+void Player::setMovable(int set)
+{
+	m_isMovable = set;
+}
+
+int Player::isMovable()
+{
+	return m_isMovable;
+}

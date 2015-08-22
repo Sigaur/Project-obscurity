@@ -19,6 +19,8 @@ public:
 	void draw(float y, float x);
 	void moveDown();
 	void moveUp();
+	void setMovable(int set);
+	int isMovable();
 
 private:
 	float m_posY;
