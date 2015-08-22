@@ -2,7 +2,8 @@
 
 
 #include <iostream>
-
+#include <stdlib.h>
+#include <time.h>
 
 #define NBCASE 5
 #define NBLIGNE 10
@@ -32,12 +33,22 @@ public:
 	int   getContenu()const;
 	void  setContenu(int contenu);
 
+
+
+
+
 	/************************            fonction                          *****************************/
 	
 
 
 	/************************            operator                          *****************************/
 	Box operator = (const Box& original);
+
+
+
+
+	friend bool operator==(const Box& left, const Box& right);
+	friend bool operator!=(const Box& left, const Box& right);
 
 
 

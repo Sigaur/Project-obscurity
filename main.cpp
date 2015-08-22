@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Game_Manager.h"
 #include <iostream>
-
+#include <stdlib.h>
+#include <time.h>
 using namespace sf;
 
 #include "include\Level.h"
@@ -14,7 +15,7 @@ using namespace sf;
 
 int main()
 {
-
+	
 
 	try
     {

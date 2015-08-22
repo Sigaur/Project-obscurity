@@ -19,7 +19,9 @@ Box* creationType()
 	list[0].setContenu(0);//vide
 	list[1].setContenu(1);//mob
 	list[2].setContenu(2);//obstacle
-
+	list[3].setContenu(3);
+	list[4].setContenu(4);
+	list[5].setContenu(5);
 		//etc a completer par la suite
 
 	return list;
@@ -34,7 +36,15 @@ Box* creationType()
 
 
 
+bool operator==(const Box& left, const Box& right)
+{
+	return left._contenu == right._contenu;
+}
 
+bool operator!=(const Box& left, const Box& right)
+{
+	return !operator==(left, right);
+}
 
 
 
@@ -48,6 +58,9 @@ Box Box::operator = (const Box& original)
 
 	return *this;
 }
+
+
+
 
 void afficher_box(Box box)
 {
