@@ -50,7 +50,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
         selection_text[i].change_font("ressources/font2.ttf");
     }
 
-    create_map(GRID_WIDTH, GRID_HEIGHT);
+    //create_map(GRID_WIDTH, GRID_HEIGHT);
 
     for (int i = 0; i < 3; i++) {
         m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));

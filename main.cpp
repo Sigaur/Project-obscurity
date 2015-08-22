@@ -25,9 +25,9 @@ int main()
 
         // Start the game loop
         while (app.isOpen() )
-        {
+		{/*
             game_manager1.update();
-            game_manager1.draw();
+            game_manager1.draw();*/
         }
     }
     catch (const std::exception &ex)
