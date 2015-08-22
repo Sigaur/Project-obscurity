@@ -52,16 +52,14 @@ Level * generationMap(int difficulter)
 	{
 		for (int j = 0; j < NBCASE; j++)
 		{
-			if (i == 0)
+			if (i == 0 )
 					{ tampon = 0; }//premiere colonne tous est vide
+			if (i%(difficulter+4) == 0)
+					{tampon = 0;}//premiere colonne tous est vide
+			else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
 
-			
-			//else if (Map[i - 1][j] != Type[0])			{ tampon = 0; }
-			else if (i % 3  == 0){ tampon = 0; }
-			else if (i % 7  == 0 && difficulter<4){ tampon = 0; }
-			else if (i % 11 == 0 && difficulter<3){tampon = 0; }
-			else if (i % 13 == 0 && difficulter<2){ tampon = 0; }
-			else if (i % 14 == 0 && difficulter<1){ tampon = 0; }
+
+	
 			
 			else
 			{
