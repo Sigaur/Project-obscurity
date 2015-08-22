@@ -5,6 +5,7 @@ Player::Player()
 	, m_posX(0)
 	, m_energy(100)
 	, m_isMovable(1)
+	, m_isLight(0)
 {
 
 }
@@ -44,4 +45,24 @@ void Player::moveDown()
 			m_posY++;
 		}
 	}
+}
+
+void Player::setMovable(int set)
+{
+	m_isMovable = set;
+}
+
+int Player::isMovable()
+{
+	return m_isMovable;
+}
+
+int Player::isLight()
+{
+	return m_isLight;
+}
+
+void Player::setLight(int set)
+{
+	m_isLight = set;
 }

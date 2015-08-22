@@ -19,10 +19,15 @@ public:
 	void draw(float y, float x);
 	void moveDown();
 	void moveUp();
+	void setMovable(int set);
+	int isMovable();
+	int isLight();
+	void setLight(int set);
 
 private:
 	float m_posY;
 	float m_posX;
 	float m_energy;
 	int m_isMovable;
+	int m_isLight;
 };
