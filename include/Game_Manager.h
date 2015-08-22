@@ -98,7 +98,8 @@ private:
 	Player myPlayer;
 	My_Sprite player_sprite;
 	My_Sprite world_sprite;
-	int map[5][20];
+	Level* Map;
+	
 };
 
 #endif // GAME_MANAGER_H

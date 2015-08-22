@@ -12,10 +12,11 @@ Level::Level(RenderWindow *app, View *view1)
 	{
         _carte[i] = new Box[NBCASE];
 	}
-    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
-    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
-    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
 
+	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
+	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
+	m_sprites.push_back(My_Sprite{ m_app, "resources/desk", m_view1, });
+	
 }
 
 Level::~Level()
@@ -40,13 +41,16 @@ Box**  Level::getMap(){ return _carte; }
 void Level::setBox(int y, int x, Box valeur){ _carte[y][x] = valeur; }
 Box  Level::getBox(int y, int x){ return _carte[y][x]; }
 
+
+int Level::getBoxint(int y, int x){ return _carte[y][x].getContenu(); }
 /************************            fonction                          *****************************/
-Level * generationMap(int difficulter)
+Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 {
 	srand(time(0));
 
 	Box* Type = creationType();
-	Level* Map = new Level;
+
+	Level* Map = new Level(app,view1);
 
 
 	
@@ -61,10 +65,10 @@ Level * generationMap(int difficulter)
 			if (i%(difficulter+4) == 0)
 					{tampon = 0;}//premiere colonne tous est vide
 			else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
-
+			else if ((i+j)%2==0)	{ tampon = 0; }
 
 	
-			
+		
 			else
 			{
 				if (rand() % 2 == 0)
@@ -78,13 +82,13 @@ Level * generationMap(int difficulter)
 
 			}
 
-			cout << tampon;
+			
 
 
 			Map->setBox(i, j, Type[tampon].getContenu());
 
 		}
-		cout << endl;
+		
 	}
 
 

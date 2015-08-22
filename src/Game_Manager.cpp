@@ -36,25 +36,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	map[5][20] = { 0 };
-	map[1][1] = 1;
-	map[1][3] = 1;
-	map[1][11] = 2;
-	map[1][13] = 2;
-	//map[2][2] = 1;
-	map[2][4] = 1;
-	map[2][7] = 1;
-	map[2][9] = 1;
-	map[2][12] = 2;
-	map[2][14] = 2;
-	map[2][17] = 2;
-	map[2][19] = 2;
-	map[3][5] = 1;
-	map[3][6] = 1;
-	//map[3][8] = 1;
-	map[3][15] = 2;
-	map[3][16] = 2;
-	map[3][18] = 2;
+
+
+	Map = generationMap(m_app, &m_view1,1);
+
+
+	
+
 
     for (int i = 0; i < 2; i++)
     {
@@ -71,25 +59,25 @@ void Game_Manager::execute_action(Action action)
 	float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
 
     switch (action)
-    {
+	{
     case ACT_GO_UP:
-		if ((map[posYpla - 1][posXPla + 1] != 1) && (map[posYpla - 1][posXPla] != 1))
+		if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla - 1, posXPla) != 1))
 		{
 			myPlayer.moveUp();
 		}
-		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.85))
 		{
 			myPlayer.moveUp();
 		}
-        break;
+		break; 
     case ACT_GO_RIGHT:
         break;
     case ACT_GO_DOWN:
-		if ((map[posYpla + 1][posXPla + 1] != 1) && (map[posYpla + 1][posXPla] != 1))
+		if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla + 1, posXPla) != 1))
 		{
 			myPlayer.moveDown();
 		}
-		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.85))
 		{
 			myPlayer.moveDown();
 		}
@@ -201,14 +189,14 @@ void Game_Manager::update(float secTime)
 
 
 
-		if ((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1) || (hitLimit > 0.85))
+		if ((Map->getBoxint(posYpla, posXPla + 1) != 1) && (Map->getBoxint(posYpla, posXPla) != 1) || (hitLimit > 0.85))
         {
             m_view2.move(5, 0);
         }
 		
-		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
+		if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
-			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.85))
+			if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
