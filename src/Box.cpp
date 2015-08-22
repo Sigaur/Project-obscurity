@@ -1,6 +1,9 @@
 #include "..\include\Box.h"
 
-Box::Box() :_contenu(0){}
+Box::Box() :_contenu(0)
+{
+  
+}
 Box::Box(int contenu) : _contenu(contenu){}
 Box::Box(const Box& arg) : _contenu(arg.getContenu()){}
 

@@ -2,6 +2,7 @@
 
 
 #include <iostream>
+#include "My_Sprite.h"
 
 
 #define NBCASE 5
@@ -17,11 +18,11 @@ class Box
 {
 private:
 	int _contenu;//0= vide   1=un obstacle physique  2=personnage
-
+    My_Sprite m_sprite;
 public:
 	/************************            Constructeur Destructeur          *****************************/
 
-	Box();
+    Box();
 	Box(int contenu);
 	Box(const Box&);
 	~Box(){};
