@@ -36,7 +36,7 @@ int main()
 		{
 			mainTime = mainClock.restart();
 			secTime = mainTime.asSeconds();
-			secTime *= 100;
+			//secTime *= 100;
             game_manager1.update(secTime);
             game_manager1.draw();
         }

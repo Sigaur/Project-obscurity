@@ -3,17 +3,18 @@
 #include "Random.h"
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int screen_x, int screen_y)
-    : m_view1(view1)
-    , menu1(app, &m_view2)
-    , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-    , selection_sprite(app, "resources/selection.png", &m_view1)
-    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
-    , m_info(app, &view1, 1920, 1080)
+	: m_view1(view1)
+	, menu1(app, &m_view2)
+	, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
+	, selection_sprite(app, "resources/selection.png", &m_view1)
+	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
+	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer()
 	, player_sprite(app, "resources/pike.png", &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
+	, lightTot(0.0)
 {
     is_menu_visible = true;
     is_info = false;
@@ -36,6 +37,25 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
+	map[5][20] = { 0 };
+	map[1][1] = 1;
+	map[1][3] = 1;
+	map[1][11] = 2;
+	map[1][13] = 2;
+	//map[2][2] = 1;
+	map[2][4] = 1;
+	map[2][7] = 1;
+	map[2][9] = 1;
+	map[2][12] = 2;
+	map[2][14] = 2;
+	map[2][17] = 2;
+	map[2][19] = 2;
+	map[3][5] = 1;
+	map[3][6] = 1;
+	//map[3][8] = 1;
+	map[3][15] = 2;
+	map[3][16] = 2;
+	map[3][18] = 2;
 
     for (int i = 0; i < 2; i++)
     {
@@ -47,15 +67,33 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 void Game_Manager::execute_action(Action action)
 {
+	int posXPla = m_view2.getCenter().x / 248 - 4;
+	int posYpla = myPlayer.getPosY();
+	float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
+
     switch (action)
     {
     case ACT_GO_UP:
-		myPlayer.moveUp();
+		if ((map[posYpla - 1][posXPla + 1] != 1) && (map[posYpla - 1][posXPla] != 1))
+		{
+			myPlayer.moveUp();
+		}
+		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		{
+			myPlayer.moveUp();
+		}
         break;
     case ACT_GO_RIGHT:
         break;
     case ACT_GO_DOWN:
-		myPlayer.moveDown();
+		if ((map[posYpla + 1][posXPla + 1] != 1) && (map[posYpla + 1][posXPla] != 1))
+		{
+			myPlayer.moveDown();
+		}
+		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		{
+			myPlayer.moveDown();
+		}
         break;
     case ACT_GO_LEFT:
         break;
@@ -74,7 +112,7 @@ void Game_Manager::execute_action(Action action)
 }
 
 void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
-{
+{/*
     static sf::Clock mouse_move_clock;
     sf::Time mouse_move_time = mouse_move_clock.getElapsedTime();
     if (mouse_move_time.asSeconds() > 0.05) {
@@ -102,7 +140,7 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
             execute_action(ACT_GO_DOWN);
         }
 
-    }
+    }*/
 }
 
 bool Game_Manager::handle_input_events()
@@ -136,8 +174,6 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
-
-
     if (is_menu_visible)
     {
         menu1.update();
@@ -153,49 +189,61 @@ void Game_Manager::update(float secTime)
     else{
         /*cout << secTime << "   ";
         cout << myPlayer.getPosY() << endl;*/
-        cout << (m_view2.getCenter().x / 248) - 4 << endl;
+        //cout << (m_view2.getCenter().x / 248) - 4 << endl;
         int posXPla = m_view2.getCenter().x / 248 - 4;
         int posYpla = myPlayer.getPosY();
+
+		float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
+		/*sf::Clock lightClock;
+		sf::Time lightTime;
+		float lightSec;*/
 
         /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
         sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
         //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
-        int map[5][20] = { 0 };
-        map[1][1] = 1;
-        map[1][3] = 1;
-        map[1][11] = 2;
-        map[1][13] = 2;
-        map[2][2] = 1;
-        map[2][4] = 1;
-        map[2][7] = 1;
-        map[2][9] = 1;
-        map[2][12] = 2;
-        map[2][14] = 2;
-        map[2][17] = 2;
-        map[2][19] = 2;
-        map[3][5] = 1;
-        map[3][6] = 1;
-        map[3][8] = 1;
-        map[3][15] = 2;
-        map[3][16] = 2;
-        map[3][18] = 2;
 
-        if (map[posYpla][posXPla + 1] != 1)
+
+		if ((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1) || (hitLimit > 0.85))
         {
             m_view2.move(5, 0);
         }
-		if (map[posYpla][posXPla + 1] == 2)
+		
+		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
 		{
-			myPlayer.setMovable(0);
+			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.85))
+			{
+				myPlayer.setMovable(0);
+				if (myPlayer.isLight() == 0)
+				{
+					lightTot = 0.0;
+					myPlayer.setLight(1);
+					//lightTime = lightClock.restart();
+				}
+			}
+			else if (myPlayer.isMovable() == 0)
+			{
+				myPlayer.setMovable(1);
+				if (myPlayer.isLight() == 1)
+				{
+					lightTot = 0.0;
+					myPlayer.setLight(0);
+				}
+			}
 		}
-		else if (myPlayer.isMovable() == 0)
+		
+
+		if (myPlayer.isLight())
 		{
-			myPlayer.setMovable(1);
+			//lightTime = lightClock.restart();
+			//lightSec = lightTime.asSeconds();
+			
+			lightTot += secTime;
+			cout << lightTot << endl;
 		}
+
 
     }
-
 
     bool isEvent = handle_input_events();
 
