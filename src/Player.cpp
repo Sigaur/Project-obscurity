@@ -2,7 +2,7 @@
 
 Player::Player()
 	: m_posY(3)
-	, m_posX(0)
+	, m_posX(1)
 	, m_energy(100)
 	, m_isMovable(1)
 	, m_isLight(0)

@@ -102,7 +102,11 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_LEFT:
 		if (myPlayer.getPosX() > 0)
 		{
-			myPlayer.moveLeft(0.1);
+			myPlayer.moveLeft(248.0/50000.0 * 5);//5 = SPEED/////////////////////////////////////
+		}
+		else
+		{
+			execute_action(ACT_CLOSE_APP);///////////////////GAME OVER MENU
 		}
         break;
     case ACT_ZOOM_IN:
@@ -212,15 +216,15 @@ void Game_Manager::update(float secTime)
         //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
 
-
+		m_view2.move(5, 0);///////5 = SPEED//////////
 		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.80) && (map[posYpla][posXPla + 1] != 1)))
 		{
-			m_view2.move(5, 0);
+			
 		}
-		/*else
+		else
 		{
 			execute_action(ACT_GO_LEFT);
-		}*/
+		}
 		
 		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
 		{
