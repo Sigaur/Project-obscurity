@@ -143,9 +143,13 @@ void Game_Manager::update(float secTime)
     if (is_menu_visible)
     {
         menu1.update();
-        if (isEvent == true)
+        if (menu1.is_playing() == true)
         {
             is_menu_visible = false;
+        }
+        if (menu1.is_quitting() == true)
+        {
+            execute_action(ACT_CLOSE_APP);
         }
     }
 	
@@ -161,7 +165,17 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
-	player_sprite.draw((20), (myPlayer.getPosY() * 216));
+
+    if (is_menu_visible)
+    {
+        menu1.draw();
+      
+    }
+    else
+    {
+        player_sprite.draw((20), (myPlayer.getPosY() * 216));
+    }
+
     m_app->display();
 }
 

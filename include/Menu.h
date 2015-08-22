@@ -1,9 +1,10 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
-#include "My_Text.h"
 
+#include "Button.h"
+#include "My_Text.h"
 #include "My_Sprite.h"
+
 using namespace sf;
 
 
@@ -13,14 +14,16 @@ public:
     Menu(RenderWindow *app, View *view1);
     virtual ~Menu() = default;
     void draw();
+    bool is_playing();
+    bool is_quitting();
     void update();
 
 private:
     RenderWindow *m_app;
     View *m_view1;
-    Event event;
-    Texture texture;
+    vector<Button> m_button;
     My_Sprite sprite;
     My_Text text1;
+    bool m_playing, m_quit;
 };
 

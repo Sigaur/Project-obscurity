@@ -7,17 +7,16 @@
 #include <ctime>
 
 
-using namespace sf;
+using namespace std; using namespace sf;
 
-using namespace std;
 
 class My_Sprite
 {
 public:
     My_Sprite();
-    My_Sprite(RenderWindow *app, string file, View *view);
-    My_Sprite(RenderWindow *app, string file, View *view, int file_number);
-    My_Sprite(RenderWindow *app, string file, View *view, int animation_width, int animation_length, float total_animation_time);
+    My_Sprite(RenderWindow *app, std::string file, View *view);
+    My_Sprite(RenderWindow *app, std::string file, View *view, int file_number);
+    My_Sprite(RenderWindow *app, std::string file, View *view, int animation_width, int animation_length, float total_animation_time);
     
     /* copy constructor */
     My_Sprite(const My_Sprite &other);
@@ -28,19 +27,19 @@ public:
     void set_text_rect(int x, int y, int w, int h);
     int get_w();
     int get_h();
-	void add_sprite(My_Sprite added_sprite, string save_slot, int width);
+    void add_sprite(My_Sprite added_sprite, std::string save_slot, int width);
     void add_sprite( My_Sprite added_sprite, int sunlight);
     sf::Sprite get_sprite();
     void set_color(int r, int g, int b, int alpha);
     void set_color(Color color_get);
     void add_color(int r, int g, int b, int alpha);
-    string get_file();
+    std::string get_file();
     bool is_over();
     virtual ~My_Sprite() = default;
 protected:
 private:
     View *m_view1;
-    string m_file;
+    std::string m_file;
     RenderWindow *m_app;
     int m_x, m_y, m_w, m_h;
     Event m_event;

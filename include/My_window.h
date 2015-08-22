@@ -8,6 +8,7 @@
 #include <cmath>
 #include "Menu.h"
 #include "My_Sprite.h"
+#include "My_Text.h"
 #include "Glissor.h"
 #include "Button.h"
 
