@@ -42,12 +42,12 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 		Map = generationMap(m_app, &m_view1,1);
 
 		affichage_Level(Map);
+		affichage_Level_light(Map);
 
 
-
-	
-
-
+		/*
+		while (true){}
+		*/
     for (int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);

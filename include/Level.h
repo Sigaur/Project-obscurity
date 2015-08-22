@@ -23,16 +23,21 @@ public:
 
 
 	/************************            get set                           *****************************/
-	void setBox(int y, int x, Box valeur);
-	Box getBox(int y, int x);
-	int getBoxint(int y, int x);
-    void afficher_box(int valeur);
+	void setBox		(int y, int x, Box valeur);
+	void setBoxInt	(int y, int x, int contenu);
+	void setBoxLight(int y, int x, int light);
+
+	Box getBox		(int y, int x);
+	int getBoxint	(int y, int x);
+	int getBoxLight	(int y, int x);
+
+    
     void setMap(Box**);
 	Box**  getMap();
 
 
 	/************************            fonction                          *****************************/
-
+		void afficher_box(int valeur);
 
 	friend Level * generationMap(RenderWindow *app, View *view1, int difficulter);
 
@@ -52,3 +57,5 @@ int* randomplace();
 int random();
 
 void affichage_Level(Level* leniveau);
+void affichage_Level_light(Level* leLevel);
+

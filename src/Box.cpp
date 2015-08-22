@@ -1,9 +1,10 @@
 #include "..\include\Box.h"
 
-Box::Box() :_contenu(0)
+Box::Box() :_contenu(0), _light(0)
 {
   
 }
+
 Box::Box(int contenu) : _contenu(contenu){}
 Box::Box(const Box& arg) : _contenu(arg.getContenu()){}
 
@@ -42,6 +43,8 @@ Box* creationType()
 
 
 
+
+
 bool operator==(const Box& left, const Box& right)
 {
 	return left._contenu == right._contenu;
@@ -61,6 +64,7 @@ Box Box::operator = (const Box& original)
 {
 
 	this->setContenu(original.getContenu());
+	this->setContenu(original.getLight());
 
 	return *this;
 }
