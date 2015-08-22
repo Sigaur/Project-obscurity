@@ -11,7 +11,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer()
-	, player_sprite(app, "resources/pike.png", &m_view1)
+	, player_sprite(app, "resources/player_moving.png", &m_view1, 248, 5, 1.05f)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
 {
