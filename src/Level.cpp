@@ -95,22 +95,22 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 			{
 				if (caillou > 0)
 				{
-					Map->setBox(i, ordre[j], Type[1].getContenu());
+					Map->setBox(i, ordre[j], Type[1]);
 					caillou--;
 				}
 				else if (mob > 0)
 				{
 					//on definie un mob de la liste de mob definie
-					Map->setBox(i, ordre[j], Type[2 + random() % (NBTYPE - 2)].getContenu());
+					Map->setBox(i, ordre[j], Type[2 + random() % (NBTYPE - 2)]);
 					mob--;
 				}
 				else
 				{//par defaut on met du vide sinon
-					Map->setBox(i, ordre[j], Type[0].getContenu());
+					Map->setBox(i, ordre[j], Type[0]);
 				}
 				//la premiere ligne est vide
 				if (i == 0)
-					Map->setBox(i, j, Type[0].getContenu());
+					Map->setBox(i, j, Type[0]);
 
 			}
 
@@ -130,11 +130,11 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map->setBox(i, 1, Type[0].getContenu());
+					Map->setBox(i, 1, Type[0]);
 				}
 				else
 				{
-					Map->setBox(i + 1, 0, Type[0].getContenu());
+					Map->setBox(i + 1, 0, Type[0]);
 				}
 			}
 
@@ -142,11 +142,11 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map->setBox(i, 3, Type[0].getContenu());
+					Map->setBox(i, 3, Type[0]);
 				}
 				else
 				{
-					Map->setBox(i + 1, 4, Type[0].getContenu());
+					Map->setBox(i + 1, 4, Type[0]);
 				}
 			}
 

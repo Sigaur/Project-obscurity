@@ -20,6 +20,8 @@ class Box
 {
 private:
 	int _contenu;//0= vide   1=un obstacle physique  2=personnage
+	bool light;
+
     My_Sprite m_sprite;
 public:
 	/************************            Constructeur Destructeur          *****************************/
