@@ -20,7 +20,7 @@ class Box
 {
 private:
 	int _contenu;//0= vide   1=un obstacle physique  2=personnage
-    int m_pattern;
+    int _pattern;
 	int _light;
     My_Sprite m_sprite;
 public:
@@ -33,7 +33,9 @@ public:
 
 
 	/************************            get set                           *****************************/
-    int   get_pattern();
+	int   getPattern()const;
+	void  setPattern(int Pattern);
+
 	int   getContenu()const;
 	void  setContenu(int contenu);
 

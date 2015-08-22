@@ -14,9 +14,6 @@ Level::Level(RenderWindow *app, View *view1)
 	}
 
 
-
-
-
     for (int i = 0; i < 11; i++)
     {
         string path = "resources/obstacle" + std::to_string(i) + ".png";
@@ -53,12 +50,20 @@ Box  Level::getBox(int y, int x)
 }
 
 
-void Level::setBoxLight(int y, int x, int light)
-{_carte[y][x].setLight(light);}
 
 void Level::setBoxInt(int y, int x, int contenu)
 {_carte[y][x].setContenu(contenu);}
 
+void Level::setBoxLight(int y, int x, int light)
+{
+	cout << " | " << _carte[y][x].getLight();
+	_carte[y][x].setLight(light);
+	cout << "" << _carte[y][x].getLight();
+}
+
+
+void Level::setBoxPattern(int y, int x, int Pattern)
+{ _carte[y][x].setPattern(Pattern); }
 
 
 int Level::getBoxint(int y, int x)
@@ -77,7 +82,14 @@ int Level::getBoxLight(int y, int x)
 	return 0;
 }
 
+int Level::getBoxPattern(int y, int x){
+	if ((y >= 0 && y < NBLIGNE) && (x >= 0 && x < NBCASE))
+	{
+		return _carte[y][x].getPattern();
+	}
 
+	return 0;
+}
 
 /************************            fonction                          *****************************/
 
@@ -86,7 +98,7 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 {
 	srand((int)time(NULL));
 
-	Box* Type = creationType();
+	//Box* Type = creationType();
 	Level* Map = new Level(app,view1);
 
 	
@@ -109,6 +121,8 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 				if (caillou > 0)
 				{
 					Map->setBoxInt(i, ordre[j], 1);
+				
+
 					caillou--;
 				}
 				else if (mob > 0)
@@ -164,20 +178,30 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 
 //--------------------------------------------------------------------------------------------------
 // affichage lumiere
+
+	
 		for (int i = 0; i < NBLIGNE-1; i++)
-		{	for (int j = 0; j < NBCASE; j++)
-			{if (Map->getBoxint(i+1,j)>1)//si il ya un mob = on eclaire
+			{	for (int j = 0; j < NBCASE; j++)
+				{
+					if (Map->getBoxint(i+1,j)>1)//si il ya un mob = on eclaire
 					{
 						Map->setBoxLight(i,j,1); 
 					}
-			else
+				else
 					{
-						Map->setBoxLight(i, j, 0);
+						Map->setBoxLight(i, j,0);//valeu 2>0 a mettre
 					}
+				
+			
+						
+				
+					
+				
+			
+				}
 			}
-		}
 	
-
+	
 
 		 
 
@@ -247,14 +271,17 @@ void affichage_Level(Level* leLevel)
 	{
 		for (j = 0; j<NBCASE; j++)
 		{
-            leLevel->afficher_box(leLevel->getBox(i, j).get_pattern(), i, j);
+            
+			cout << leLevel->getBox(i, j).getContenu();
+			
+			leLevel->afficher_box(leLevel->getBox(i, j).getPattern(), i, j);
 
 		}
 
-	//	cout << endl;
+		cout << endl;
 
 	}
-	//cout << endl;
+	cout << endl;
 }
 
 void affichage_Level_light(Level* leLevel)
@@ -265,7 +292,7 @@ void affichage_Level_light(Level* leLevel)
 	{
 		for (j = 0; j<NBCASE; j++)
 		{
-
+			cout << leLevel->getBox(i, j).getLight();
 			afficher_box(leLevel->getBoxLight(i, j));
 		}
 
@@ -274,6 +301,25 @@ void affichage_Level_light(Level* leLevel)
 	}
 	cout << endl;
 }
+void affichage_Level_patern(Level* leLevel)
+{
+	cout << endl;
+	int i, j;
+	for (i = 0; i<NBLIGNE; i++)
+	{
+		for (j = 0; j<NBCASE; j++)
+		{
+			cout << leLevel->getBox(i, j).getLight();
+			afficher_box(leLevel->getBoxLight(i, j));
+		}
+
+		cout << endl;
+
+	}
+	cout << endl;
+}
+
+
 
 int random()
 {

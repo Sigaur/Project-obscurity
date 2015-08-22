@@ -27,11 +27,12 @@ public:
 	void setBox		(int y, int x, Box valeur);
 	void setBoxInt	(int y, int x, int contenu);
 	void setBoxLight(int y, int x, int light);
+	void setBoxPattern(int y, int x, int Pattern);
 
 	Box getBox		(int y, int x);
 	int getBoxint	(int y, int x);
 	int getBoxLight	(int y, int x);
-
+	int getBoxPattern(int y, int x);
     
     void setMap(Box**);
 	Box**  getMap();
@@ -41,6 +42,8 @@ public:
 		void afficher_box(int valeur);
 
 	friend Level * generationMap(RenderWindow *app, View *view1, int difficulter);
+
+
 	void afficher_box(int valeur, int x_get, int y_get);
 
 	/************************            operator                          *****************************/
@@ -57,6 +60,6 @@ public:
 int* randomplace();
 int random();
 
-void affichage_Level(Level* leniveau);
-void affichage_Level_light(Level* leLevel);
-
+void affichage_Level		(Level* leniveau);
+void affichage_Level_light	(Level* leLevel);
+void affichage_Level_patern (Level* leLevel);

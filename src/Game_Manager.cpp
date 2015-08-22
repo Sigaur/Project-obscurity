@@ -43,11 +43,11 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 		affichage_Level(Map);
 		affichage_Level_light(Map);
+		affichage_Level_patern(Map);
 
-
-		/*
-		while (true){}
-		*/
+	
+		//while (true){}
+		
     for (int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
@@ -190,7 +190,7 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
-	cout << "test1" << endl;
+	//cout << "test1" << endl;
     if (is_menu_visible)
     {
         menu1.update();
@@ -291,7 +291,7 @@ void Game_Manager::draw()
 	//Changes on the world
 	world_sprite.draw(0, 0);
 
-    affichage_Level(Map);
+    //affichage_Level(Map);//pour afficher la map en valeu numerique
 
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
