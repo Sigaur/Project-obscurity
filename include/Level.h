@@ -1,6 +1,8 @@
 #pragma once
 #include "Box.h"
-
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -46,7 +48,7 @@ public:
 };
 
 
-
-
+int* randomplace();
+int random();
 
 void affichage_Level(Level* leniveau);
