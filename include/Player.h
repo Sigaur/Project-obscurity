@@ -6,6 +6,15 @@
 #include <string>
 #include <cmath>
 
+enum State
+{
+	MOVING,
+	LIGHT,
+	SMASHED,
+	DASH,
+	VANISH
+};
+
 using namespace sf;
 
 using namespace std;
@@ -26,6 +35,10 @@ public:
 	int isMovable();
 	int isLight();
 	void setLight(int set);
+	int getEnergy();
+	int getDashCost();
+	void dash();
+	State playerState;
 
 private:
 	float m_posY;

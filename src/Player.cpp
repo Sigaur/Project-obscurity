@@ -8,12 +8,12 @@ Player::Player()
 	, m_isLight(0)
 	, m_LALvl(1.0)
 	, m_SRLvl(0)
-	
+
 	, m_FDIsUnlocked(1)
 	, m_FDCostLvl(20)
 	, m_FDCoolDownLvl(5)
-	, m_FDDistanceLvl(0)
-	, m_FDCurrentDist(0)
+	, m_FDDistanceLvl(1)
+	, m_FDCurrentDist(1)
 	, m_FDCurrentCoolDown(0)
 
 	, m_VAIsUnlocked(0)
@@ -22,13 +22,15 @@ Player::Player()
 	, m_VADistanceLvl(0)
 	, m_VACurrentDist(0)
 	, m_VACurrentCoolDown(0)
-	
+
 	, m_INIsUnlocked(0)
 	, m_INCostLvl(0)
 	, m_INCoolDownLvl(0)
 	, m_INDistanceLvl(0)
 	, m_INCurrentDist(0)
 	, m_INCurrentCoolDown(0)
+
+	, playerState(MOVING)
 	
 {
 
@@ -96,6 +98,7 @@ void Player::update(float secTime)
 	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
+		playerState = LIGHT;
 		m_totalLight += secTime;
 		while (m_totalLight > m_LALvl + 0.1)
 		{
@@ -105,6 +108,7 @@ void Player::update(float secTime)
 	}
 	else if (m_totalLight != 0.0)
 	{
+		playerState = MOVING;
 		if (m_totalLight > 0.0)
 		{
 			m_totalLight -= secTime;
@@ -113,6 +117,15 @@ void Player::update(float secTime)
 		{
 			m_totalLight = 0.0;
 		}
+	}
+	if (m_FDCurrentDist < m_FDDistanceLvl)
+	{
+		m_FDCurrentDist += 0.1;
+		moveRight(0.1);
+	}
+	else
+	{
+		playerState = MOVING;
 	}
 }
 
@@ -124,4 +137,21 @@ void Player::moveRight(float move)
 void Player::moveLeft(float move)
 {
 	m_posX -= move;
+}
+
+int Player::getEnergy()
+{
+	return m_energy;
+}
+
+int Player::getDashCost()
+{
+	return m_FDCostLvl;
+}
+
+void Player::dash()
+{
+	m_energy -= m_FDCostLvl;
+	m_FDCurrentDist = 0.0;
+	playerState = DASH;
 }

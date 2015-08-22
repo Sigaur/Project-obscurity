@@ -78,23 +78,12 @@ void Game_Manager::execute_action(Action action)
 			}
 		}
         break;
-
-	case ACT_FRONT_DASH:
-		/*
-		if ()
+	case ACT_FRONT_DASH:		
+		if (myPlayer.getEnergy() - myPlayer.getDashCost() > 0)
 		{
-			myPlayer.moveRight(0.01);
+			myPlayer.dash();
 		}
 		break;
-
-
-		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.80))
-			{
-				myPlayer.moveUp();
-			}
-		*/
-		break; 
-
     case ACT_GO_RIGHT:
 		if ((myPlayer.getPosX() < 1000) && (Map->getBoxint(posYpla, posXPla + 1) == 0))
 		{
