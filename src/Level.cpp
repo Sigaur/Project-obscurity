@@ -78,16 +78,8 @@ Level * generationMap(int difficulter)
 
 			}
 
-<<<<<<< HEAD
-void Level::afficher_box(int valeur)
-{
-    m_sprites[valeur].draw_tile(500, 500, 1);
-}
-=======
-		
 			cout << tampon;
 
->>>>>>> 80748d073dd13242ba37ed2b06b9cdf1379863de
 
 			Map->setBox(i, j, Type[tampon].getContenu());
 
@@ -101,6 +93,11 @@ void Level::afficher_box(int valeur)
 	return Map;
 }
 
+void Level::afficher_box(int valeur)
+{
+    m_sprites[valeur].draw_tile(500, 500, 1);
+}
+		
 
 /************************            operator                          *****************************/
 
