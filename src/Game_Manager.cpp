@@ -14,7 +14,6 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, player_sprite(app, "resources/pike.png", &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
-	, lightTot(0.0)
 {
     is_menu_visible = true;
     is_info = false;
@@ -187,6 +186,7 @@ void Game_Manager::update(float secTime)
         }
     }
     else{
+		myPlayer.update(secTime);
         /*cout << secTime << "   ";
         cout << myPlayer.getPosY() << endl;*/
         //cout << (m_view2.getCenter().x / 248) - 4 << endl;
@@ -194,9 +194,6 @@ void Game_Manager::update(float secTime)
         int posYpla = myPlayer.getPosY();
 
 		float hitLimit = m_view2.getCenter().x / 248 - 4 - posXPla;
-		/*sf::Clock lightClock;
-		sf::Time lightTime;
-		float lightSec;*/
 
         /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
         sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
@@ -216,7 +213,6 @@ void Game_Manager::update(float secTime)
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
 				{
-					lightTot = 0.0;
 					myPlayer.setLight(1);
 					//lightTime = lightClock.restart();
 				}
@@ -226,7 +222,6 @@ void Game_Manager::update(float secTime)
 				myPlayer.setMovable(1);
 				if (myPlayer.isLight() == 1)
 				{
-					lightTot = 0.0;
 					myPlayer.setLight(0);
 				}
 			}
@@ -238,8 +233,8 @@ void Game_Manager::update(float secTime)
 			//lightTime = lightClock.restart();
 			//lightSec = lightTime.asSeconds();
 			
-			lightTot += secTime;
-			cout << lightTot << endl;
+			//lightTot += secTime;
+			//cout << lightTot << endl;
 		}
 
 
