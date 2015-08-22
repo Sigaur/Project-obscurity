@@ -136,45 +136,7 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
-	/*cout << secTime << "   ";
-	cout << myPlayer.getPosY() << endl;*/
-	cout << (m_view2.getCenter().x / 248) - 4<< endl;
-	int posXPla = m_view2.getCenter().x / 248 - 4;
-	int posYpla = myPlayer.getPosY();
 
-	/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
-	sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
-	//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
-
-	int map[5][20]={0};
-	map[1][1] = 1;
-	map[1][3] = 1;
-	map[1][11] = 2;
-	map[1][13] = 2;
-	map[2][2] = 1;
-	map[2][4] = 1;
-	map[2][7] = 1;
-	map[2][9] = 1;
-	map[2][12] = 2;
-	map[2][14] = 2;
-	map[2][17] = 2;
-	map[2][19] = 2;
-	map[3][5] = 1;
-	map[3][6] = 1;
-	map[3][8] = 1;
-	map[3][15] = 2;
-	map[3][16] = 2;
-	map[3][18] = 2;
-
-	if (map[posYpla][posXPla + 1] == 0)
-	{
-		m_view2.move(5, 0);
-	}
-	
-
-
-
-    bool isEvent = handle_input_events();
 
     if (is_menu_visible)
     {
@@ -188,6 +150,47 @@ void Game_Manager::update(float secTime)
             execute_action(ACT_CLOSE_APP);
         }
     }
+    else{
+        /*cout << secTime << "   ";
+        cout << myPlayer.getPosY() << endl;*/
+        cout << (m_view2.getCenter().x / 248) - 4 << endl;
+        int posXPla = m_view2.getCenter().x / 248 - 4;
+        int posYpla = myPlayer.getPosY();
+
+        /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+        sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
+        //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+
+        int map[5][20] = { 0 };
+        map[1][1] = 1;
+        map[1][3] = 1;
+        map[1][11] = 2;
+        map[1][13] = 2;
+        map[2][2] = 1;
+        map[2][4] = 1;
+        map[2][7] = 1;
+        map[2][9] = 1;
+        map[2][12] = 2;
+        map[2][14] = 2;
+        map[2][17] = 2;
+        map[2][19] = 2;
+        map[3][5] = 1;
+        map[3][6] = 1;
+        map[3][8] = 1;
+        map[3][15] = 2;
+        map[3][16] = 2;
+        map[3][18] = 2;
+
+        if (map[posYpla][posXPla + 1] == 0)
+        {
+            m_view2.move(5, 0);
+        }
+
+    }
+
+
+    bool isEvent = handle_input_events();
+
 	
 }
 
