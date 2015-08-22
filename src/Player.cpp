@@ -6,7 +6,30 @@ Player::Player()
 	, m_energy(100)
 	, m_isMovable(1)
 	, m_isLight(0)
-	, m_immunityTime(1.0)
+	, m_LALvl(1.0)
+	, m_SRLvl(0)
+	
+	, m_FDIsUnlocked(1)
+	, m_FDCostLvl(20)
+	, m_FDCoolDownLvl(5)
+	, m_FDDistanceLvl(0)
+	, m_FDCurrentDist(0)
+	, m_FDCurrentCoolDown(0)
+
+	, m_VAIsUnlocked(0)
+	, m_VACostLvl(0)
+	, m_VACoolDownLvl(0)
+	, m_VADistanceLvl(0)
+	, m_VACurrentDist(0)
+	, m_VACurrentCoolDown(0)
+	
+	, m_INIsUnlocked(0)
+	, m_INCostLvl(0)
+	, m_INCoolDownLvl(0)
+	, m_INDistanceLvl(0)
+	, m_INCurrentDist(0)
+	, m_INCurrentCoolDown(0)
+	
 {
 
 }
@@ -74,7 +97,7 @@ void Player::update(float secTime)
 	if (m_isLight)
 	{
 		m_totalLight += secTime;
-		while (m_totalLight > m_immunityTime + 0.1)
+		while (m_totalLight > m_LALvl + 0.1)
 		{
 			m_totalLight -= 0.1;
 			m_energy--;

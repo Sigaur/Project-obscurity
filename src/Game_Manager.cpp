@@ -78,11 +78,17 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveUp();
 		}
-		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.80))
+		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.75))
 		{
 			myPlayer.moveUp();
 		}
         break;
+	case ACT_FRONT_DASH:
+		if ()
+		{
+			myPlayer.moveRight(0.01);
+		}
+		break;
     case ACT_GO_RIGHT:
 		if ((myPlayer.getPosX() < 1000) && (map[posYpla][posXPla + 1] == 0))
 		{
@@ -94,7 +100,7 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveDown();
 		}
-		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.80))
+		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.75))
 		{
 			myPlayer.moveDown();
 		}
@@ -217,7 +223,7 @@ void Game_Manager::update(float secTime)
 
 
 		m_view2.move(5, 0);///////5 = SPEED//////////
-		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.80) && (map[posYpla][posXPla + 1] != 1)))
+		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.75) && (map[posYpla][posXPla + 1] != 1)))
 		{
 			
 		}
@@ -228,7 +234,7 @@ void Game_Manager::update(float secTime)
 		
 		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
 		{
-			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.80))
+			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.75))
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)

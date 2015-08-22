@@ -14,7 +14,10 @@ enum Action
     ACT_GO_LEFT,
     ACT_CLOSE_APP,
 	ACT_ROTATE_RIGHT,	//counter clockwise
-	ACT_ROTATE_LEFT		//clockwise
+	ACT_ROTATE_LEFT,		//clockwise
+	ACT_FRONT_DASH,
+	ACT_VANISH,
+	ACT_INVINCIBILITY
 };
 
 
