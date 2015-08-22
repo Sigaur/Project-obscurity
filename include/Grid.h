@@ -24,7 +24,6 @@ public:
     void draw();
 private:
     std::vector<std::vector<Tile> > m_grid;
-	std::vector<Resource> m_resource;
     sf::View *m_view1;
     sf::RenderWindow *m_app;
     Clock clock1;

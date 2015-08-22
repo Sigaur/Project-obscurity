@@ -221,50 +221,6 @@ int Game_Manager::count_neighbours(unsigned int i, unsigned int j, Caracteristic
                 number++;
         }
     }
-    if (typeorzoneorheight == CRC_ZONE)
-    {
-        if (m_grid(i - 1, j).zone == value)
-            number++;
-        if (m_grid(i, j + 1).zone == value)
-            number++;
-        if (m_grid(i, j - 1).zone == value)
-            number++;
-        if (m_grid(i + 1, j).zone == value)
-            number++;
-        if (diagonal)
-        {
-            if (m_grid(i - 1, j + 1).zone == value)
-                number++;
-            if (m_grid(i - 1, j - 1).zone == value)
-                number++;
-            if (m_grid(i + 1, j + 1).zone == value)
-                number++;
-            if (m_grid(i + 1, j - 1).zone == value)
-                number++;
-        }
-    }
-    if (typeorzoneorheight == CRC_HEIGTH)
-    {
-        if (m_grid(i - 1, j).height == value)
-            number++;
-        if (m_grid(i, j + 1).height == value)
-            number++;
-        if (m_grid(i, j - 1).height == value)
-            number++;
-        if (m_grid(i + 1, j).height == value)
-            number++;
-        if (diagonal)
-        {
-            if (m_grid(i - 1, j + 1).height == value)
-                number++;
-            if (m_grid(i - 1, j - 1).height == value)
-                number++;
-            if (m_grid(i + 1, j + 1).height == value)
-                number++;
-            if (m_grid(i + 1, j - 1).height == value)
-                number++;
-        }
-    }
 
     return number;
 }
