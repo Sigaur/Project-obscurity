@@ -70,7 +70,7 @@ void Player::setLight(int set)
 
 void Player::update(float secTime)
 {	
-	cout << m_energy << "    " << m_totalLight<< endl;
+	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
 		m_totalLight += secTime;

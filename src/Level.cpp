@@ -12,9 +12,9 @@ Level::Level(RenderWindow *app, View *view1)
 	{
         _carte[i] = new Box[NBCASE];
 	}
+    /*m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
     m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
-    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
-    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);*/
 
 }
 
@@ -41,12 +41,12 @@ void Level::setBox(int y, int x, Box valeur){ _carte[y][x] = valeur; }
 Box  Level::getBox(int y, int x){ return _carte[y][x]; }
 
 /************************            fonction                          *****************************/
-Level * generationMap(int difficulter)
+/*Level * generationMap(int difficulter)
 {
 	srand(time(0));
 
 	Box* Type = creationType();
-	Level* Map = new Level;
+	//Level* Map = new Level;
 
 
 	
@@ -60,7 +60,7 @@ Level * generationMap(int difficulter)
 					{ tampon = 0; }//premiere colonne tous est vide
 			if (i%(difficulter+4) == 0)
 					{tampon = 0;}//premiere colonne tous est vide
-			else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
+			//else if (Map->getBox(i-1,j)!= Type[0])	{ tampon = 0; }
 
 
 	
@@ -81,7 +81,7 @@ Level * generationMap(int difficulter)
 			cout << tampon;
 
 
-			Map->setBox(i, j, Type[tampon].getContenu());
+			//Map->setBox(i, j, Type[tampon].getContenu());
 
 		}
 		cout << endl;
@@ -90,8 +90,8 @@ Level * generationMap(int difficulter)
 
 
 
-	return Map;
-}
+	//return Map;
+}*/
 
 void Level::afficher_box(int valeur)
 {

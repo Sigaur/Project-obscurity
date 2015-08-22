@@ -67,6 +67,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 void Game_Manager::execute_action(Action action)
 {
 	int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
+	
 	int posYpla = myPlayer.getPosY();
 	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 
@@ -77,7 +78,7 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveUp();
 		}
-		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.80))
 		{
 			myPlayer.moveUp();
 		}
@@ -93,12 +94,16 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveDown();
 		}
-		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.85))
+		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.80))
 		{
 			myPlayer.moveDown();
 		}
         break;
     case ACT_GO_LEFT:
+		if (myPlayer.getPosX() > 0)
+		{
+			myPlayer.moveLeft(0.1);
+		}
         break;
     case ACT_ZOOM_IN:
         break;
@@ -195,9 +200,12 @@ void Game_Manager::update(float secTime)
         cout << myPlayer.getPosY() << endl;*/
         //cout << (m_view2.getCenter().x / 248) - 4 << endl;
         int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
+		cout << endl << posXPla << endl;
         int posYpla = myPlayer.getPosY();
 
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
+		cout << posXPla << "     " << hitLimit << endl;
+
 
         /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
         sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
@@ -205,14 +213,18 @@ void Game_Manager::update(float secTime)
 
 
 
-		if ((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1) || (hitLimit > 0.85))
-        {
-            m_view2.move(5, 0);
-        }
+		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.80) && (map[posYpla][posXPla + 1] != 1)))
+		{
+			m_view2.move(5, 0);
+		}
+		/*else
+		{
+			execute_action(ACT_GO_LEFT);
+		}*/
 		
 		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
 		{
-			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.85))
+			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.80))
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
