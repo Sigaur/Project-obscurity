@@ -7,12 +7,16 @@
 #include <memory>
 #include <string>
 #include <cmath>
+#include <stdlib.h>
+#include <time.h>
 
+#include "Box.h"
 #include "Button.h"
 #include "Key_event.h"
 #include "Grid.h"
 #include "Hud.h"
 #include "Info.h"
+#include "Level.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
