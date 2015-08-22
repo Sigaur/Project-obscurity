@@ -71,7 +71,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Game_Manager.cpp" />
     <ClCompile Include="src\Glissor.cpp" />
@@ -85,6 +84,7 @@
     <ClCompile Include="src\My_Text.cpp" />
     <ClCompile Include="src\File_Loader.cpp" />
     <ClCompile Include="src\My_window.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +101,11 @@
     <ClInclude Include="include\My_Text.h" />
     <ClInclude Include="include\File_Loader.h" />
     <ClInclude Include="include\My_window.h" />
+    <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Random.h" />
     <ClInclude Include="include\Skills.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\Timer.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

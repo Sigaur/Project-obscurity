@@ -2,13 +2,17 @@
 
 #include "Random.h"
 
-Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
+Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int screen_x, int screen_y)
     : m_view1(view1)
     , menu1(app, &m_view2)
     , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
     , selection_sprite(app, "resources/selection.png", &m_view1)
     , interface1(app, m_grid, &m_view2, screen_x, screen_y)
     , m_info(app, &view1, 1920, 1080)
+	//////////
+	, myPlayer()
+	, player_sprite(app, "resources/pike.png", &m_view1)
+	, m_view2(view2)
 {
     is_menu_visible = true;
     is_info = false;
@@ -38,7 +42,6 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
         selection_text[i].change_font("resources/font2.ttf");
     }
 
-
 }
 
 void Game_Manager::execute_action(Action action)
@@ -46,10 +49,12 @@ void Game_Manager::execute_action(Action action)
     switch (action)
     {
     case ACT_GO_UP:
+		myPlayer.moveUp();
         break;
     case ACT_GO_RIGHT:
         break;
     case ACT_GO_DOWN:
+		myPlayer.moveDown();
         break;
     case ACT_GO_LEFT:
         break;
@@ -130,7 +135,9 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
-	cout << secTime << endl;
+	cout << secTime << "   ";
+	cout << myPlayer.getPosY() << endl;
+
     bool isEvent = handle_input_events();
 
     if (is_menu_visible)
@@ -141,8 +148,7 @@ void Game_Manager::update(float secTime)
             is_menu_visible = false;
         }
     }
-
-
+	
 }
 
 
@@ -155,7 +161,7 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
- 
+	player_sprite.draw((20), (myPlayer.getPosY() * 216));
     m_app->display();
 }
 

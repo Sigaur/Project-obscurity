@@ -24,7 +24,10 @@ int main()
         View view1(FloatRect(0, 0, screen_x, screen_y));
         view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
 
-        Game_Manager game_manager1(&app, view1, screen_x, screen_y);
+		View view2(FloatRect(0, 0, screen_x, screen_y));
+		view2.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
+
+        Game_Manager game_manager1(&app, view1, view2, screen_x, screen_y);
 
 		sf::Clock mainClock;
 

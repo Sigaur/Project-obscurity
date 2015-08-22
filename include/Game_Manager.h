@@ -32,7 +32,7 @@ enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 class Game_Manager
 {
 public:
-    Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y);
+	Game_Manager(RenderWindow *app, View &view1, View &view2, int screen_x, int screen_y);
     void draw();
     void quit();
 	void update(float secTime);
@@ -90,6 +90,9 @@ private:
     My_Sprite action_sprite;
     My_Text selection_text[5], tile_info;
 
+	/////////////////NEW
+	Player myPlayer;
+	My_Sprite player_sprite;
 };
 
 #endif // GAME_MANAGER_H

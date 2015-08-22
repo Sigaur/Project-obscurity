@@ -17,9 +17,12 @@ public:
 	float getPosY();
 	float getPosX();
 	void draw(float y, float x);
+	void moveDown();
+	void moveUp();
 
 private:
 	float m_posY;
 	float m_posX;
 	float m_energy;
+	int m_isMovable;
 };
