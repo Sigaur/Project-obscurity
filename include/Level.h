@@ -26,7 +26,7 @@ public:
 	void setBox(int y, int x, Box valeur);
 	Box getBox(int y, int x);
 	int getBoxint(int y, int x);
-    void afficher_box(int valeur);
+    void afficher_box(int valeur, int x_get, int y_get);
     void setMap(Box**);
 	Box**  getMap();
 
