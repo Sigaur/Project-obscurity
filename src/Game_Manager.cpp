@@ -50,19 +50,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
         selection_text[i].change_font("ressources/font2.ttf");
     }
 
-    //create_map(GRID_WIDTH, GRID_HEIGHT);
 
-    for (int i = 0; i < 3; i++) {
-        m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));
-        interface1.set_citizen_number(m_units.size());
-    }
-    m_grid(0, 0).citizen_id = 0;
-
-    m_buildings.push_back(Building{ app, &m_view1, 0 });
-
-    //now that m_view1 has been reseted we can load tile files
-    m_grid.loadFiles();
-    tile_info.init(app, "lieu vierge", 10, 1);
 }
 /*
 void Game_Manager::execute_action(Action action)
@@ -134,7 +122,7 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
         }
 
     }
-}
+}*/
 
 bool Game_Manager::handle_input_events()
 {
@@ -179,27 +167,6 @@ void Game_Manager::update()
 
     bool isEvent = handle_input_events();
 
-    zoom_time = clock_zoom.getElapsedTime();
-    if (zoom_time.asSeconds() > 0.05  && zoom_change != ZOOM_NO_CHANGE)
-    {
-        clock_zoom.restart();
-        if (zoom_change == ZOOM_ADD && zoom_rate >= -30)
-        {
-            zoom = 0.90f;
-            zoom_rate--;
-        }
-        if (zoom_change == ZOOM_LESS  && zoom_rate <= 50)
-        {
-            zoom = 1.1f;
-            zoom_rate++;
-        }
-        zoom_change = ZOOM_NO_CHANGE;
-    }
-    else
-    {
-        zoom = 1;
-    }
-
     if (is_menu_visible)
     {
         menu1.update();
@@ -208,58 +175,6 @@ void Game_Manager::update()
             is_menu_visible = false;
         }
     }
-
-    m_view1.setCenter(static_cast<float>(x_offset), static_cast<float>(y_offset));
-    m_view1.zoom(zoom);
-    m_app->setView(m_view1);
-
-    for (My_window &window : windows)
-    {
-        if (window.is_activated())
-        {
-            window.update();
-        }
-    }
-
-    if (is_info)
-    {
-        m_info.update();
-        if (m_info.is_activated() == false)
-        {
-            is_info = false;
-        }
-    }
-
-    if (is_building_menu)
-    {
-        m_builder_gui.update();
-        if (m_builder_gui.is_activated() == false)
-        {
-            is_building_menu = false;
-            is_building_selected = false;
-
-        }
-        if (m_builder_gui.is_building_selected() == true && is_building_menu)
-        {
-            is_building_selected = true;
-         }
-        if (is_building_selected )
-        {
-            if (Mouse::isButtonPressed(Mouse::Left) && interface1.get_resource(RSC_WOOD) >= 0.5f  &m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT
-                && m_grid(m_x_cursor, m_y_cursor).is_building == false)
-           
-            {
-                m_grid(m_x_cursor, m_y_cursor).is_building = true;
-                interface1.set_resource(RSC_WOOD, -0.5f);
-                m_buildings.push_back(Building{ m_app, &m_view1, 0 });
-                m_buildings[m_buildings.size() - 1].set_coord(m_x_cursor, m_y_cursor);
-                cout << "new buildings" << endl;
-            }
-
-        }
-    }
-
-    update_units();
 
 
 }
@@ -297,246 +212,21 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
-    if (!is_menu_visible)
-    {
-        m_grid.draw();
-
-        for (Building &building : m_buildings)
-        {
-            building.draw();
-        }
-        for (City &city : m_cities)
-        {
-            city.draw();
-        }
-        for (std::shared_ptr<Unit> &unit : m_units) {
-            unit->draw();
-        }
-    }
-
-    if (is_building_selected == true)
-    {
-        draw_building_selection();
-    }
-
-    // Update the window
-    draw_gui();
+ 
     m_app->display();
-}
-void Game_Manager::draw_building_selection()
-{
-    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
-    {
-        m_builder_gui.draw_building(m_x_cursor, m_y_cursor);
-    }
 }
 
 void Game_Manager::draw_gui()
 {
-    highlight_selected_tile();
     m_app->setView(m_view2);
-    if (is_menu_visible)
-    {
-        menu1.draw();
-    }
-
-    open_window = false;
-
-    for (My_window &window : windows)
-    {
-        if (window.is_activated())
-        {
-            open_window = true;
-            window.draw();
-        }
-    }
-    m_dialog.draw();
-    draw_selection();
-
-    if (is_building_menu)
-    {
-        m_builder_gui.draw();
-    }
-
-    interface1.draw();
-
-    if (is_info)
-    {
-        m_info.draw();
-    }
-
+   
     m_app->setView(m_view1);
 }
 
 void Game_Manager::create_map(int map_width, int map_height)
 {
     //sur 200
-    cout << "Creation" << endl;
-    water_rate = 55;
-    sand_rate = 90;
-    deep_sea_rate = 4;
-    deep_sea_expansion_rate = 60;
-    for (int i = 0; i <map_width; i++)
-    {
-        for (int j = 0; j< map_height; j++)
-        {
-            m_grid(i, j).m_type = 2;
-            m_grid(i, j).m_x_pos = i;
-            m_grid(i, j).m_y_pos = j;
-            m_grid(i, j).height = 1;
-            m_grid(i, j).zone = 1;
-            m_grid(i, j).passing_through = false;
-            m_grid(i, j).is_city = false;
-            m_grid(i, j).ressource_type = RSC_NO;
-            m_grid(i, j).owner = PLAYER2;
-            m_grid(i, j).random_pattern = Random::get_int(0, 4);
-            //test for stone
-            if (i < 5 && j < 5 && i> 0 && j > 0)
-            {
-                m_grid(i, j).ressource_type = RSC_STONE;
-                m_grid(i, j).resource_location = 0;
-
-            }
-            //test for elevation
-            if (i < 10 && j < 10 && i> 6 && j > 6)
-            {
-                m_grid(i, j).m_elevation = 1;
-            }
-            if (i == 8 && j == 9)
-            {
-                m_grid(i, j).m_elevation = 2;
-            }
-        }
-    }
-    for (int i = 0; i <10; i++)
-    {
-        for (int j = 0; j< 10; j++)
-        {
-            if (m_grid(i, j).ressource_type == RSC_STONE)
-            {
-                if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j + 1).ressource_type == RSC_STONE
-                    && m_grid(i - 1, j).ressource_type != RSC_STONE
-                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                {
-
-                    m_grid(i, j).resource_location = 0;
-
-                }
-                if (m_grid(i + 1, j).ressource_type != RSC_STONE
-                    && m_grid(i, j + 1).ressource_type != RSC_STONE
-                    && m_grid(i - 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
-                {
-
-                    m_grid(i, j).resource_location = 19;
-
-                }
-                if (m_grid(i + 1, j).ressource_type != RSC_STONE
-                    && m_grid(i, j + 1).ressource_type == RSC_STONE
-                    && m_grid(i - 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                {
-
-                    m_grid(i, j).resource_location = 4;
-
-                }
-                if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j + 1).ressource_type != RSC_STONE
-                    && m_grid(i - 1, j).ressource_type != RSC_STONE
-                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
-                {
-
-                    m_grid(i, j).resource_location = 1;
-
-                }
-                if (m_grid(i + 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j + 1).ressource_type == RSC_STONE
-                    && m_grid(i - 1, j).ressource_type == RSC_STONE
-                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
-                {
-
-                    m_grid(i, j).resource_location = 1;
-
-                }
-            }
-
-        }
-    }
-    //perlin noise experimentation
-    PerlinNoise perlin4;
-    //perlin4.Set(persistence, frequence, amplitude, octave, 20);
-    double noise_value = 0;
-
-
-    for (int i = 0; i < map_width; i++)
-    {
-        for (int j = 0; j<map_height; j++)
-        {
-            noise_value = floor(100 * (perlin4.GetHeight(i, j)));
-
-            if (noise_value <= -75)
-            {
-                m_grid(i, j).m_type = 0;
-                m_grid(i, j).m_is_walkable = false;
-            }
-
-            if (noise_value <= -50 && noise_value > -75)
-            {
-                m_grid(i, j).m_type = 1;
-                m_grid(i, j).m_is_walkable = false;
-            }
-
-            if (noise_value <= -35 && noise_value > -50)
-            {
-                m_grid(i, j).m_type = 2;
-
-            }
-            if (noise_value <= -15 && noise_value > -35)
-            {
-                m_grid(i, j).m_type = 3;
-                //water
-                m_grid(i, j).m_is_walkable = false;
-
-            }
-
-            if (noise_value <= 0 && noise_value > -15)
-            {
-                m_grid(i, j).m_type = 4;
-
-            }
-
-
-
-            if (noise_value > 0 && noise_value <= 35)
-            {
-                m_grid(i, j).m_type = 5;
-
-            }
-            if (noise_value > 35 && noise_value <= 50)
-            {
-                m_grid(i, j).m_type = 6;
-
-            }
-            if (noise_value > 50)
-            {
-                m_grid(i, j).m_type = 6;
-
-            }
-            //   cout<<noise_value<<endl;
-        }
-    }
-
-    for (int i = 0; i <map_width; i++)
-    {
-        for (int j = 0; j< map_height; j++)
-        {
-            if (m_grid(i, j).m_type == 5 || m_grid(i, j).m_type == 6)
-            {
-                m_grid(i, j).ressource_type = RSC_WOOD;
-            }
-        }
-    }
+   
 }
 
 void Game_Manager::draw_selection()
@@ -697,11 +387,3 @@ void Game_Manager::set_info()
     is_info = true;
     m_info.activate();
 }
-
-void Game_Manager::create_city(int x, int y)
-{
-    m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
-    m_cities[m_cities.size() - 1].create_city();
-    m_grid(x, y).is_city = true;
-}
-*/

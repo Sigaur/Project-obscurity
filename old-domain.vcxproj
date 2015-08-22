@@ -71,12 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Builder_gui.cpp" />
-    <ClCompile Include="src\Building.cpp" />
     <ClCompile Include="src\Button.cpp" />
-    <ClCompile Include="src\Citizen.cpp" />
-    <ClCompile Include="src\City.cpp" />
-    <ClCompile Include="src\dialog.cpp" />
     <ClCompile Include="src\Game_Manager.cpp" />
     <ClCompile Include="src\Glissor.cpp" />
     <ClCompile Include="src\Grid.cpp" />
@@ -89,18 +84,10 @@
     <ClCompile Include="src\My_Text.cpp" />
     <ClCompile Include="src\File_Loader.cpp" />
     <ClCompile Include="src\My_window.cpp" />
-    <ClCompile Include="src\PerlinNoise.cpp" />
-    <ClCompile Include="src\Sprite_Creator.cpp" />
     <ClCompile Include="src\Tile.cpp" />
-    <ClCompile Include="src\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Builder_gui.h" />
-    <ClInclude Include="include\Building.h" />
     <ClInclude Include="include\Button.h" />
-    <ClInclude Include="include\Citizen.h" />
-    <ClInclude Include="include\City.h" />
-    <ClInclude Include="include\dialog.h" />
     <ClInclude Include="include\Game_Manager.h" />
     <ClInclude Include="include\Glissor.h" />
     <ClInclude Include="include\Grid.h" />
@@ -113,13 +100,10 @@
     <ClInclude Include="include\My_Text.h" />
     <ClInclude Include="include\File_Loader.h" />
     <ClInclude Include="include\My_window.h" />
-    <ClInclude Include="include\PerlinNoise.h" />
     <ClInclude Include="include\Random.h" />
     <ClInclude Include="include\Skills.h" />
-    <ClInclude Include="include\Sprite_Creator.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\Timer.h" />
-    <ClInclude Include="include\Unit.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
