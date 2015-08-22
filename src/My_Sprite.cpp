@@ -194,8 +194,8 @@ void My_Sprite::draw_tile(int x, int y, int random)
 {
     m_x = x;
     m_y = y;
-    m_animation_rect.left = 128 * random;
-    m_animation_rect.width = 128 ;
+    m_animation_rect.left = 248 * random;
+    m_animation_rect.width = 248 ;
     m_sprite.setTextureRect(m_animation_rect);
     m_sprite.setPosition(m_x, m_y);
     m_app->draw(m_sprite);
