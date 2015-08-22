@@ -90,10 +90,8 @@
     <ClCompile Include="src\File_Loader.cpp" />
     <ClCompile Include="src\My_window.cpp" />
     <ClCompile Include="src\PerlinNoise.cpp" />
-    <ClCompile Include="src\Skills.cpp" />
     <ClCompile Include="src\Sprite_Creator.cpp" />
     <ClCompile Include="src\Tile.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
