@@ -179,9 +179,13 @@ void Game_Manager::update(float secTime)
     if (is_menu_visible)
     {
         menu1.update();
-        if (isEvent == true)
+        if (menu1.is_playing() == true)
         {
             is_menu_visible = false;
+        }
+        if (menu1.is_quitting() == true)
+        {
+            execute_action(ACT_CLOSE_APP);
         }
     }
 	
@@ -197,13 +201,22 @@ void Game_Manager::draw()
     }
     render_clock.restart();
     m_app->clear();
+
+    if (is_menu_visible)
+    {
+        menu1.draw();
+    }
+    else
+    {
 	m_app->setView(m_view2);
 	//Changes on the world
 	world_sprite.draw(0, 0);
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
-	player_sprite.draw((myPlayer.getPosX() * 248), (myPlayer.getPosY() * 216));
+        player_sprite.draw((myPlayer.getPosX() * 248), (myPlayer.getPosY() * 216));
+
+    }
     m_app->display();
 }
 

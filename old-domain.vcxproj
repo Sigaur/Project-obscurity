@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Box.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Game_Manager.cpp" />
     <ClCompile Include="src\Glissor.cpp" />
@@ -78,6 +79,8 @@
     <ClCompile Include="src\Hud.cpp" />
     <ClCompile Include="src\Info.cpp" />
     <ClCompile Include="src\Key_event.cpp" />
+    <ClCompile Include="src\Level.cpp" />
+    <ClCompile Include="src\Lign.cpp" />
     <ClCompile Include="src\Loading_bar.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\My_Sprite.cpp" />
@@ -88,6 +91,7 @@
     <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Box.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Game_Manager.h" />
     <ClInclude Include="include\Glissor.h" />
@@ -95,6 +99,8 @@
     <ClInclude Include="include\Hud.h" />
     <ClInclude Include="include\Info.h" />
     <ClInclude Include="include\Key_event.h" />
+    <ClInclude Include="include\Level.h" />
+    <ClInclude Include="include\Lign.h" />
     <ClInclude Include="include\Loading_bar.h" />
     <ClInclude Include="include\Menu.h" />
     <ClInclude Include="include\My_Sprite.h" />
