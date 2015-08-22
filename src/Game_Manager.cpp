@@ -70,31 +70,30 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveUp();
 		}
-<<<<<<< HEAD
-		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.75))
+		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.75))
 		{
 			myPlayer.moveUp();
 		}
         break;
+
 	case ACT_FRONT_DASH:
+		/*
 		if ()
 		{
 			myPlayer.moveRight(0.01);
 		}
 		break;
-=======
-<<<<<<< HEAD
-		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.85))
-=======
-		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.80))
->>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
-		{
-			myPlayer.moveUp();
-		}
+
+
+		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.80))
+			{
+				myPlayer.moveUp();
+			}
+		*/
 		break; 
->>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
+
     case ACT_GO_RIGHT:
-		if ((myPlayer.getPosX() < 1000) && (map[posYpla][posXPla + 1] == 0))
+		if ((myPlayer.getPosX() < 1000) && (Map->getBoxint(posYpla, posXPla + 1) == 0))
 		{
 			myPlayer.moveRight(0.01);
 		}
@@ -104,15 +103,7 @@ void Game_Manager::execute_action(Action action)
 		{
 			myPlayer.moveDown();
 		}
-<<<<<<< HEAD
-		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.75))
-=======
-<<<<<<< HEAD
-		else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.85))
-=======
-		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.80))
->>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
->>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
+		else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.75))
 		{
 			myPlayer.moveDown();
 		}
@@ -234,35 +225,19 @@ void Game_Manager::update(float secTime)
         //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
 
-<<<<<<< HEAD
+		m_view2.move(5, 0);
+		if (!((Map->getBoxint(posYpla, posXPla + 1) != 1) && (Map->getBoxint(posYpla, posXPla) != 1) || (hitLimit > 0.85)))
+			{
+				execute_action(ACT_GO_LEFT);
+			}
 
-		if ((Map->getBoxint(posYpla, posXPla + 1) != 1) && (Map->getBoxint(posYpla, posXPla) != 1) || (hitLimit > 0.85))
-        {
-            m_view2.move(5, 0);
-        }
-=======
-		m_view2.move(5, 0);///////5 = SPEED//////////
-		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.75) && (map[posYpla][posXPla + 1] != 1)))
-		{
-			
-		}
-		else
-		{
-			execute_action(ACT_GO_LEFT);
-		}
->>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 		
 		if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
-<<<<<<< HEAD
-			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.75))
-=======
-<<<<<<< HEAD
+
+
 			if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
-=======
-			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.80))
->>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
->>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
+
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
