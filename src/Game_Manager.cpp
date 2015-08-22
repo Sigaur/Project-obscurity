@@ -10,8 +10,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
-	, myPlayer()
-	, player_sprite(app, "resources/player_moving.png", &m_view1, 248, 5, 1.05f)
+	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
 {
@@ -296,7 +295,7 @@ void Game_Manager::draw()
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
-    player_sprite.draw((myPlayer.getPosX() * 248 - 20), (myPlayer.getPosY() * 216));
+    myPlayer.draw();
 
     }
     m_app->display();

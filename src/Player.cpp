@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(RenderWindow *app, View *view1)
 	: m_posY(3)
 	, m_posX(1)
 	, m_energy(100)
@@ -31,15 +31,43 @@ Player::Player()
 	, m_INCurrentCoolDown(0)
 
 	, playerState(MOVING)
-	
+    
+
 {
+    m_view1 = view1;
+    m_app = app;
+    player_sprite.push_back(My_Sprite{ m_app, "resources/player_moving.png", m_view1,  248, 5, 1.0f });
+    player_sprite.push_back(My_Sprite{ m_app, "resources/player_light.png", m_view1, 248, 5, 1.0f });
+    player_sprite.push_back(My_Sprite{ m_app, "resources/player_smashed.png", m_view1, 248, 5, 1.0f });
+    player_sprite.push_back(My_Sprite{ m_app, "resources/player_dash.png", m_view1, 248, 5, 1.0f });
 
 }
 
 void Player::draw(float y, float x)
 {
-	
 }
+
+
+void Player::draw()
+{
+    if (playerState == MOVING)
+    {
+        player_sprite[0].draw((m_posX * 248 - 20), m_posY * 216);
+    }
+    else  if (playerState == LIGHT)
+    {
+        player_sprite[1].draw((m_posX * 248 - 20), m_posY * 216);
+    }
+    else  if (playerState == SMASHED)
+    {
+        player_sprite[2].draw((m_posX * 248 - 20), m_posY * 216);
+    }
+    else  if (playerState == DASH)
+    {
+        player_sprite[3].draw((m_posX * 248 - 20), m_posY * 216);
+    }
+}
+
 
 float Player::getPosY()
 {
@@ -98,6 +126,8 @@ void Player::update(float secTime)
 	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
+       
+
 		playerState = LIGHT;
 		m_totalLight += secTime;
 		while (m_totalLight > m_LALvl + 0.1)

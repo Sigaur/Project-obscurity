@@ -6,6 +6,10 @@
 #include <string>
 #include <cmath>
 
+#include "My_Sprite.h"
+
+
+
 enum State
 {
 	MOVING,
@@ -22,11 +26,12 @@ using namespace std;
 class Player
 {
 public:
-	Player();
+    Player(RenderWindow *app, View *view1);
 	float getPosY();
 	float getPosX();
-	void draw(float y, float x);
-	void update(float secTime);
+    void draw(float y, float x);
+    void draw();
+    void update(float secTime);
 	void moveDown();
 	void moveUp();
 	void moveRight(float move);
@@ -41,6 +46,11 @@ public:
 	State playerState;
 
 private:
+
+    vector<My_Sprite> player_sprite;
+    View *m_view1;
+    RenderWindow *m_app;
+
 	float m_posY;
 	float m_posX;
 	float m_energy;
