@@ -329,7 +329,7 @@ bool Citizen::is_selected()
 
 void Citizen::update()
 {
-    Time elapsed_move = m_move_clock.getElapsedTime();
+    /*Time elapsed_move = m_move_clock.getElapsedTime();
     if(m_has_goal && m_x == m_goal_x && m_y == m_goal_y)
     {
         path_place = 0;
@@ -400,7 +400,7 @@ void Citizen::update()
         }
        
 
-    }
+    }*/
 }
 
 bool Citizen::handle_mouse_click(Vector2f selection_vector, sf::Mouse::Button click, int x_cursor, int y_cursor)
