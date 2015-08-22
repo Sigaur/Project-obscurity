@@ -23,7 +23,7 @@ public:
 
 
 	/************************            get set                           *****************************/
-<<<<<<< HEAD
+
 	void setBox		(int y, int x, Box valeur);
 	void setBoxInt	(int y, int x, int contenu);
 	void setBoxLight(int y, int x, int light);
@@ -33,12 +33,6 @@ public:
 	int getBoxLight	(int y, int x);
 
     
-=======
-	void setBox(int y, int x, Box valeur);
-	Box getBox(int y, int x);
-	int getBoxint(int y, int x);
-    void afficher_box(int valeur, int x_get, int y_get);
->>>>>>> 3d038c233d792f1d9d4cc7dc3db6a5cea85b62f5
     void setMap(Box**);
 	Box**  getMap();
 
@@ -47,7 +41,7 @@ public:
 		void afficher_box(int valeur);
 
 	friend Level * generationMap(RenderWindow *app, View *view1, int difficulter);
-
+	void afficher_box(int valeur, int x_get, int y_get);
 
 	/************************            operator                          *****************************/
 
