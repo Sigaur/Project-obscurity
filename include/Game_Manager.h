@@ -4,97 +4,117 @@
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 #include <string>
 #include <cmath>
+
+#include "Builder_gui.h"
+#include "Building.h"
+#include "Button.h"
+#include "City.h"
+#include "dialog.h"
+#include "Key_event.h"
+#include "Grid.h"
+#include "Hud.h"
+#include "Info.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
-#include "Button.h"
-#include "Citizen.h"
-#include "Building.h"
-#include "City.h"
+#include "PerlinNoise.h"
 #include "Sprite_Creator.h"
-#include "Hud.h"
+#include "Unit.h"
+
 
 using namespace sf;
+
+enum Caracteristic {
+    CRC_TYPE,
+    CRC_ZONE,
+    CRC_HEIGTH
+};
+
+enum Zoom_change { ZOOM_NO_CHANGE, ZOOM_ADD, ZOOM_LESS };
 
 class Game_Manager
 {
 public:
-    Game_Manager();
+    Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y);
     void draw();
-    void draw_tile(int type, int, int);
-    void draw_grid();
-    void draw_gui();
-    void init(RenderWindow *app_get);
     void quit();
-    void create_map(int x_beg, int y_beg);
     void update();
-    int neighbours(int i, int j , int typeorzoneorheight, int valor, bool diagonal);
-    void draw_selection();
-    void draw_resources();
-    bool manage_event(bool);
-    void tile_description(int tile_x, int tile_y);
-    void selection();
-    void move_unit(int unit_id);
-    virtual ~Game_Manager();
-protected:
-private:
-    RenderWindow *app;
-    View view1;
-    View view2;
-    Vector2i mouse_vec ;
-    Vector2u window_vec ;
-    Vector2f selection_vector;
-    Event event;
-    Texture tile_texture[10];
-    My_Sprite tile_sprite[10];
-    bool is_menu;
-    bool is_r_click();
-    int x_cursor,y_cursor;
-    bool is_l_click();
-    void citizen_update();
-    Menu menu1;
-    Clock clock1, clock2, clock3;
-    sf::Time time1, key_time, zoom_time;
-    bool keys[10];
-    bool citizen_selected, open_window, screen_moved;
-    int x_offset, map_size_x,map_size_y, water_rate, sand_rate, deep_sea_rate, deep_sea_expansion_rate, y_offset, mouse_wheel_x, zoom_change;//zoom change 0 none, 1 add, 2 less
-    float zoom, zoom_rate;
-    enum owner {you, player2, player3};
-    enum ressources_type_enum {no, WOOD, IRON};
-    struct tile
-    {
-        int type;
-        int influence_point;
-        int x_pos;
-        int y_pos;
-        int height;
-        bool has_citizen;
-        bool is_city;
-        int citizen_id;
-        int zone;
-        bool passing_trought;
-        enum owner {you, player2, player3};
-        ressources_type_enum ressource_type;
-
-    };
-    tile grid[202][202];
-    int path[150][2];
-    int w, h, city_number, citizen_number, selected_citizen;
-    Citizen citizen[50];
-    My_Sprite selection_sprite;
-    My_Sprite gui_1, action_sprite;
-    My_Text selection_text[2], tile_info;
-    My_window windows[8];//1  for citizen window
+    void show_action_button(Button &button);
+    void set_info();
+    void set_building_menu();
+    void create_city(int x, int y);
+    virtual ~Game_Manager() = default;
     Hud interface1;
-    Building building[5];
-    int wood, iron, sand, glass, rock;
-    My_Sprite ressource_sprite[5];
-    Button citizen_action[5];
-    City city[5];
-    Sprite_Creator sprite_created_1_test;
 
+private:
+    void create_map(int map_width, int map_height);
+    void draw_tile(int type, int, int);
+    void draw_gui();
+    int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
+    void draw_selection();
+    void draw_building_selection();
+    void draw_resources();
+    void tile_description(int tile_x, int tile_y);
+	void handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec);
+    void move_unit(int unit_id);
+    bool handle_input_events();
+    void update_units();
+	void highlight_selected_tile();
+    void execute_action(Action action);
+    void handle_mouse_at_window_border(int x_mouse, int y_mouse);
+
+    Key_event_handler key_event;
+    RenderWindow *m_app;
+    View m_view1;
+    View m_view2;
+    Vector2u window_vec;
+    //mouse related stuff:
+    Vector2f m_selection_vector;
+    int m_x_cursor, m_y_cursor;
+
+    Texture tile_texture[10];
+    bool is_menu_visible, is_building_menu;
+    bool is_building_selected;
+    bool m_mouse_over_actions;
+
+    Menu menu1;
+    Builder_gui m_builder_gui;
+    Clock clock_zoom;
+    sf::Time zoom_time;
+    bool open_window, is_info;
+    int x_offset;
+    int water_rate;
+    int sand_rate;
+    int deep_sea_rate;
+    int deep_sea_expansion_rate;
+    int y_offset;
+
+    Zoom_change zoom_change;
+    float zoom;
+    float zoom_rate;
+
+    static const int GRID_WIDTH = 40;
+    static const int GRID_HEIGHT = 40;
+    Grid m_grid;
+
+    Info m_info;
+
+    int m_w, m_h;
+    int m_screen_y; //height of the game window height in pixels
+    int m_screen_x; //width of the game window in pixels
+
+    My_Sprite selection_sprite;
+    My_Sprite action_sprite;
+    My_Text selection_text[5], tile_info;
+    vector<My_window> windows;//1  for citizen window
+    vector<Building> m_buildings;
+    int wood, iron, sand, glass, rock;
+    dialog m_dialog;    
+    std::vector<std::shared_ptr<Unit> > m_units;
+    std::vector<City> m_cities;
 
 };
 

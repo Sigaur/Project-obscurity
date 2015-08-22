@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -27,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -37,6 +39,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add directory="SFML-2.3/include" />
 			<Add directory="include" />
@@ -55,13 +58,18 @@
 		<Unit filename="include/City.h" />
 		<Unit filename="include/Game_Manager.h" />
 		<Unit filename="include/Glissor.h" />
+		<Unit filename="include/Grid.h" />
 		<Unit filename="include/Hud.h" />
+		<Unit filename="include/Key_event.h" />
 		<Unit filename="include/Menu.h" />
 		<Unit filename="include/My_Sprite.h" />
 		<Unit filename="include/My_Text.h" />
 		<Unit filename="include/My_window.h" />
+		<Unit filename="include/PerlinNoise.h" />
 		<Unit filename="include/Skills.h" />
 		<Unit filename="include/Sprite_Creator.h" />
+		<Unit filename="include/Timer.h" />
+		<Unit filename="include/Unit.h" />
 		<Unit filename="include/dialog.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Building.cpp" />
@@ -70,13 +78,18 @@
 		<Unit filename="src/City.cpp" />
 		<Unit filename="src/Game_Manager.cpp" />
 		<Unit filename="src/Glissor.cpp" />
+		<Unit filename="src/Grid.cpp" />
 		<Unit filename="src/Hud.cpp" />
+		<Unit filename="src/Key_event.cpp" />
 		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/My_Sprite.cpp" />
 		<Unit filename="src/My_Text.cpp" />
 		<Unit filename="src/My_window.cpp" />
+		<Unit filename="src/PerlinNoise.cpp" />
 		<Unit filename="src/Skills.cpp" />
 		<Unit filename="src/Sprite_Creator.cpp" />
+		<Unit filename="src/Timer.cpp" />
+		<Unit filename="src/Unit.cpp" />
 		<Unit filename="src/dialog.cpp" />
 		<Extensions>
 			<code_completion />

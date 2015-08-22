@@ -1,556 +1,579 @@
 #include "Game_Manager.h"
 
-Game_Manager::Game_Manager()
+#include "Citizen.h"
+#include "Random.h"
+
+Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
+    : m_view1(view1)
+    , menu1(app, &m_view2)
+    , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
+    , selection_sprite(app, "ressources/selection.png", &m_view1)
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
+    , m_builder_gui(m_grid, app, &m_view1, &m_view2)
+    , m_info(app, &view1, 1920, 1080)
 {
-    is_menu = true;
+    is_menu_visible = true;
+    is_building_menu = false;
+    is_info = false;
+    m_mouse_over_actions = false;
+    is_building_selected = false;
+    m_screen_x = screen_x;
+    m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
     zoom = 1;
-    map_size_x = 0;
-    map_size_y = 0;
-    mouse_wheel_x = 0;
     zoom_rate = 10;
-    citizen_selected = false;
-    citizen_number = 1;
-    city_number = 0;
     open_window = true;
     rock = 0;
     wood = 0;
     iron = 0;
-    zoom_change = 0;
-    selected_citizen = 0;
+    zoom_change = ZOOM_NO_CHANGE;
 
-}
-Game_Manager::~Game_Manager()
-{
-    //dtor
-}
+    m_app = app;
+    m_app->setView(m_view1);
 
-void Game_Manager::init(RenderWindow *app_get)
-{
-    app = app_get;
-    view1.reset(FloatRect(0, 0, 1000, 600));
-    view1.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
-    app->setView(view1);
+    window_vec = m_app->getSize();
+    cout << "x_window" << window_vec.x << "y_window " << window_vec.y << endl;
 
-    window_vec = app->getSize();
-    cout<<"x_window"<<window_vec.x<<"y_window "<<window_vec.y<<endl;
+    m_view2.reset(FloatRect(0.0f, 0.0f, static_cast<float>(m_screen_x), static_cast<float>(m_screen_y)));
+    m_view2.setViewport(FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 
-    view2.reset(FloatRect(0, 0, 1000, 600));
-    view2.setViewport(FloatRect(0, 0, 1.0f, 1.0f));
+    Vector2f vecsize = m_view1.getSize();
+    m_h = static_cast<int>(vecsize.y);
+    m_w = static_cast<int>(vecsize.x);
 
 
-    Vector2f vecsize;
-    vecsize = view1.getSize();
-    h = vecsize.y;
-    w = vecsize.x;
-
-    if(is_menu)
-    {
-        menu1.init(app);
-    }
-    for(int i = 0; i < 6; i++)
-    {
-        stringstream ss;
-        ss << i;
-        string str = ss.str();
-        string path = "ressources/tile" + str + ".png";
-
-        tile_sprite[i].init(app, path, &view1);
-
-        windows[i].init(app, "Map", 0.5f, 0.3f, 0, 0, &view2);
-        windows[i].add_glissor(100, 100);
-        windows[i].add_button(300, 100);
-    }
-
-    for(int i = 0; i < 2; i++)
+    for (int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
         selection_text[i].change_font("ressources/font2.ttf");
-
-    }
-    selection_sprite.init(app, "ressources/selection.png", &view1);
-    int x_tiles = 3;
-    int y_tiles = 3;
-
-    for(int i = 0; i <x_tiles; i++)
-    {
-        for(int j = 0; j<y_tiles; j++)
-        {
-            create_map(i *50,j *  50);
-        }
     }
 
-    citizen[0].init(app, &view1);
-    grid[0][0].has_citizen = true;
-    grid[0][0].citizen_id = 0;
+    create_map(GRID_WIDTH, GRID_HEIGHT);
 
-    building[0].init(app, &view1, 0);
+    for (int i = 0; i < 3; i++) {
+        m_units.push_back(shared_ptr<Unit>(new Citizen(m_grid, app, &m_view1, &m_view2, *this)));
+        interface1.set_citizen_number(m_units.size());
+    }
+    m_grid(0, 0).citizen_id = 0;
 
-    citizen_action[0].init(app, "Fonder une ville", 0, 0, 0, 0, &view2);
-    citizen_action[1].init(app, "Rentrer dans la ville", 0, 0, 0, 0, &view2);
-    citizen_action[2].init(app, "Observer la ressource", 0, 0, 0, 0, &view2);
-    ressource_sprite[0].init(app, "ressources/wood_ressource.png", &view1);
+    m_buildings.push_back(Building{ app, &m_view1, 0 });
+
+    //now that m_view1 has been reseted we can load tile files
+    m_grid.loadFiles();
     tile_info.init(app, "lieu vierge", 10, 1);
-//test of the sprite creator
-    sprite_created_1_test.init(app, &view1);
-    sprite_created_1_test.create_character( 0);
+}
+/*
+void Game_Manager::execute_action(Action action)
+{
+    switch (action)
+    {
+    case ACT_GO_UP:
+        y_offset -= 50;
+        break;
+    case ACT_GO_RIGHT:
+        x_offset += 50;
+        break;
+    case ACT_GO_DOWN:
+        y_offset += 50;
+        break;
+    case ACT_GO_LEFT:
+        x_offset -= 50;
+        break;
+    case ACT_ZOOM_IN:
+        zoom_change = ZOOM_ADD;
+        break;
+    case ACT_ZOOM_OUT:
+        zoom_change = ZOOM_LESS;
+        break;
+    case ACT_CLOSE_APP:
+        cout << "close app\n";
+        m_app->close();
+        break;
+    case ACT_ROTATE_RIGHT:
+        m_grid.rotateRight(m_units);
+        draw();
+        break;
+    case ACT_ROTATE_LEFT:
+        m_grid.rotateLeft(m_units);
+        draw();
+        break;
+    default:
+        break;
+    }
+}
 
-    interface1.init(app, &view1, w, h);
+void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
+{
+    static sf::Clock mouse_move_clock;
+    sf::Time mouse_move_time = mouse_move_clock.getElapsedTime();
+    if (mouse_move_time.asSeconds() > 0.05) {
+        mouse_move_clock.restart();
+        Vector2u windowSize = m_app->getSize();
+        const int margin = 10;
+        if (m_x_cursor < -margin || m_x_cursor > GRID_WIDTH + margin || m_y_cursor < -margin || m_y_cursor > GRID_HEIGHT + margin) {
+            //we are already too far outside the m_grid, do nothing
+            return;
+        }
+        if (x_mouse < 15)
+        {
+            execute_action(ACT_GO_LEFT);
+        }
+        else if (x_mouse > static_cast<int>(windowSize.x - 15))
+        {
+            execute_action(ACT_GO_RIGHT);
+        }
+
+        if (y_mouse < 15) {
+            execute_action(ACT_GO_UP);
+        }
+        else if (y_mouse > static_cast<int>(windowSize.y - 35))
+        {
+            execute_action(ACT_GO_DOWN);
+        }
+
+    }
+}
+
+bool Game_Manager::handle_input_events()
+{
+    Event event;
+    bool isEvent = m_app->pollEvent(event);
+    Action action;
+    sf::Mouse::Button click = {};
+    Vector2i mouse_vec;
+
+    key_event.get_mouse_position(m_app, mouse_vec);
+
+//translate to m_grid coordinates
+if (m_mouse_over_actions == false)
+{
+    m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
+    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
+    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
+}
+
+handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
+
+bool ret = false;
+if (isEvent)
+{
+    if (key_event.manage_key_event(event, action))
+    {
+        execute_action(action);
+        ret = true;
+    }
+    if (key_event.manage_mouse_click(event, click)) {
+        if (!open_window) {
+            handle_mouse_click(click, mouse_vec);
+        }
+        ret = true;
+    }
+}
+return ret;
 }
 
 void Game_Manager::update()
 {
-    zoom = 1;
 
-    bool isEvent = app->pollEvent(event);
-    time1 =  clock1.getElapsedTime();
-    key_time = clock2.getElapsedTime();
-    zoom_time = clock3.getElapsedTime();
+    bool isEvent = handle_input_events();
 
-    if(key_time.asSeconds() >  0.03  && !screen_moved)
+    zoom_time = clock_zoom.getElapsedTime();
+    if (zoom_time.asSeconds() > 0.05  && zoom_change != ZOOM_NO_CHANGE)
     {
-        clock2.restart();
-        if(manage_event(false) && true)
+        clock_zoom.restart();
+        if (zoom_change == ZOOM_ADD && zoom_rate >= -30)
         {
-            screen_moved = true;
-
+            zoom = 0.90f;
+            zoom_rate--;
         }
-    }
-    if(zoom_time.asSeconds() >  0.05  && zoom_change != 0)
-    {
-        clock3.restart();
-        cout<<"eoom"<<zoom<<endl;
-        if(zoom_change == 1)
+        if (zoom_change == ZOOM_LESS  && zoom_rate <= 50)
         {
-
-            zoom =0.90;
-            zoom_rate --;
-
+            zoom = 1.1f;
+            zoom_rate++;
         }
-        if(zoom_change == 2)
-        {
-            zoom =1.1;
-            zoom_rate ++;
-
-        }
-
-    }
-    zoom_change = 0;
-
-    if(time1.asSeconds() >  0.03f)
-    {
-        if(is_menu)
-        {
-            menu1.update();
-            if(manage_event(true) == 1)
-            {
-                is_menu = false;
-            }
-        }
-
-        if(screen_moved)
-        {
-            if(keys[5] == true)
-            {
-                y_offset-= 50;
-
-            }
-            if(keys[6] == true)
-            {
-                x_offset+= 50;
-
-            }
-            if(keys[7] == true)
-            {
-                y_offset+= 50;
-
-            }
-            if(keys[8] == true)
-            {
-                x_offset-= 50;
-            }
-
-            screen_moved = false;
-        }
-
-
-        view1.setCenter(x_offset , y_offset);
-        view1.zoom(zoom);
-        app->setView(view1);
-
-
-
-
-        // Close window : exit
-        if (isEvent && event.type == Event::Closed || manage_event(false) == 10)
-        {
-            cout << "close app\n";
-            app->close();
-        }
-        for(int i = 0; i<6; i++)
-        {
-
-            if(windows[i].is_activated())
-            {
-                windows[i].update();
-            }
-        }
-        citizen_update();
-
-    }
-
-
-}
-void Game_Manager::citizen_update()
-{
-
-    citizen[0].update();
-    grid[citizen[0].get_previous_x()][citizen[0].get_previous_y()].has_citizen = false;
-    if(citizen[0].is_selected() )
-    {
-        citizen_action[0].update(0, h - 50);
-
-    }
-    grid[citizen[0].get_x()][citizen[0].get_y()].has_citizen = true;
-
-    if(citizen_action[0].is_activated() && city_number == 0)
-    {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y());
-        city_number++;
-        grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;
-    }
-    if(citizen_action[2].is_activated() )  //l'action sur la ressources
-    {
-        city[0].init(app, &view1, citizen[0].get_x(), citizen[0].get_y());
-        // windows[1].init(app, "Action", 550, 400, w/2, h/2, &view1);
-
-        grid[citizen[0].get_x()][citizen[0].get_x()].is_city = true;
-    }
-    if(grid[citizen[0].get_x()][citizen[0].get_y()].is_city == true)
-    {
-        citizen[0].on_city();
-    }
-
-}
-void Game_Manager::draw()
-{
-
-    app->clear();
-    if(is_menu)
-    {
-        menu1.draw();
+        zoom_change = ZOOM_NO_CHANGE;
     }
     else
     {
-        draw_grid();
-        citizen[0].draw();
-        //drwing of the test created sprite
-        sprite_created_1_test.draw();
-
-        for(int i = 0; i < city_number; i++)
-        {
-            city[i].draw();
-        }
-
+        zoom = 1;
     }
+
+    if (is_menu_visible)
+    {
+        menu1.update();
+        if (isEvent == true)
+        {
+            is_menu_visible = false;
+        }
+    }
+
+    m_view1.setCenter(static_cast<float>(x_offset), static_cast<float>(y_offset));
+    m_view1.zoom(zoom);
+    m_app->setView(m_view1);
+
+    for (My_window &window : windows)
+    {
+        if (window.is_activated())
+        {
+            window.update();
+        }
+    }
+
+    if (is_info)
+    {
+        m_info.update();
+        if (m_info.is_activated() == false)
+        {
+            is_info = false;
+        }
+    }
+
+    if (is_building_menu)
+    {
+        m_builder_gui.update();
+        if (m_builder_gui.is_activated() == false)
+        {
+            is_building_menu = false;
+            is_building_selected = false;
+
+        }
+        if (m_builder_gui.is_building_selected() == true && is_building_menu)
+        {
+            is_building_selected = true;
+         }
+        if (is_building_selected )
+        {
+            if (Mouse::isButtonPressed(Mouse::Left) && interface1.get_resource(RSC_WOOD) >= 0.5f  &m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT
+                && m_grid(m_x_cursor, m_y_cursor).is_building == false)
+           
+            {
+                m_grid(m_x_cursor, m_y_cursor).is_building = true;
+                interface1.set_resource(RSC_WOOD, -0.5f);
+                m_buildings.push_back(Building{ m_app, &m_view1, 0 });
+                m_buildings[m_buildings.size() - 1].set_coord(m_x_cursor, m_y_cursor);
+                cout << "new buildings" << endl;
+            }
+
+        }
+    }
+
+    update_units();
+
+
+}
+
+void Game_Manager::set_building_menu()
+{
+    is_building_menu = true;
+}
+
+void Game_Manager::update_units()
+{
+    m_mouse_over_actions = false;
+
+    for (std::shared_ptr<Unit> &unit : m_units) {
+        unit->update();
+        if (unit->is_selected() == 1)
+        {
+            if (unit->is_mouse_over_actions())
+            {
+            //    cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
+                m_mouse_over_actions = true;
+            }
+
+
+        }
+    }
+}
+
+
+void Game_Manager::draw()
+{
+    static sf::Clock render_clock;
+    if (render_clock.getElapsedTime().asMilliseconds() < 2) {
+        return;
+    }
+    render_clock.restart();
+    m_app->clear();
+    if (!is_menu_visible)
+    {
+        m_grid.draw();
+
+        for (Building &building : m_buildings)
+        {
+            building.draw();
+        }
+        for (City &city : m_cities)
+        {
+            city.draw();
+        }
+        for (std::shared_ptr<Unit> &unit : m_units) {
+            unit->draw();
+        }
+    }
+
+    if (is_building_selected == true)
+    {
+        draw_building_selection();
+    }
+
     // Update the window
     draw_gui();
-    app->display();
+    m_app->display();
+}
+void Game_Manager::draw_building_selection()
+{
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
+    {
+        m_builder_gui.draw_building(m_x_cursor, m_y_cursor);
+    }
 }
 
 void Game_Manager::draw_gui()
 {
-    //highlight the tile
-    if(!open_window)
+    highlight_selected_tile();
+    m_app->setView(m_view2);
+    if (is_menu_visible)
     {
-        selection();
+        menu1.draw();
     }
-    app->setView(view2);
-    open_window = false;
-    if(citizen_selected)
-    {
-        citizen_action[0].draw();
-        if(citizen[0].is_on_city())
-        {
-            citizen_action[1].draw();
-        }
-        else citizen_action[2].draw();
-    }
-    for(int i = 0; i<6; i++)
-    {
 
-        if(windows[i].is_activated())
+    open_window = false;
+
+    for (My_window &window : windows)
+    {
+        if (window.is_activated())
         {
             open_window = true;
-            windows[i].draw();
+            window.draw();
         }
     }
-
-
-
+    m_dialog.draw();
     draw_selection();
+
+    if (is_building_menu)
+    {
+        m_builder_gui.draw();
+    }
+
     interface1.draw();
 
-    app->setView(view1);
+    if (is_info)
+    {
+        m_info.draw();
+    }
 
+    m_app->setView(m_view1);
 }
-void Game_Manager::create_map(int x_beg,int y_beg)
+
+void Game_Manager::create_map(int map_width, int map_height)
 {
-    srand(time(0));
-    if(x_beg >= map_size_x)
-    {
-        map_size_x +=x_beg + 50;
-    }
-    if(y_beg >= map_size_y)
-    {
-        map_size_y +=y_beg + 50;
-    }
     //sur 200
+    cout << "Creation" << endl;
     water_rate = 55;
     sand_rate = 90;
     deep_sea_rate = 4;
     deep_sea_expansion_rate = 60;
-    for(int i = x_beg; i <map_size_x; i++)
+    for (int i = 0; i <map_width; i++)
     {
-        for(int j = y_beg; j<map_size_y; j++)
+        for (int j = 0; j< map_height; j++)
         {
-
-            grid[i][j].type = 2;
-            grid[i][j].x_pos = i;
-            grid[i][j].y_pos = j;
-            grid[i][j].height = 1;
-            grid[i][j].zone = 1;
-            grid[i][j].has_citizen = false;
-            grid[i][j].passing_trought = false;
-            grid[i][j].is_city = false;
-            grid[i][j].ressource_type = WOOD;
-
-        }
-    }
-
-    for(int i = x_beg; i <deep_sea_rate; i++)
-    {
-        int randomx = rand()%map_size_x;
-        int randomy = rand()%map_size_y;
-        grid[randomx][randomy].type = 4;
-        grid[randomx][randomy].height = -2;
-        grid[randomx][randomy].zone = 0;
-
-        grid[randomx][randomy + 1].type = 4;
-        grid[randomx][randomy +1].height = -2;
-        grid[randomx][randomy +1].zone = 0;
-
-        grid[randomx + 1][randomy + 1].type = 4;
-        grid[randomx + 1][randomy +1].height = -2;
-        grid[randomx + 1][randomy +1].zone = 0;
-
-    }
-
-    for(int k = 0; k <5; k++)
-    {
-        for(int i = x_beg; i <map_size_x; i++)
-        {
-
-            for(int j = y_beg; j<map_size_y; j++)
+            m_grid(i, j).m_type = 2;
+            m_grid(i, j).m_x_pos = i;
+            m_grid(i, j).m_y_pos = j;
+            m_grid(i, j).height = 1;
+            m_grid(i, j).zone = 1;
+            m_grid(i, j).passing_through = false;
+            m_grid(i, j).is_city = false;
+            m_grid(i, j).ressource_type = RSC_NO;
+            m_grid(i, j).owner = PLAYER2;
+            m_grid(i, j).random_pattern = Random::get_int(0, 4);
+            //test for stone
+            if (i < 5 && j < 5 && i> 0 && j > 0)
             {
-                int random = rand()% 100;
-                if(random < deep_sea_expansion_rate && neighbours(i, j, 0, 4, true)>=2)
-                {
-                    grid[i][j].type = 4;
-                    grid[i][j].height = -2;
-                    grid[i][j].zone = 0;
+                m_grid(i, j).ressource_type = RSC_STONE;
+                m_grid(i, j).resource_location = 0;
 
-                }
+            }
+            //test for elevation
+            if (i < 10 && j < 10 && i> 6 && j > 6)
+            {
+                m_grid(i, j).m_elevation = 1;
+            }
+            if (i == 8 && j == 9)
+            {
+                m_grid(i, j).m_elevation = 2;
             }
         }
     }
-
-
-    bool is_deep_water_near, is_grass;
-    //is there is deep water lot of chances of being mater if near
-    for(int i = x_beg; i <map_size_x; i++)
+    for (int i = 0; i <10; i++)
     {
-
-        for(int j = y_beg; j<map_size_y; j++)
+        for (int j = 0; j< 10; j++)
         {
-            is_deep_water_near = false;
-            is_grass = false;
-            if(i > 0 && j>0 && grid[i][j].type != 4)
+            if (m_grid(i, j).ressource_type == RSC_STONE)
             {
-                if(neighbours(i, j, 0, 4, true)>=1)
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
                 {
 
-                    grid[i][j].type = 2;
-                    grid[i][j].height = -1;
-                    grid[i][j].zone = 0;
+                    m_grid(i, j).resource_location = 0;
 
                 }
-            }
-
-        }
-
-        for(int k = 0; k <4; k++)
-        {
-            for(int j = y_beg; j<map_size_y; j++)
-            {
-                is_deep_water_near = false;
-                is_grass = false;
-                if(i > 0 && j>0 && grid[i][j].type != 4)
+                if (m_grid(i + 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j + 1).ressource_type != RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
                 {
-                    if(neighbours(i, j, 0, 2, true) >= 3)
-                    {
-                        int random = rand()% 100;
-                        if(random <= water_rate)
-                        {
-                            grid[i][j].type = 2;
-                            grid[i][j].height = -1;
-                            grid[i][j].zone = 0;
 
-                        }
-                    }
+                    m_grid(i, j).resource_location = 19;
+
+                }
+                if (m_grid(i + 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 4;
+
+                }
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type != RSC_STONE
+                    && m_grid(i - 1, j).ressource_type != RSC_STONE
+                    && m_grid(i, j - 1).ressource_type == RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 1;
+
+                }
+                if (m_grid(i + 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j + 1).ressource_type == RSC_STONE
+                    && m_grid(i - 1, j).ressource_type == RSC_STONE
+                    && m_grid(i, j - 1).ressource_type != RSC_STONE)
+                {
+
+                    m_grid(i, j).resource_location = 1;
+
                 }
             }
 
         }
     }
-    for(int k = 0; k <2; k++)
-    {
-        //is mid water chances of being low water
-        for(int i = x_beg; i <map_size_x; i++)
-        {
+    //perlin noise experimentation
+    PerlinNoise perlin4;
+    //perlin4.Set(persistence, frequence, amplitude, octave, 20);
+    double noise_value = 0;
 
-            for(int j = y_beg; j<map_size_y; j++)
+
+    for (int i = 0; i < map_width; i++)
+    {
+        for (int j = 0; j<map_height; j++)
+        {
+            noise_value = floor(100 * (perlin4.GetHeight(i, j)));
+
+            if (noise_value <= -75)
             {
-                is_deep_water_near = false;
-                is_grass = false;
-                if(i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
-                {
-                    if(neighbours(i, j, 0, 2, true)>= 1)
-                    {
-                        int random = rand()% 100;
-                        if(random <= water_rate)
-                        {
-                            grid[i][j].type = 3;
-                            grid[i][j].height = 0;
-                            grid[i][j].zone = 0;
-                        }
-                    }
-                }
+                m_grid(i, j).m_type = 0;
+                m_grid(i, j).m_is_walkable = false;
+            }
+
+            if (noise_value <= -50 && noise_value > -75)
+            {
+                m_grid(i, j).m_type = 1;
+                m_grid(i, j).m_is_walkable = false;
+            }
+
+            if (noise_value <= -35 && noise_value > -50)
+            {
+                m_grid(i, j).m_type = 2;
 
             }
-        }
-    }
-    for(int k = 0; k <4; k++)
-    {
-        //is mid water chances of being low water
-        for(int i = x_beg; i <map_size_x; i++)
-        {
-            for(int j = y_beg; j<map_size_y; j++)
+            if (noise_value <= -15 && noise_value > -35)
             {
-                if(i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
-                {
-                    if(neighbours(i, j, 0, 3, true)>=2)
-                    {
-                        int random = rand()% 100;
-                        if(random <= water_rate)
-                        {
-                            grid[i][j].type = 3;
-                            grid[i][j].height = 0;
-                            grid[i][j].zone = 0;
-                        }
-                    }
-                }
-
+                m_grid(i, j).m_type = 3;
+                //water
+                m_grid(i, j).m_is_walkable = false;
 
             }
-        }
-    }
 
-//the sand
-
-    for(int k = 0; k <11; k++)
-    {
-        for(int i = x_beg; i <map_size_x; i++)
-        {
-
-            for(int j = y_beg; j<map_size_y; j++)
+            if (noise_value <= 0 && noise_value > -15)
             {
-                is_deep_water_near = false;
-                is_grass = false;
-                int random = rand()% 100;
-                if(random <= sand_rate && i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
-                {
-                    if(neighbours(i, j, 1, 0, true) >1 || neighbours(i, j, 0, 1, true) >5  && neighbours(i, j, 0, 1, true) <=8)
-                    {
-                        if(neighbours(i, j, 0, 0, true) >3 || neighbours(i, j, 0, 1, true) >=3)
-                        {
-                            grid[i][j].type = 1;
-                            grid[i][j].height = 1;
+                m_grid(i, j).m_type = 4;
 
-                        }
-                    }
-                    if(neighbours(i, j, 1, 0, true)>=3  && grid[i][j].type == 0 )
-                    {
-                        grid[i][j].type = 3;
-                        grid[i][j].height = 1;
-
-                    }
-
-
-
-                }
             }
-        }
-    }
-    for(int k = 0; k <7; k++)
-    {
-        for(int i = x_beg; i <map_size_x; i++)
-        {
 
-            for(int j = y_beg; j<map_size_y; j++)
+
+
+            if (noise_value > 0 && noise_value <= 35)
             {
-                is_deep_water_near = false;
-                is_grass = false;
-                int random = rand()% 100;
-                if(random <= sand_rate && i > 0 && j>0 && grid[i][j].type != 4 && grid[i][j].type != 2 )
-                {
-                    if(neighbours(i, j, 0, 1, true) >=1 && neighbours(i, j, 0, 1, true) >=1  && grid[i][j].type != 1 )
-                    {
-                        grid[i][j].type = 5;
-                        grid[i][j].height = 1;
+                m_grid(i, j).m_type = 5;
 
-                    }
-
-
-
-                }
             }
+            if (noise_value > 35 && noise_value <= 50)
+            {
+                m_grid(i, j).m_type = 6;
+
+            }
+            if (noise_value > 50)
+            {
+                m_grid(i, j).m_type = 6;
+
+            }
+            //   cout<<noise_value<<endl;
         }
     }
 
-
-
-
+    for (int i = 0; i <map_width; i++)
+    {
+        for (int j = 0; j< map_height; j++)
+        {
+            if (m_grid(i, j).m_type == 5 || m_grid(i, j).m_type == 6)
+            {
+                m_grid(i, j).ressource_type = RSC_WOOD;
+            }
+        }
+    }
 }
+
 void Game_Manager::draw_selection()
 {
 
-    if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
     {
         //show height
         stringstream ss;
-        ss << grid[x_cursor][y_cursor].height;
+        ss << m_grid(m_x_cursor, m_y_cursor).height;
         string str = ss.str();
         string path1 = "height " + str;
         selection_text[0].refill(path1);
-        selection_text[0].draw(0 , window_vec.y - 550 , 24);
-        tile_description(x_cursor, y_cursor);
+        selection_text[0].draw(0, window_vec.y - 550, 24);
+
+        stringstream ss2;
+        ss2 << m_grid(m_x_cursor, m_y_cursor).m_x_pos;
+        str = ss2.str();
+        path1 = "x: " + str;
+        selection_text[1].refill(path1);
+        selection_text[1].draw(0, window_vec.y - 450, 24);
+
+
+        stringstream ss3;
+        ss3 << m_grid(m_x_cursor, m_y_cursor).m_y_pos;
+        str = ss3.str();
+        path1 = "y: " + str;
+        selection_text[1].refill(path1);
+        selection_text[1].draw(0, window_vec.y - 350, 24);
+
+        tile_description(m_x_cursor, m_y_cursor);
     }
 }
+
 void Game_Manager::tile_description(int tile_x, int tile_y)
 {
-    if(grid[tile_x][tile_y].ressource_type == WOOD)
+    if (m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
     {
         tile_info.refill("Frêne");
     }
@@ -559,297 +582,126 @@ void Game_Manager::tile_description(int tile_x, int tile_y)
         tile_info.refill("Lieu vierge");
     }
 
-    tile_info.draw(0 , window_vec.y - 700 , 24);
+    tile_info.draw(0, window_vec.y - 700, 24);
 }
-void Game_Manager::selection()
+
+void Game_Manager::highlight_selected_tile()
 {
-    selection_vector = app->mapPixelToCoords(mouse_vec, view1);
-    if(x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
+    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
     {
-        selection_sprite.draw(x_cursor* 50 ,y_cursor* 50 );
-        building[0].draw(x_cursor* 50 ,y_cursor* 50 );
-    }
-    y_cursor = (selection_vector.y)* zoom/ 50;
-    x_cursor = (selection_vector.x)* zoom/ 50;
-
-
-    if(is_l_click() && x_cursor >= 0 && x_cursor < map_size_x && y_cursor >= 0 && y_cursor < map_size_y)
-    {
-        if(grid[x_cursor][y_cursor].has_citizen && !citizen_selected)
-        {
-            citizen[0].selected();
-            selected_citizen = 0;
-            citizen_selected = true;
-            for(int i = 0; i< 100; i++)
-            {
-                grid[path[i][0] ][path[i][1]].passing_trought = false;
-                path[i][0] = -1;
-                path[i][1] = -1;
-            }
-        }
-        if(citizen_selected )
-        {
-            if( x_cursor != citizen[0].get_x() ||y_cursor != citizen[0].get_y() )
-            {
-
-                citizen[0].set_goal(x_cursor, y_cursor);
-                //a* homemade :)
-                path[0][0] = citizen[0].get_x();
-                path[0][1] = citizen[0].get_y();
-                citizen_selected = false;
-
-                for(int i = 0; i<100; i++)
-                {
-
-
-                    if( path [i][0] < x_cursor)
-                    {
-                        path[i +1][0] = path[i][0] + 1;
-                    }
-                    else if( path [i][0] > x_cursor)
-                    {
-                        path[i +1][0] = path[i][0] - 1;
-                    }
-                    else path[i +1][0] = path[i][0];
-                    if( path[i][1] < y_cursor)
-                    {
-                        path[i +1][1] = path[i][1] + 1;
-                    }
-                    else if( path[i][1] > y_cursor)
-                    {
-                        path[i +1][1] = path[i][1] - 1;
-                    }
-                    else path[i +1][1] = path[i][1];
-
-                    grid[path[i][0] ][path[i][1]].passing_trought = true;
-
-                    if(path[i][0] == x_cursor && path[i][1] == y_cursor)
-                    {
-                        i =100;
-                        for(int i = 0; i< 200; i++)
-                        {
-                            citizen[0].set_path( path[i][0], path[i][1], i);
-                            if(path[i][0] == 0 && path[i][1] == 1)
-                            {
-                                i = 200;
-                            }
-                        }
-                    }
-                }
-
-
-            }
-
-        }
-
+        //highlight selected tile
+        selection_sprite.draw((m_x_cursor - m_y_cursor)* (Tile::tile_size.m_w / 2), (m_x_cursor + m_y_cursor)* (Tile::tile_size.m_h / 2));
     }
 }
-int Game_Manager::neighbours(int i, int j , int typeorzoneorheight, int valor, bool diagonal)
+
+void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec)
+{
+    if (m_x_cursor < 0 || m_x_cursor >= GRID_WIDTH || m_y_cursor < 0 || m_y_cursor >= GRID_HEIGHT)
+    {
+        return;
+    }
+
+    //TODO check all units, not only citizen 0
+    for (shared_ptr<Unit> &unit : m_units) {
+        if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
+        {
+            // m_info.fill(unit->get_name());
+        }
+    }
+}
+
+int Game_Manager::count_neighbours(unsigned int i, unsigned int j, Caracteristic typeorzoneorheight, int value, bool diagonal)
 {
     int number = 0;
+    if (i == 0 || j == 0 || j + 1 >= GRID_HEIGHT || i + 1 >= GRID_WIDTH) {
+        return 0; //TODO handle this correctly
+    }
 
-    if(diagonal)
+    if (typeorzoneorheight == CRC_TYPE)
     {
-        if(typeorzoneorheight == 0 && i >0 && j > 0)
+        if (m_grid(i - 1, j).m_type == value)
+            number++;
+        if (m_grid(i, j + 1).m_type == value)
+            number++;
+        if (m_grid(i, j - 1).m_type == value)
+            number++;
+        if (m_grid(i + 1, j).m_type == value)
+            number++;
+        if (diagonal)  //diagonal + sides
         {
-            if(grid[i - 1][j].type == valor)
+            if (m_grid(i - 1, j + 1).m_type == value)
                 number++;
-            if(grid[i - 1][j + 1].type == valor)
+            if (m_grid(i - 1, j - 1).m_type == value)
                 number++;
-            if(grid[i - 1][j -1].type == valor)
+            if (m_grid(i + 1, j + 1).m_type == value)
                 number++;
-            if(grid[i ][j].type == valor)
-                number++;
-            if(grid[i ][j + 1].type == valor)
-                number++;
-            if(grid[i ][j - 1].type == valor)
-                number++;
-            if(grid[i + 1][j].type == valor)
-                number++;
-            if(grid[i + 1][j + 1].type == valor)
-                number++;
-            if(grid[i + 1][j - 1].type == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 1 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].zone == valor)
-                number++;
-            if(grid[i - 1][j + 1].zone == valor)
-                number++;
-            if(grid[i - 1][j -1].zone == valor)
-                number++;
-            if(grid[i ][j].zone == valor)
-                number++;
-            if(grid[i ][j + 1].zone == valor)
-                number++;
-            if(grid[i ][j - 1].zone == valor)
-                number++;
-            if(grid[i + 1][j].zone == valor)
-                number++;
-            if(grid[i + 1][j + 1].zone == valor)
-                number++;
-            if(grid[i + 1][j - 1].zone == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 2 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].height == valor)
-                number++;
-            if(grid[i - 1][j + 1].height == valor)
-                number++;
-            if(grid[i - 1][j -1].height == valor)
-                number++;
-            if(grid[i ][j + 1].height == valor)
-                number++;
-            if(grid[i ][j - 1].height == valor)
-                number++;
-            if(grid[i + 1][j].height == valor)
-                number++;
-            if(grid[i + 1][j + 1].height == valor)
-                number++;
-            if(grid[i + 1][j - 1].height == valor)
+            if (m_grid(i + 1, j - 1).m_type == value)
                 number++;
         }
     }
-    else if(!diagonal)
+    if (typeorzoneorheight == CRC_ZONE)
     {
-        if(typeorzoneorheight == 0 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].type == valor)
-                number++;
-            if(grid[i ][j + 1].type == valor)
-                number++;
-            if(grid[i ][j - 1].type == valor)
-                number++;
-            if(grid[i + 1][j].type == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 1 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].zone == valor)
-                number++;
-            if(grid[i ][j + 1].zone == valor)
-                number++;
-            if(grid[i ][j - 1].zone == valor)
-                number++;
-            if(grid[i + 1][j].zone == valor)
-                number++;
-        }
-        if(typeorzoneorheight == 2 && i >0 && j > 0)
-        {
-            if(grid[i - 1][j].height == valor)
-                number++;
-            if(grid[i ][j + 1].height == valor)
-                number++;
-            if(grid[i ][j - 1].height == valor)
-                number++;
-            if(grid[i + 1][j].height == valor)
-                number++;
-
+        if (m_grid(i - 1, j).zone == value)
             number++;
+        if (m_grid(i, j + 1).zone == value)
+            number++;
+        if (m_grid(i, j - 1).zone == value)
+            number++;
+        if (m_grid(i + 1, j).zone == value)
+            number++;
+        if (diagonal)
+        {
+            if (m_grid(i - 1, j + 1).zone == value)
+                number++;
+            if (m_grid(i - 1, j - 1).zone == value)
+                number++;
+            if (m_grid(i + 1, j + 1).zone == value)
+                number++;
+            if (m_grid(i + 1, j - 1).zone == value)
+                number++;
+        }
+    }
+    if (typeorzoneorheight == CRC_HEIGTH)
+    {
+        if (m_grid(i - 1, j).height == value)
+            number++;
+        if (m_grid(i, j + 1).height == value)
+            number++;
+        if (m_grid(i, j - 1).height == value)
+            number++;
+        if (m_grid(i + 1, j).height == value)
+            number++;
+        if (diagonal)
+        {
+            if (m_grid(i - 1, j + 1).height == value)
+                number++;
+            if (m_grid(i - 1, j - 1).height == value)
+                number++;
+            if (m_grid(i + 1, j + 1).height == value)
+                number++;
+            if (m_grid(i + 1, j - 1).height == value)
+                number++;
         }
     }
 
     return number;
-
 }
-void Game_Manager::draw_grid()
+
+void Game_Manager::show_action_button(Button &button)
 {
-
-    for(int i = 0; i <map_size_x; i++)
-    {
-        for(int j = 0; j<map_size_y; j++)
-        {
-            if(!grid[i][j].passing_trought)
-            {
-                draw_tile(grid[i][j].type, grid[i][j].x_pos, grid[i][j].y_pos );
-            }
-            if(grid[i][j].ressource_type == WOOD && i< 5 && j < 5)
-            {
-                ressource_sprite[0].draw(grid[i][j].x_pos * 50, grid[i][j].y_pos * 50);
-            }
-        }
-    }
-
-    // Update the window
+    button.update(0, m_h - 50);
 }
-void Game_Manager::draw_tile(int type , int x_pos, int y_pos)
+
+void Game_Manager::set_info()
 {
-    tile_sprite[type].draw(x_pos * 50, y_pos * 50);
+    is_info = true;
+    m_info.activate();
 }
 
-bool Game_Manager::manage_event(bool anykey)
+void Game_Manager::create_city(int x, int y)
 {
-    mouse_vec = Mouse::getPosition(*app);
-
-    //Vector2i mouse_vec = Mouse::getPosition(*app);
-    if(anykey)
-    {
-        switch(event.type)
-        {
-            default: ;
-        case Event::KeyPressed:
-            return 1;
-            break;
-        }
-    }
-    else
-    {
-        keys[5] = false;
-        keys[6] = false;
-        keys[7] = false;
-        keys[8] = false;
-
-
-
-        if(Event::KeyPressed)
-        {
-            if(sf::Keyboard::isKeyPressed(Keyboard::Z))
-            {
-                keys[5] = true;
-            }
-            else keys[5] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::D))
-            {
-                keys[6] = true;
-            }
-            else keys[6] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::S))
-            {
-                keys[7] = true;
-            }
-            else keys[7] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::Q))
-            {
-                keys[8] = true;
-            }
-            else keys[8] = false;
-            if(sf::Keyboard::isKeyPressed(Keyboard::T) & zoom_rate >= -30)
-            {
-                zoom_change = 1;
-            }
-            if(sf::Keyboard::isKeyPressed(Keyboard::G) && zoom_rate <= 50)
-            {
-                zoom_change = 2;
-            }
-            return true;
-
-        }
-
-        return false;
-
-
-    }
-    mouse_wheel_x = event.mouseWheel.x;
-
+    m_cities.push_back(City{ m_app, &m_view1, x, y, Tile::tile_size.m_w, Tile::tile_size.m_h });
+    m_cities[m_cities.size() - 1].create_city();
+    m_grid(x, y).is_city = true;
 }
-bool Game_Manager::is_l_click()
-{
-    if(Mouse::isButtonPressed(Mouse::Left))
-    {
-        return true;
-    }
-    else return false;
-
-}
+*/

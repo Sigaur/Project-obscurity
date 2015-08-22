@@ -1,72 +1,82 @@
 #include "Glissor.h"
 
-Glissor::Glissor()
+Glissor::Glissor(const Glissor &glissor_get)
+    : m_bar(glissor_get.m_bar)
+    , m_cursor_bar(glissor_get.m_cursor_bar)
 {
-    //ctor
+    m_view1 = glissor_get.m_view1;
+    m_app = glissor_get.m_app;
+
+    m_x = glissor_get.m_x;
+    m_y = glissor_get.m_y;
+    m_value = glissor_get.m_value;
+    m_window_x = glissor_get.m_window_x;
+    m_window_y = glissor_get.m_window_y;
+    m_mouse_on = glissor_get.m_mouse_on;
+    m_a = glissor_get.m_a;
+    m_mouse_vec = glissor_get.m_mouse_vec;
+    m_rate = glissor_get.m_rate;	
 }
 
-Glissor::~Glissor()
+Glissor::Glissor(RenderWindow *app, int x, int y, int window_x, int window_y, View *view1)
+: m_bar(app, "ressources/bar.png", view1)
+, m_cursor_bar(app, "ressources/cursor_bar.png", view1)
 {
-    //dtor
-}
-
-void Glissor::init(RenderWindow *app_get, int x_get, int y_get, int window_x_get, int window_y_get, View *view1_get)
-{
-    view1 = view1_get;
-    window_x = window_x_get;
-    window_y = window_y_get;
-    x = x_get;
-    y = y_get;
-    app = app_get;
-    bar.init(app, "ressources/bar.png", view1);
-    cursor_bar.init(app, "ressources/cursor_bar.png", view1);
-    rate.init(app, " 05", 55, 1);
-    value = 0;
-    mouse_on = false;
+    m_view1 = view1;
+    m_window_x = window_x;
+    m_window_y = window_y;
+    m_x = x;
+    m_y = y;
+    m_app = app;
+    m_rate.init(app, " 05", 55, 1);
+    m_value = 0;
+    m_mouse_on = false;
 }
 
 void Glissor::draw()
 {
-    bar.draw(x + window_x, y + window_x);
-    cursor_bar.draw(x + value * 2 + window_x, y + window_y - 13);
-    rate.draw(x + window_x - 75 , y + window_x , 25);
-
+    m_bar.draw(m_x + m_window_x, m_y + m_window_y);
+    m_cursor_bar.draw(m_x + m_value * 2 + m_window_x, m_y + m_window_y - 13);
+    m_rate.draw(m_x + m_window_x - 75, m_y + m_window_y, 25);
 }
-void Glissor::update( int x_get, int y_get)
-{
-    x = x_get;
-    y = y_get;
 
-    mouse_vec = Mouse::getPosition(*app);
-    a = app->mapPixelToCoords(mouse_vec, *view1);
-    if(Mouse::isButtonPressed(Mouse::Left) && a.x >= x +value * 2 + window_x &&  a.x <= x +value * 2 + window_x + 20
-            && a.y >= y + window_y - 13 && a.y <= y + window_y - 13 + 50)
+int Glissor::get_value()
+{
+    return m_value;
+}
+
+void Glissor::update( int x, int y)
+{
+    m_x = x;
+    m_y = y;
+
+    m_mouse_vec = Mouse::getPosition(*m_app);
+    m_a = m_app->mapPixelToCoords(m_mouse_vec, *m_view1);
+    if (Mouse::isButtonPressed(Mouse::Left) && m_a.x >= m_x + m_value * 2 + m_window_x &&  m_a.x <= m_x + m_value * 2 + m_window_x + 20
+        && m_a.y >= m_y + m_window_y - 13 && m_a.y <= m_y + m_window_y - 13 + 50)
     {
-        mouse_on  =true;
+        m_mouse_on = true;
     }
-    if(mouse_on)
+    if (m_mouse_on)
     {
-        int cache_value = value;
-        value = (a.x - window_x- x)/2;
-        if(value <=0)
+        int cache_value = m_value;
+        m_value = (m_a.x - m_window_x - m_x) / 2;
+        if (m_value < 0)
         {
-            value = 0;
+            m_value = 0;
         }
-        if(value >= 100)
+        if (m_value > 100)
         {
-            value = 100;
+            m_value = 100;
         }
-        if(value != cache_value)
+        if (m_value != cache_value)
         {
-            ss << value;
-            string str = ss.str();
-            rate.refill(str);
-            ss.str("");
+            m_rate.refill(std::to_string(m_value));
         }
     }
     if(!Mouse::isButtonPressed(Mouse::Left))
     {
-        mouse_on = false;
+        m_mouse_on = false;
     }
 
 }
