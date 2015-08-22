@@ -397,6 +397,15 @@ void Game_Manager::create_map(int map_width, int map_height)
                 m_grid(i, j).resource_location = 0;
 
             }
+            //test for elevation
+            if (i < 10 && j < 10 && i> 6 && j > 6)
+            {
+                m_grid(i, j).m_elevation = 1;
+            }
+            if (i == 8 && j == 9)
+            {
+                m_grid(i, j).m_elevation = 2;
+            }
         }
     }
     for (int i = 0; i <10; i++)

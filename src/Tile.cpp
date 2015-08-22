@@ -22,6 +22,7 @@ Tile::Tile()
     , is_building(false)
     , passing_through(false)
     , owner(NOBODY) 
+    , m_elevation(0)
 {
 
 }
@@ -33,7 +34,7 @@ void Tile::draw()
 
         return;
     }
-    Tile::m_tile_sprites[m_type].draw_tile((m_x_pos - m_y_pos) * (tile_size.m_w / 2), (m_y_pos + m_x_pos) * (tile_size.m_h / 2), random_pattern);
+    Tile::m_tile_sprites[m_type].draw_tile((m_x_pos - m_y_pos) * (tile_size.m_w / 2), ((m_y_pos + m_x_pos) * (tile_size.m_h / 2)) - (12 *m_elevation), random_pattern);
     /*
     if(owner == YOU)
     {

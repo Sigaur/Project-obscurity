@@ -78,11 +78,11 @@ void Grid::draw()
             (*this)(i, j).draw();
             if ((*this)(i, j).ressource_type == RSC_WOOD )
             {
-                m_resource[0].m_sprites[0].draw_tile((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2), (*this)(i, j).random_pattern);
+                m_resource[0].m_sprites[0].draw_tile((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2) - (12 * ((*this)(i, j).m_elevation)), (*this)(i, j).random_pattern);
             }	
             if ((*this)(i, j).ressource_type == RSC_STONE)
             {
-                m_resource[1].m_sprites[(*this)(i, j).resource_location].draw((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2));
+                m_resource[1].m_sprites[(*this)(i, j).resource_location].draw((i - j)* (Tile::tile_size.m_w / 2), (i + j)* (Tile::tile_size.m_h / 2) - (12 * ((*this)(i, j).m_elevation)));
             }
 		}
 	}

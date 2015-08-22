@@ -102,4 +102,6 @@ public:
     static vector<My_Sprite> m_influence_sprites;
     static const Tile_dimension tile_size;
     static std::shared_ptr<My_Sprite> m_passing_through_sprite;
+
+    int m_elevation;
 };
