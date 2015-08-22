@@ -4,6 +4,8 @@
 
 using namespace sf;
 
+#include "include\Level.h"
+
 
 
 
@@ -12,7 +14,9 @@ using namespace sf;
 
 int main()
 {
-    try
+
+
+	try
     {
         int screen_y = 1080;
         int screen_x = 1920;
@@ -44,6 +48,7 @@ int main()
     catch (const std::exception &ex)
     {
         std::cerr << "Terminate program with exception " << ex.what();
+
         return EXIT_FAILURE;
     }
 
