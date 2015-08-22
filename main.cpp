@@ -15,10 +15,6 @@ using namespace sf;
 
 int main()
 {
-	
-
-
-
 
 	try
     {
@@ -55,7 +51,7 @@ int main()
 
         return EXIT_FAILURE;
     }
-
+	
 
     return EXIT_SUCCESS;
 }

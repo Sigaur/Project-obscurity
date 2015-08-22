@@ -11,7 +11,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer()
-	, player_sprite(app, "resources/pike.png", &m_view1)
+	, player_sprite(app, "resources/player_moving.png", &m_view1, 248, 5, 1.05f)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
 {
@@ -36,25 +36,17 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	map[5][20] = { 0 };
-	map[1][1] = 1;
-	map[1][3] = 1;
-	map[1][11] = 2;
-	map[1][13] = 2;
-	//map[2][2] = 1;
-	map[2][4] = 1;
-	map[2][7] = 1;
-	map[2][9] = 1;
-	map[2][12] = 2;
-	map[2][14] = 2;
-	map[2][17] = 2;
-	map[2][19] = 2;
-	map[3][5] = 1;
-	map[3][6] = 1;
-	//map[3][8] = 1;
-	map[3][15] = 2;
-	map[3][16] = 2;
-	map[3][18] = 2;
+
+
+
+		Map = generationMap(m_app, &m_view1,1);
+
+		
+
+
+
+	
+
 
     for (int i = 0; i < 2; i++)
     {
@@ -72,12 +64,13 @@ void Game_Manager::execute_action(Action action)
 	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 
     switch (action)
-    {
+	{
     case ACT_GO_UP:
-		if ((map[posYpla - 1][posXPla + 1] != 1) && (map[posYpla - 1][posXPla] != 1))
+		if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla - 1, posXPla) != 1))
 		{
 			myPlayer.moveUp();
 		}
+<<<<<<< HEAD
 		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.75))
 		{
 			myPlayer.moveUp();
@@ -89,6 +82,17 @@ void Game_Manager::execute_action(Action action)
 			myPlayer.moveRight(0.01);
 		}
 		break;
+=======
+<<<<<<< HEAD
+		else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.85))
+=======
+		else if ((map[posYpla - 1][posXPla + 1] != 1) && (hitLimit > 0.80))
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
+		{
+			myPlayer.moveUp();
+		}
+		break; 
+>>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
     case ACT_GO_RIGHT:
 		if ((myPlayer.getPosX() < 1000) && (map[posYpla][posXPla + 1] == 0))
 		{
@@ -96,11 +100,19 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
     case ACT_GO_DOWN:
-		if ((map[posYpla + 1][posXPla + 1] != 1) && (map[posYpla + 1][posXPla] != 1))
+		if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla + 1, posXPla) != 1))
 		{
 			myPlayer.moveDown();
 		}
+<<<<<<< HEAD
 		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.75))
+=======
+<<<<<<< HEAD
+		else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.85))
+=======
+		else if ((map[posYpla + 1][posXPla + 1] != 1) && (hitLimit > 0.80))
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
+>>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
 		{
 			myPlayer.moveDown();
 		}
@@ -222,6 +234,13 @@ void Game_Manager::update(float secTime)
         //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
 
+<<<<<<< HEAD
+
+		if ((Map->getBoxint(posYpla, posXPla + 1) != 1) && (Map->getBoxint(posYpla, posXPla) != 1) || (hitLimit > 0.85))
+        {
+            m_view2.move(5, 0);
+        }
+=======
 		m_view2.move(5, 0);///////5 = SPEED//////////
 		if (((map[posYpla][posXPla + 1] != 1) && (map[posYpla][posXPla] != 1)) || ((hitLimit > 0.75) && (map[posYpla][posXPla + 1] != 1)))
 		{
@@ -231,10 +250,19 @@ void Game_Manager::update(float secTime)
 		{
 			execute_action(ACT_GO_LEFT);
 		}
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
 		
-		if ((map[posYpla][posXPla + 1] == 2) || (map[posYpla][posXPla] == 2))
+		if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
+<<<<<<< HEAD
 			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.75))
+=======
+<<<<<<< HEAD
+			if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
+=======
+			if ((map[posYpla][posXPla + 1] == 2) || (hitLimit < 0.80))
+>>>>>>> 6981747f4f2ce3d7152b6def3e2c3f05e53e26e8
+>>>>>>> 7b0a2abf268f91b9f346d18c571fbb8104f9c3f3
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)

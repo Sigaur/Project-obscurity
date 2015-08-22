@@ -172,7 +172,7 @@ void My_Sprite::draw(int x, int y)
     if(m_total_animation_time != 0)
     {
         m_time1 = m_clock1.getElapsedTime();
-        if(m_time1.asSeconds() > m_total_animation_time / m_animation_length)
+        if(m_time1.asSeconds() > m_total_animation_time / (float)m_animation_length)
         {
             m_clock1.restart();
             m_animation_rect.left += m_animation_width;
