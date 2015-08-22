@@ -6,7 +6,7 @@ Menu::Menu(RenderWindow *app, View *view1)
     m_app = app;
     m_view1 = view1;
 
-    text1.init(app, "Dark isn't dull", 24, 0);
+    text1.init(app, "Dark isn't dull", 24, 1);
     m_button.push_back(Button{ app, "to play", 0, 0, 1920, 1080, m_view1 });
     m_button.push_back(Button{ app, "to quit", 0, 0, 1920, 1080, m_view1 });
     m_playing = false;
@@ -15,11 +15,11 @@ Menu::Menu(RenderWindow *app, View *view1)
 
 void Menu::draw()
 {
-    text1.draw(0, 0, 22);
     sprite.draw(0, 0);
     m_button[0].draw();
     m_button[1].draw();
 
+    text1.draw(200, 300, 80);
 }
 
 void Menu::update()
