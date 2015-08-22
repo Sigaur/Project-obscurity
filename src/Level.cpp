@@ -1,16 +1,20 @@
 #include "..\include\Level.h"
 
 /************************            Constructeur Destructeur          ************************/
-Level::Level()
+Level::Level(RenderWindow *app, View *view1)
 {
-	int i = 0;
+    int i = 0;
+    m_view1 = view1;
+    m_app = app;
 
 	_carte = new Box*[NBLIGNE];
 	for ( i = 0; i < NBLIGNE; i++)
 	{
-		_carte[i] = new Box[NBCASE];
+        _carte[i] = new Box[NBCASE];
 	}
-
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
+    m_sprites.push_back(m_app, "resources/desk", m_view1, 3);
 
 }
 
@@ -74,7 +78,6 @@ Level * generationMap(int difficulter)
 
 			}
 
-		
 			cout << tampon;
 
 
@@ -90,6 +93,11 @@ Level * generationMap(int difficulter)
 	return Map;
 }
 
+void Level::afficher_box(int valeur)
+{
+    m_sprites[valeur].draw_tile(500, 500, 1);
+}
+		
 
 /************************            operator                          *****************************/
 
