@@ -1,34 +1,22 @@
 #include "Game_Manager.h"
 
-#include "Citizen.h"
 #include "Random.h"
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int screen_y)
     : m_view1(view1)
     , menu1(app, &m_view2)
     , m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-    , selection_sprite(app, "ressources/selection.png", &m_view1)
+    , selection_sprite(app, "resources/selection.png", &m_view1)
     , interface1(app, m_grid, &m_view2, screen_x, screen_y)
-    , m_dialog(m_grid, app, &m_view2, screen_x, screen_y)
-    , m_builder_gui(m_grid, app, &m_view1, &m_view2)
     , m_info(app, &view1, 1920, 1080)
 {
     is_menu_visible = true;
-    is_building_menu = false;
     is_info = false;
     m_mouse_over_actions = false;
-    is_building_selected = false;
     m_screen_x = screen_x;
     m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
-    zoom = 1;
-    zoom_rate = 10;
-    open_window = true;
-    rock = 0;
-    wood = 0;
-    iron = 0;
-    zoom_change = ZOOM_NO_CHANGE;
 
     m_app = app;
     m_app->setView(m_view1);
@@ -47,46 +35,33 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, int screen_x, int scr
     for (int i = 0; i < 2; i++)
     {
         selection_text[i].init(app, "rien", 12, 1);
-        selection_text[i].change_font("ressources/font2.ttf");
+        selection_text[i].change_font("resources/font2.ttf");
     }
 
 
 }
-/*
+
 void Game_Manager::execute_action(Action action)
 {
     switch (action)
     {
     case ACT_GO_UP:
-        y_offset -= 50;
         break;
     case ACT_GO_RIGHT:
-        x_offset += 50;
         break;
     case ACT_GO_DOWN:
-        y_offset += 50;
         break;
     case ACT_GO_LEFT:
-        x_offset -= 50;
         break;
     case ACT_ZOOM_IN:
-        zoom_change = ZOOM_ADD;
         break;
     case ACT_ZOOM_OUT:
-        zoom_change = ZOOM_LESS;
         break;
     case ACT_CLOSE_APP:
         cout << "close app\n";
         m_app->close();
         break;
-    case ACT_ROTATE_RIGHT:
-        m_grid.rotateRight(m_units);
-        draw();
-        break;
-    case ACT_ROTATE_LEFT:
-        m_grid.rotateLeft(m_units);
-        draw();
-        break;
+  
     default:
         break;
     }
@@ -122,7 +97,7 @@ void Game_Manager::handle_mouse_at_window_border(int x_mouse, int y_mouse)
         }
 
     }
-}*/
+}
 
 bool Game_Manager::handle_input_events()
 {
@@ -134,15 +109,6 @@ bool Game_Manager::handle_input_events()
 
     key_event.get_mouse_position(m_app, mouse_vec);
 
-//translate to m_grid coordinates
-if (m_mouse_over_actions == false)
-{
-    m_selection_vector = m_app->mapPixelToCoords(mouse_vec, m_view1);
-    m_x_cursor = static_cast<int>((m_selection_vector.x / (float)Tile::tile_size.m_w + m_selection_vector.y / (float)Tile::tile_size.m_h - 0.5) * zoom);
-    m_y_cursor = static_cast<int>((m_selection_vector.y / (float)Tile::tile_size.m_h - m_selection_vector.x / (float)Tile::tile_size.m_w + 0.5) * zoom);
-}
-
-handle_mouse_at_window_border(mouse_vec.x, mouse_vec.y);
 
 bool ret = false;
 if (isEvent)
@@ -179,29 +145,6 @@ void Game_Manager::update()
 
 }
 
-void Game_Manager::set_building_menu()
-{
-    is_building_menu = true;
-}
-
-void Game_Manager::update_units()
-{
-    m_mouse_over_actions = false;
-
-    for (std::shared_ptr<Unit> &unit : m_units) {
-        unit->update();
-        if (unit->is_selected() == 1)
-        {
-            if (unit->is_mouse_over_actions())
-            {
-            //    cout << "touttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttouttout probleme" << endl;
-                m_mouse_over_actions = true;
-            }
-
-
-        }
-    }
-}
 
 
 void Game_Manager::draw()
@@ -229,51 +172,6 @@ void Game_Manager::create_map(int map_width, int map_height)
    
 }
 
-void Game_Manager::draw_selection()
-{
-
-    if (m_x_cursor >= 0 && m_x_cursor < GRID_WIDTH && m_y_cursor >= 0 && m_y_cursor < GRID_HEIGHT)
-    {
-        //show height
-        stringstream ss;
-        ss << m_grid(m_x_cursor, m_y_cursor).height;
-        string str = ss.str();
-        string path1 = "height " + str;
-        selection_text[0].refill(path1);
-        selection_text[0].draw(0, window_vec.y - 550, 24);
-
-        stringstream ss2;
-        ss2 << m_grid(m_x_cursor, m_y_cursor).m_x_pos;
-        str = ss2.str();
-        path1 = "x: " + str;
-        selection_text[1].refill(path1);
-        selection_text[1].draw(0, window_vec.y - 450, 24);
-
-
-        stringstream ss3;
-        ss3 << m_grid(m_x_cursor, m_y_cursor).m_y_pos;
-        str = ss3.str();
-        path1 = "y: " + str;
-        selection_text[1].refill(path1);
-        selection_text[1].draw(0, window_vec.y - 350, 24);
-
-        tile_description(m_x_cursor, m_y_cursor);
-    }
-}
-
-void Game_Manager::tile_description(int tile_x, int tile_y)
-{
-    if (m_grid(tile_x, tile_y).ressource_type == RSC_WOOD)
-    {
-        tile_info.refill("Frêne");
-    }
-    else
-    {
-        tile_info.refill("Lieu vierge");
-    }
-
-    tile_info.draw(0, window_vec.y - 700, 24);
-}
 
 void Game_Manager::highlight_selected_tile()
 {
@@ -291,13 +189,7 @@ void Game_Manager::handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_ve
         return;
     }
 
-    //TODO check all units, not only citizen 0
-    for (shared_ptr<Unit> &unit : m_units) {
-        if (unit->handle_mouse_click(m_selection_vector, click, m_x_cursor, m_y_cursor))
-        {
-            // m_info.fill(unit->get_name());
-        }
-    }
+   
 }
 
 int Game_Manager::count_neighbours(unsigned int i, unsigned int j, Caracteristic typeorzoneorheight, int value, bool diagonal)

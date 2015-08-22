@@ -19,8 +19,8 @@ Glissor::Glissor(const Glissor &glissor_get)
 }
 
 Glissor::Glissor(RenderWindow *app, int x, int y, int window_x, int window_y, View *view1)
-: m_bar(app, "ressources/bar.png", view1)
-, m_cursor_bar(app, "ressources/cursor_bar.png", view1)
+: m_bar(app, "resources/bar.png", view1)
+, m_cursor_bar(app, "resources/cursor_bar.png", view1)
 {
     m_view1 = view1;
     m_window_x = window_x;

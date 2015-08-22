@@ -24,7 +24,7 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
     
     m_content = content;
 
-    if(My_Text::m_font1.loadFromFile("ressources/font2.ttf"))
+    if(My_Text::m_font1.loadFromFile("resources/font2.ttf"))
     {
         if(color)
         {
@@ -47,7 +47,7 @@ void My_Text::init(RenderWindow *app, std::string content, int character_size, b
 void My_Text::init(RenderWindow *app, std::string content, int character_size, bool color, int color_r,  int color_g, int color_b)
 {
     m_app = app;
-    if(m_font1.loadFromFile("ressources/font2.ttf"))
+    if(m_font1.loadFromFile("resources/font2.ttf"))
     {
         m_current_color = {
 		static_cast<uint8_t>(color_r), static_cast<uint8_t>(color_g), static_cast<uint8_t>(color_b)};

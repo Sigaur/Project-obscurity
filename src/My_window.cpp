@@ -1,8 +1,8 @@
 #include "My_window.h"
 
 My_window::My_window(RenderWindow *app, string name,  float width, float height, int x, int y, View *view1, int screen_x, int screen_y)
-: window_sprite(app, "ressources/window.png", view1)
-, grip_bar(app, "ressources/grip_bar.png", view1)
+: window_sprite(app, "resources/window.png", view1)
+, grip_bar(app, "resources/grip_bar.png", view1)
 , m_cross(app, true, 0, 0, 1000 * width - 32, view1)
 {
     moving = false;

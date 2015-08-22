@@ -81,7 +81,7 @@ My_Sprite::My_Sprite(RenderWindow *app, std::string file, View *view, int file_n
     }
     if(file_check.is_open() == false && rand_limit == 1 )
     {
-        m_texture.loadFromFile("ressources/empty.png");
+        m_texture.loadFromFile("rssources/empty.png");
     }
     else
     {
@@ -162,48 +162,6 @@ void My_Sprite::add_sprite(My_Sprite added_sprite, string save_slot, int width)
 
     FileLoader<Texture>::loadFile(m_texture, save_slot);
     m_file = save_slot;
-    m_sprite.setTexture(m_texture);
-}
-
-void My_Sprite::add_sprite(My_Sprite added_sprite, int sunlight_get)
-{
-    m_animation_rect.height = 64;
-    m_animation_rect.width = 128;
-    m_animation_rect.top = 0;
-    m_animation_rect.left = 0;
-    int sunlight = - sunlight_get* 17;
-
-    Texture texture2;
-
-    Image background;
-    FileLoader<Image>::loadFile(background, m_file);
-    Image background2;
-    FileLoader<Image>::loadFile(background2, added_sprite.get_file());
-
-    sf::Image image;
-    image.create(128, 64);
-    // Copy image1 on image2 at position (10, 10)
-    image.copy(background, 0, 0,  IntRect(0, 0, 128, 64));
-    image.copy(background2, 0, 0, IntRect(0, 0, 128, 64),true);
-    Color ancient_pixel;
-
-    for(int i = 0; i< 128; i++)
-    {
-        for(int j = 0; j< 64; j++)
-        {
-            ancient_pixel = image.getPixel(i, j );
-            ancient_pixel.r += sunlight  ;
-            ancient_pixel.g += sunlight ;
-            ancient_pixel.b += sunlight ;
-
-            image.setPixel(i, j, ancient_pixel );
-        }
-    }
-    image.saveToFile("ressources/generated/character/character01.png");
-
-
-    m_texture.loadFromFile("ressources/generated/character/character01.png");
-    m_file ="ressources/generated/character/character01.png";
     m_sprite.setTexture(m_texture);
 }
 

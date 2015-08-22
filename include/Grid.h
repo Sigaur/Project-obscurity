@@ -5,10 +5,8 @@
 #include <string>
 
 #include "My_Sprite.h"
-#include "Sprite_Creator.h"
 #include "Tile.h"
 
-#include "Unit.h"
 
 
 
@@ -24,15 +22,11 @@ public:
     /* Check if coordinate is valid within this grid. */
     bool is_valid(Coordinate coord);
     void draw();
-	void rotateRight(vector <shared_ptr<Unit>> m_units);
-	void rotateLeft(vector <shared_ptr<Unit>> m_units);
-    Resource get_ressource();
 private:
     std::vector<std::vector<Tile> > m_grid;
 	std::vector<Resource> m_resource;
     sf::View *m_view1;
     sf::RenderWindow *m_app;
-    Sprite_Creator m_sprite_creator1;
     Clock clock1;
     Time time1;
 };

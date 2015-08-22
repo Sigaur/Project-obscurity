@@ -1,7 +1,7 @@
 #include "Button.h"
 
 Button::Button(RenderWindow *app, string name, int x, int y, int window_x, int window_y, View *view1)
-    : button_sprite(app, "ressources/button.png", view1)
+    : button_sprite(app, "resources/button.png", view1)
 {
     m_x = x;
     m_y = y;
@@ -39,7 +39,7 @@ Button::Button(RenderWindow *app_get, string name_get, bool a_file, int x_get, i
 }
 
 Button::Button(RenderWindow *app, bool is_cross, int window_x, int window_y, int window_w, View *view1)
-    : button_sprite(app, "ressources/cross.png", view1)
+    : button_sprite(app, "resources/cross.png", view1)
 {
     m_app = app;
     m_view1 = view1;

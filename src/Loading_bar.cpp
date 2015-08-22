@@ -20,8 +20,8 @@ Loading_bar::Loading_bar(const Loading_bar &Loading_bar)
 }
 
 Loading_bar::Loading_bar(RenderWindow *app, int x, int y, int window_x, int window_y, View *view1)
-    : m_bar(app, "ressources/bar.png", view1)
-    , m_loading_bar(app, "ressources/bar_loading.png", view1)
+    : m_bar(app, "resources/bar.png", view1)
+    , m_loading_bar(app, "resources/bar_loading.png", view1)
 {
     m_view1 = view1;
     m_window_x = window_x;

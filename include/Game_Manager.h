@@ -8,11 +8,7 @@
 #include <string>
 #include <cmath>
 
-#include "Builder_gui.h"
-#include "Building.h"
 #include "Button.h"
-#include "City.h"
-#include "dialog.h"
 #include "Key_event.h"
 #include "Grid.h"
 #include "Hud.h"
@@ -20,9 +16,6 @@
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
-#include "PerlinNoise.h"
-#include "Sprite_Creator.h"
-#include "Unit.h"
 
 
 using namespace sf;
@@ -55,11 +48,7 @@ private:
     void draw_gui();
     int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
     void draw_selection();
-    void draw_building_selection();
-    void draw_resources();
-    void tile_description(int tile_x, int tile_y);
 	void handle_mouse_click(sf::Mouse::Button click, Vector2i mouse_vec);
-    void move_unit(int unit_id);
     bool handle_input_events();
     void update_units();
 	void highlight_selected_tile();
@@ -81,20 +70,10 @@ private:
     bool m_mouse_over_actions;
 
     Menu menu1;
-    Builder_gui m_builder_gui;
-    Clock clock_zoom;
-    sf::Time zoom_time;
     bool open_window, is_info;
     int x_offset;
-    int water_rate;
-    int sand_rate;
-    int deep_sea_rate;
-    int deep_sea_expansion_rate;
     int y_offset;
 
-    Zoom_change zoom_change;
-    float zoom;
-    float zoom_rate;
 
     static const int GRID_WIDTH = 40;
     static const int GRID_HEIGHT = 40;
@@ -109,12 +88,6 @@ private:
     My_Sprite selection_sprite;
     My_Sprite action_sprite;
     My_Text selection_text[5], tile_info;
-    vector<My_window> windows;//1  for citizen window
-    vector<Building> m_buildings;
-    int wood, iron, sand, glass, rock;
-    dialog m_dialog;    
-    std::vector<std::shared_ptr<Unit> > m_units;
-    std::vector<City> m_cities;
 
 };
 
