@@ -41,14 +41,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 	CreationMap(difficuler);
 
-	
+
 	//////MAP GENERATION////////
 	
 	afficherMapobjet(Map);
 
 	afficherMapLight(Map);
 
-		//while (true){}
 		
     for (int i = 0; i < 2; i++)
     {
@@ -396,7 +395,7 @@ void Game_Manager::CreationMap(int difficulter)
 	for (int i = 0; i < NBCASE; i++)
 	{
 		ordre = randomplace();
-		obstacle = rand() % (NBLIGNE - 1);
+		obstacle = rand() % (NBCASE - 1);
 		caillou = rand() % (obstacle + 1);
 		mob = obstacle - caillou;
 
@@ -406,16 +405,16 @@ void Game_Manager::CreationMap(int difficulter)
 			//la premiere ligne est vide
 			if (i == 0)
 			{
-				Map[i][j].setMajoriter(i, j, 1, 0, 0);
+				Map[i][j].setMajoriter(i, j, 1, 0, 0 ,0);
 			}
 			else if(caillou > 0)
 			{
-				Map[i][j].setMajoriter(i, j, 1, 1 + rand() % NBCAILLOU, 0);
+				Map[i][j].setMajoriter(i, j, 1, 1 + rand() % NBCAILLOU , 0, 0);
 				caillou--;
 			}
 			else if (mob > 0)
 			{	//on definie un mob de la liste de mob definie
-				Map[i][j].setMajoriter(i, j, 1, 0, 1 + rand() % NBMOB);
+				Map[i][j].setMajoriter(i, j, 1, 0, 1 + rand() % NBMOB , 0);
 				mob--;
 			}
 			else
@@ -464,6 +463,7 @@ void Game_Manager::CreationMap(int difficulter)
 			int nbrObst = rand() % difficulter;
 			int currentObst = 0;
 
+
 			while (currentObst < nbrObst)
 			{
 				int rndY = rand() % 5;
@@ -499,9 +499,11 @@ void Game_Manager::CreationMap(int difficulter)
 void afficherMapobjet(Box Map[MAXY][MAXX])
 {
 	cout << endl;
+
 	for (int i = 0; i < MAXY ; i++)
 	{
 		for (int j = 0; j < MAXX; j++)
+
 		{
 			
 			cout << Map[i][j].getObject()<<" ";
@@ -520,6 +522,7 @@ void afficherMapLight(Box Map[MAXY][MAXX])
 		{
 
 			cout << Map[i][j].getLight() <<" ";
+
 		}
 		cout << endl;
 	}

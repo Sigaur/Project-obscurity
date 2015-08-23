@@ -108,7 +108,7 @@ private:
 	My_Sprite world_sprite;
 	Box Map[MAXY][MAXX];
 	
-};
+}; 
 
 
 int* randomplace();
