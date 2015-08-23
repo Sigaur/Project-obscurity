@@ -19,7 +19,7 @@ Player::Player(RenderWindow *app, View *view1)
 	, m_VAIsUnlocked(1)
 	, m_VACostLvl(20)
 	, m_VACoolDownLvl(5)
-	, m_VADistanceLvl(1)
+	, m_VADistanceLvl(10)
 	, m_VACurrentDist(1)
 	, m_VACurrentCoolDown(0)
 
@@ -31,7 +31,7 @@ Player::Player(RenderWindow *app, View *view1)
 	, m_INCurrentCoolDown(0)
 
 	, playerState(MOVING)
-    
+	, m_etheral(0)
 
 {
     m_view1 = view1;
@@ -123,6 +123,7 @@ int Player::isLight()
 
 void Player::setLight(int set)
 {
+	cout << "Light ->" << set << endl;
 	m_isLight = set;
 }
 
@@ -217,5 +218,6 @@ void Player::vanish()
 {
 	m_energy -= m_VACostLvl;
 	m_VACurrentDist = 0.0;
-	playerState = LIGHT;
+	playerState = VANISH;
+	m_etheral = 1;
 }
