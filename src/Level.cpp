@@ -180,42 +180,6 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 	return Map;
 }
 
-int* randomplace()
-{
-
-	int max = 4, min = 0;
-	
-	//genere aleatoirement la suite de 0 a 4
-	int j = 4;
-	int tampon;
-	int *lign=new int[NBCASE];
-	
-	for (int i = 0; i < NBCASE; i++)
-		{
-			lign[i] = 0;
-		}
-
-
-	do{
-	
-		tampon =rand() % (NBCASE + 1 );
-	
-
-		if (lign[tampon] == 0)
-			{
-				lign[tampon] = j; j--;
-
-				if (tampon >= max){ max = tampon - 1; }
-				if (tampon <= min){ min = tampon + 1; }
-
-			}
-	
-
-	
-		} while (j > 0);
-
-	return lign;
-}
 
 
 

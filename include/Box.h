@@ -7,8 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define NBCASE 5
-#define NBLIGNE 20
+
 
 using namespace std;
 
@@ -70,13 +69,14 @@ public:
 	int getObject();
 	int getMob();
 	int getLight();
-	int setX(int Y);
-	int setY(int X);
-	int setBackground(int Background);
-	int setObject(int Object);
-	int setMob(int Mob);
-	int setLight(int Light);
+	void setX(int Y);
+	void setY(int X);
+	void setBackground(int Background);
+	void setObject(int Object);
+	void setMob(int Mob);
+	void setLight(int Light);
 
+	void setMajoriter(int Y, int X, int Background, int Object, int Mob);
 
 private:
 	int m_X;
