@@ -84,21 +84,26 @@ void Player::draw()
     }
 
     //
-    cooldown_sprite.scale(1.0f, ((float)m_FDCoolDownLvl / (m_FDCurrentCoolDown+1.0f ))/ 5.0f );
 
     dash_sprite.draw(500, 0);
-    cooldown_sprite.draw(500, 0);
+    if (!isFDReady() ) 
+    {
+        cooldown_sprite.draw(500, 0);
 
-    cooldown_sprite.scale(1.0f, m_FDCoolDownLvl / m_FDCurrentCoolDown);
+    }
+
 
     vanish_sprite.draw(500 + invincibility_sprite.get_w(), 0);
-    cooldown_sprite.draw(500 + invincibility_sprite.get_w(), 0);
-
-    cooldown_sprite.scale(1.0f, m_INCoolDownLvl / m_INCurrentCoolDown);
+    if (!isVAReady())
+    {
+        cooldown_sprite.draw(500 + invincibility_sprite.get_w(), 0);
+    }
 
     invincibility_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
-    cooldown_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
-    cout << "blaojo" << m_FDCoolDownLvl <<" "<<m_FDCurrentCoolDown << endl;
+    if (!isINReady())
+    {
+        cooldown_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
+    }
 }
 
 
