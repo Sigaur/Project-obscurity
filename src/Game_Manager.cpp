@@ -8,8 +8,12 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	: m_view1(view1)
 	, menu1(app, &m_view2)
 	, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-	, selection_sprite(app, "resources/selection.png", &m_view1)
-	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , selection_sprite(app, "resources/selection.png", &m_view1)
+    , light_bar(app, "resources/light_bar.png", &m_view1)
+    , light_bar_background(app, "resources/light_bar_background.png", &m_view1)
+    , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
+  
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
@@ -23,6 +27,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
+
+    energy_text.init(app, "100", 50, 1);
 
     m_app = app;
     m_app->setView(m_view1);
@@ -322,7 +328,11 @@ void Game_Manager::draw()
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
     myPlayer.draw();
-
+    light_bar_background.draw(m_screen_x - light_bar_background.get_w(), 0);
+    light_bar.draw(m_screen_x + 28 - light_bar_background.get_w(), 40);
+    light_bar_grad.draw(m_screen_x - light_bar_background.get_w(), 0);
+    energy_text.refill(to_string(myPlayer.getEnergy() ) );
+    energy_text.draw(0, 0, 55);
     }
     m_app->display();
 }

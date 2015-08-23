@@ -110,8 +110,11 @@ private:
     vector<My_Sprite> m_box_background;
     vector<My_Sprite> m_light_sprites;
     My_Sprite action_sprite;
+    My_Sprite light_bar;
+    My_Sprite light_bar_background;
+    My_Sprite light_bar_grad;
     My_Text selection_text[5], tile_info;
-
+    My_Text energy_text;
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
