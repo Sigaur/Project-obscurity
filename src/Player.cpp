@@ -144,7 +144,10 @@ int Player::update(float secTime)
 	}
 	else
 	{
-		playerState = MOVING;
+		if (playerState == LIGHT)
+		{
+			playerState = MOVING;
+		}
 		if (m_totalLight != 0.0)
 		{
 			if (m_totalLight > 0.0)

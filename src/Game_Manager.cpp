@@ -95,7 +95,7 @@ void Game_Manager::execute_action(Action action)
 		if (myPlayer.getPosY() > 0)
 		{
 			if (((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (Map[posYpla - 1][posXPla].getObject() == 0))
-				|| ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05))))
+				|| ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75)))
 			{
 				myPlayer.moveUp();
 			}
