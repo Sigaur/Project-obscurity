@@ -61,6 +61,7 @@ public:
 	void CreationMonde2(int difficulter);//monde que de mob
 	void CreationMonde3(int difficulter);//monde sans mob
 	void CreationMonde4(int difficulter);
+	void CreationMonde5(int difficulter);
 
 	void passagesecuriser(int colonne, int difficulter);
 	void passagesecuriserMonde1(int difficulter);

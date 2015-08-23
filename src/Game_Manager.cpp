@@ -1112,12 +1112,63 @@ void Game_Manager::CreationMonde4(int difficulter)
 		}
 	}
 
-
 		Lumiere(1);
-	
-
-
 }
+
+void Game_Manager::CreationMonde5(int difficulter)
+{//un chemin de lumiere le reste du vide
+
+	resetMap();
+
+
+
+	int current = 3, precedent;
+
+	for (int x = 3; x < MAXX; x++)
+	{
+		precedent = current;
+		current = modifcourant(current);
+		cout << " diff =" << current - precedent << endl;
+
+
+
+		for (int y = 0; y < MAXY; y++)
+		{
+
+			if (y == current)
+			{
+				Map[y][x].setLight(rand() % 2 + 3);
+			}
+			else if (y != precedent)
+			{
+				if (rand() % 3 != 0)
+				{
+					
+				}
+				else
+				{
+					//vide
+				}
+
+			}
+			else
+			{
+				if (rand() % 2 == 0)
+				{
+					Map[y][x].setMob(1);
+				}
+				else
+				{
+					//vide
+				}
+			}
+
+		}
+	}
+
+	Lumiere(1);
+}
+
 
 int Game_Manager::modifcourant(int actuel)
 {
