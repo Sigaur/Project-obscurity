@@ -49,8 +49,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
           string path = "resources/background" + std::to_string(i) + ".png";
           m_box_background.push_back(My_Sprite{ m_app, path, &m_view1 });
       }
-
-
+      
+          for (int i = 0; i < 3; i++)
+          {
+              string path = "resources/light" + std::to_string(i) + ".png";
+              m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
+          }
+      
 	CreationMap(difficuler);
 
 
@@ -496,7 +501,7 @@ void Game_Manager::CreationMap(int difficulter)
 				int rndY = rand() % 5;
 				if (Map[rndY][x].getLight() == 0)
 				{
-					Map[rndY][x].setLight(1);////////////Differents sprites
+                    Map[rndY][x].setLight(rand() % 3 + 2);////////////Differents sprites
 					currentLight++;
 				}
 			}
@@ -512,7 +517,6 @@ void Game_Manager::CreationMap(int difficulter)
 
 void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
-	cout << endl;
 
 	for (int i = 0; i < MAXY ; i++)
 	{
@@ -524,11 +528,13 @@ void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
             {
                 m_box_sprites[Map[i][j].getObject() - 1].draw(j * 248, i * 216);
             }
+            if (Map[i][j].getLight() < 3)
+            {
+                m_light_sprites[Map[i][j].getLight()].draw(j * 248, i * 216);
+            }
 			//cout << "obj"<< Map[i][j].getObject()<<" ";
 		}
-	cout << endl;
 	}
-	cout << endl;
 }
 
 void Game_Manager::afficherMapLight(Box Map[MAXY][MAXX])

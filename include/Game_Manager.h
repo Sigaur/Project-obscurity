@@ -107,6 +107,7 @@ private:
     My_Sprite selection_sprite;
     vector<My_Sprite> m_box_sprites;
     vector<My_Sprite> m_box_background;
+    vector<My_Sprite> m_light_sprites;
     My_Sprite action_sprite;
     My_Text selection_text[5], tile_info;
 
