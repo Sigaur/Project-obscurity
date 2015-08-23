@@ -51,6 +51,7 @@ public:
     void set_building_menu();
     void create_city(int x, int y);
     void CreationMap(int difficulter);
+	void CreationMapbis(int difficulter);
     int* randomplace();
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
@@ -109,12 +110,15 @@ private:
     vector<My_Sprite> m_box_background;
     vector<My_Sprite> m_light_sprites;
     My_Sprite action_sprite;
+    My_Sprite light_bar;
+    My_Sprite light_bar_background;
+    My_Sprite light_bar_grad;
     My_Text selection_text[5], tile_info;
-
+    My_Text energy_text;
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
-	Box Map[MAXY][MAXX];
+	Box Map[MAXY][MAXX];//[5][20]
 	
 }; 
 

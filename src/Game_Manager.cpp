@@ -8,8 +8,12 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	: m_view1(view1)
 	, menu1(app, &m_view2)
 	, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-	, selection_sprite(app, "resources/selection.png", &m_view1)
-	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , selection_sprite(app, "resources/selection.png", &m_view1)
+    , light_bar(app, "resources/light_bar.png", &m_view1)
+    , light_bar_background(app, "resources/light_bar_background.png", &m_view1)
+    , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
+  
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
@@ -23,6 +27,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
+
+    energy_text.init(app, "100", 50, 1);
 
     m_app = app;
     m_app->setView(m_view1);
@@ -56,13 +62,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
       
-	CreationMap(difficuler);
+		  CreationMapbis(difficuler);
 
 
 	//////MAP GENERATION////////
 	
 	afficherMapobjet(Map);
-
+	cout << endl;
 	afficherMapLight(Map);
 
 		
@@ -324,7 +330,11 @@ void Game_Manager::draw()
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
     myPlayer.draw();
-
+    light_bar_background.draw(m_screen_x - light_bar_background.get_w(), 0);
+    light_bar.draw(m_screen_x + 28 - light_bar_background.get_w(), 40);
+    light_bar_grad.draw(m_screen_x - light_bar_background.get_w(), 0);
+    energy_text.refill(to_string(myPlayer.getEnergy() ) );
+    energy_text.draw(0, 0, 55);
     }
     m_app->display();
 }
@@ -409,63 +419,7 @@ void Game_Manager::set_info()
 
 void Game_Manager::CreationMap(int difficulter)
 {
-	/*int mob, caillou, obstacle;
-	int *ordre = NULL;
-
-
-	for (int i = 0; i < NBCASE; i++)
-	{
-		ordre = randomplace();
-		obstacle = rand() % (NBCASE - 1);
-		caillou = rand() % (obstacle + 1);
-		mob = obstacle - caillou;
-
-		for (int j = 0; j < NBLIGNE; j++)
-		{
-		
-			//la premiere ligne est vide
-			if (i == 0)
-			{
-				Map[i][j].setMajoriter(i, j, 1, 0, 0 ,0);
-			}
-			else if(caillou > 0)
-			{
-				Map[i][j].setMajoriter(i, j, 1, 1 + rand() % NBCAILLOU , 0, 0);
-				caillou--;
-			}
-			else if (mob > 0)
-			{	//on definie un mob de la liste de mob definie
-				Map[i][j].setMajoriter(i, j, 1, 0, 1 + rand() % NBMOB , 0);
-				mob--;
-			}
-			else
-			{//par defaut on met du vide sinon
-				Map[i][j].setMajoriter(i, j, 1, 0, 0);
-			}
-			
-		}
-	}
-
-	for (int i = 0; i < NBCASE - 1; i++)
-	{
-		for (int j = 0; j < NBLIGNE; j++)
-		{
-			if (Map[i + 1][j].getMob() != 0)
-			{
-				Map[i][j].setLight(1);
-			}
-			else
-			{
-				Map[i][j].setLight(0);
-			}
-		}
-	}
-
-	//la derniere ligne est toujour dans le noir
-	for (int j = 0; j < NBCASE; j++)
-	{
-		Map[j][NBLIGNE].setLight(0);
-	}*/
+	
 
 
 	for (size_t x = 0; x < MAXX; x++)
@@ -517,6 +471,134 @@ void Game_Manager::CreationMap(int difficulter)
 
 }
 
+void Game_Manager::CreationMapbis(int difficulter)
+{
+
+	int background = 0;// a remplacer par rand()%NBbackground
+
+	for (int x = 0; x < MAXX; x++)
+	{
+		for (int y = 0; y < MAXY; y++)
+		{
+			Map[y][x].setMajoriter(y, x, background, 0, 0, 0);
+		}
+	}
+
+
+
+
+	int nbrmob = 0,  obstacle = 0, nbrLight = 0;
+	int *ordre = NULL;
+	int currentLight = 0, currentObst = 0, currentMob = 0;
+	int rndY=0;
+
+	for (int x = 5; x < MAXX; x++)
+	{
+		if (x % 4 == 0)//ligne vide
+		{
+			for (int y = 0; y < MAXY; y++){ Map[y][x].setMajoriter(y, x, 1, 0, 0, 0); }
+
+
+		}
+		else if (x % 2 == 0)
+		{ //a faire recherche de chemin safe §§§§§§§§§§§§§§§§§§§§§ pour l'instant entierement vide
+			for (int y = 0; y < MAXY; y++){ Map[y][x].setMajoriter(y, x, 1, 0, 0, 0); }
+		}
+		else{
+			
+			currentObst = NULL;
+			currentLight = NULL;
+			currentMob = NULL;
+
+			obstacle = rand() % difficulter;
+			if (obstacle > 0)
+				{
+					cout << "a";
+					nbrmob = rand() % obstacle;
+					obstacle -= nbrmob;
+					cout << "a"; 
+					cout << endl << nbrmob << " " << obstacle ;
+				}
+			nbrLight = rand() % (difficulter-1);
+
+			
+
+//pose des obstacles
+			if (obstacle != 0)
+			{
+				while (currentObst < obstacle)
+				{
+					rndY = rand() % 5;
+					if (Map[rndY][x].getObject() == 0)
+					{
+						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
+						currentObst++;
+					}
+				}
+			}
+//pose des mobs
+
+			if (nbrmob != 0)
+			{
+				while (currentMob < nbrmob)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
+					{
+						Map[rndY][x].setMob(1);////////////Differents sprites
+						currentMob++;
+					}
+				}
+			}
+//pose des lumiere natuel
+			if (nbrLight != 0)
+			{
+				while (currentLight < nbrLight)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getLight() == 0)
+					{
+						Map[rndY][x].setLight(rand() % 2 + 3);////////////Differents sprites
+						currentLight++;
+					}
+				}
+			}
+		}
+
+
+	}
+
+	//-------------------------------------------------------------------------------
+	//---------------  Mise de la lumiere du au mob  --------------------------------
+	//-------------------------------------------------------------------------------
+
+
+
+	for (int y = 0; y < MAXY ; y++)
+	{
+		for (int x = 0; x < MAXX - 1; x++)
+		{
+			if (Map[y][x + 1].getMob() != 0)
+			{
+				Map[y][x].setLight(2);
+			}
+			else
+			{
+				
+			}
+		}
+	}
+
+	//la derniere ligne est toujour dans le noir
+	for (int y = 0; y < MAXY; y++)
+	{
+		Map[y][MAXX].setLight(0);
+	}
+
+
+
+
+}
 void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
 
