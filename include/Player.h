@@ -53,6 +53,10 @@ private:
     vector<My_Sprite> player_sprite;
     View *m_view1;
     RenderWindow *m_app;
+    My_Sprite cooldown_sprite;
+    My_Sprite dash_sprite;
+    My_Sprite invincibility_sprite;
+    My_Sprite vanish_sprite;
 
 	float m_posY;
 	float m_posX;

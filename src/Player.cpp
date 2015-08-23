@@ -32,7 +32,10 @@ Player::Player(RenderWindow *app, View *view1)
 
 	, playerState(MOVING)
 	, m_etheral(0)
-
+    , cooldown_sprite(app, "resources/cooldown.png", view1)
+    , dash_sprite(app, "resources/dash.png", view1)
+    , vanish_sprite(app, "resources/vanish.png", view1)
+    , invincibility_sprite(app, "resources/invincibility.png", view1)
 {
     m_view1 = view1;
     m_app = app;
@@ -76,6 +79,23 @@ void Player::draw()
     {
         player_sprite[5].draw((m_posX * 248 - 20), m_posY * 216);
     }
+
+    //
+    cooldown_sprite.scale(1.0f, ((float)m_FDCoolDownLvl / (m_FDCurrentCoolDown+1.0f ))/ 5.0f );
+
+    dash_sprite.draw(500, 0);
+    cooldown_sprite.draw(500, 0);
+
+    cooldown_sprite.scale(1.0f, m_FDCoolDownLvl / m_FDCurrentCoolDown);
+
+    vanish_sprite.draw(500 + invincibility_sprite.get_w(), 0);
+    cooldown_sprite.draw(500 + invincibility_sprite.get_w(), 0);
+
+    cooldown_sprite.scale(1.0f, m_INCoolDownLvl / m_INCurrentCoolDown);
+
+    invincibility_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
+    cooldown_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
+    cout << "blaojo" << m_FDCoolDownLvl <<" "<<m_FDCurrentCoolDown << endl;
 }
 
 

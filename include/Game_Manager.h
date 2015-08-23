@@ -28,7 +28,7 @@
 #define NBCAILLOU 2
 #define NBMOB 2*/
 #define MAXY 5
-#define MAXX 20
+#define MAXX 200
 using namespace sf;
 
 enum Caracteristic {
@@ -50,14 +50,23 @@ public:
     void set_info();
     void set_building_menu();
     void create_city(int x, int y);
-    void CreationMap(int difficulter);
-	void CreationMapbis(int difficulter);
-    int* randomplace();
+
+
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
-	void passagesecuriser(int colonne);
 
+	void CreationMonde1obsolete1(int difficulter);
+	void CreationMonde1obsolete2(int difficulter);
+	void CreationMonde1(int difficulter);
+	void CreationMonde2(int difficulter);//monde que de mob
+	void CreationMonde3(int difficulter);//monde sans mob
 
+	void passagesecuriser(int colonne, int difficulter);
+	void passagesecuriserMonde1(int difficulter);
+	void passagesecuriserMonde3(int difficulter);
+
+	void resetMap();
+	void Lumiere(int portee);
 
     virtual ~Game_Manager() = default;
     Hud interface1;
@@ -120,7 +129,7 @@ private:
 	Player myPlayer;
 	My_Sprite world_sprite;
 	Box Map[MAXY][MAXX];//[5][20]
-	int difficuler;
+	int difficulter;
 }; 
 
 
