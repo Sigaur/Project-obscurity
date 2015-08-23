@@ -99,7 +99,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 			  break;
 		  }
 		  */
-		  CreationMonde3(difficulter);
+		  CreationMonde1(difficulter);
 	//////MAP GENERATION////////
 	
 	afficherMapobjet(Map);
@@ -321,6 +321,14 @@ void Game_Manager::update(float secTime)
 			&& (retour != 2)))
 		{
 			execute_action(ACT_GO_LEFT);
+		}
+		else 
+		{
+			if ((myPlayer.playerState == SMASHED) && (Map[posYpla][posXPla + 2].getObject() == 0))
+			{
+				myPlayer.playerState = MOVING;
+			}
+			
 		}
 
 		if ((Map[posYpla][posXPla + 1].getLight() != 0) || (Map[posYpla][posXPla].getLight() != 0))
