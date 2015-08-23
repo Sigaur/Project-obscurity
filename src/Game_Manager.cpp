@@ -62,12 +62,12 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               string path = "resources/light" + std::to_string(i) + ".png";
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
-      
+		  /*
 		  int choix = 0;
 
 	
 			  cout << endl << " choix du generateur de map (de monde) entre 0 et x :";
-			  cin >> choix;
+			  cin >>  ;
 
 	
 
@@ -78,7 +78,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 		  } while (difficulter <= 2 && difficulter >= 5);
 
 		  if (difficulter < 3){ difficulter = 2; }
-
+		  
 		  switch (choix)
 		  {
 		  case 1:CreationMonde1(difficulter);
@@ -98,8 +98,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 		  default:CreationMonde1(difficulter);
 			  break;
 		  }
-
-
+		  */
+		  CreationMonde3(difficulter);
 	//////MAP GENERATION////////
 	
 	afficherMapobjet(Map);
@@ -113,7 +113,14 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
         selection_text[i].change_font("resources/font2.ttf");
     }
 
-  
+
+    if (!music.openFromFile("resources/music.ogg"))
+    {
+        cout << "music init failed" << endl;
+    }
+    music.setLoop(true);
+
+    music.play();
 
 }
 
@@ -142,7 +149,7 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
 	case ACT_FRONT_DASH:		
-		if (myPlayer.getEnergy() - myPlayer.getDashCost() >= 0)
+		if ((myPlayer.getEnergy() - myPlayer.getDashCost() >= 0) && (myPlayer.isFDReady()))
 		{
 			myPlayer.dash();
 		}

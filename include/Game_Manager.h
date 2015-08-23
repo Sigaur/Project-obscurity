@@ -9,7 +9,7 @@
 #include <cmath>
 #include <stdlib.h>
 #include <time.h>
-
+#include <SFML/Audio.hpp>
 #include "Box.h"
 #include "Button.h"
 #include "Key_event.h"
@@ -86,7 +86,8 @@ private:
 	void highlight_selected_tile();
     void execute_action(Action action);
     void handle_mouse_at_window_border(int x_mouse, int y_mouse);
-
+ Music music;
+   
     Key_event_handler key_event;
     RenderWindow *m_app;
     View m_view1;

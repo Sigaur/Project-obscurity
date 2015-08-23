@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
@@ -47,6 +48,9 @@ public:
 	int getVanishCost();
 	void vanish();
 	State playerState;
+	int isFDReady();
+	int isVAReady();
+	int isINReady();
 
 private:
 
@@ -57,6 +61,9 @@ private:
     My_Sprite dash_sprite;
     My_Sprite invincibility_sprite;
     My_Sprite vanish_sprite;
+
+    sf::SoundBuffer dash_buffer;
+    sf::Sound dash_sound;
 
 	float m_posY;
 	float m_posX;
@@ -77,6 +84,7 @@ private:
 	float m_FDDistanceLvl;
 	float m_FDCurrentDist;
 	float m_FDCurrentCoolDown;
+	
 
 	///Vanishing///
 	int m_VAIsUnlocked;
@@ -86,6 +94,7 @@ private:
 	float m_VACurrentDist;
 	float m_VACurrentCoolDown;
 
+
 	///Invincibility///
 	int m_INIsUnlocked;
 	int m_INCostLvl;
@@ -93,6 +102,7 @@ private:
 	float m_INDistanceLvl;
 	float m_INCurrentDist;
 	float m_INCurrentCoolDown;
+
 
 	int m_etheral;
 };

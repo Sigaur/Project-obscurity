@@ -11,10 +11,10 @@ Player::Player(RenderWindow *app, View *view1)
 
 	, m_FDIsUnlocked(1)
 	, m_FDCostLvl(20)
-	, m_FDCoolDownLvl(5)
+	, m_FDCoolDownLvl(10)
 	, m_FDDistanceLvl(1)
 	, m_FDCurrentDist(1)
-	, m_FDCurrentCoolDown(0)
+	, m_FDCurrentCoolDown(10)
 
 	, m_VAIsUnlocked(1)
 	, m_VACostLvl(20)
@@ -46,6 +46,9 @@ Player::Player(RenderWindow *app, View *view1)
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_vanish.png", m_view1, 248, 5, 1.0f });
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_invincibility.png", m_view1, 248, 5, 1.0f });
 
+    dash_buffer.loadFromFile("resources/dash.ogg");
+
+    dash_sound.setBuffer(dash_buffer);
 }
 
 void Player::draw(float y, float x)
@@ -81,21 +84,26 @@ void Player::draw()
     }
 
     //
-    cooldown_sprite.scale(1.0f, ((float)m_FDCoolDownLvl / (m_FDCurrentCoolDown+1.0f ))/ 5.0f );
 
     dash_sprite.draw(500, 0);
-    cooldown_sprite.draw(500, 0);
+    if (!isFDReady() ) 
+    {
+        cooldown_sprite.draw(500, 0);
 
-    cooldown_sprite.scale(1.0f, m_FDCoolDownLvl / m_FDCurrentCoolDown);
+    }
+
 
     vanish_sprite.draw(500 + invincibility_sprite.get_w(), 0);
-    cooldown_sprite.draw(500 + invincibility_sprite.get_w(), 0);
-
-    cooldown_sprite.scale(1.0f, m_INCoolDownLvl / m_INCurrentCoolDown);
+    if (!isVAReady())
+    {
+        cooldown_sprite.draw(500 + invincibility_sprite.get_w(), 0);
+    }
 
     invincibility_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
-    cooldown_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
-    cout << "blaojo" << m_FDCoolDownLvl <<" "<<m_FDCurrentCoolDown << endl;
+    if (!isINReady())
+    {
+        cooldown_sprite.draw(500 + invincibility_sprite.get_w() * 2, 0);
+    }
 }
 
 
@@ -207,6 +215,18 @@ int Player::update(float secTime)
 		playerState = MOVING;
 	}
 
+	if (m_FDCurrentCoolDown < m_FDCoolDownLvl)
+	{
+		m_FDCurrentCoolDown += secTime;
+	}
+	if (m_VACurrentCoolDown < m_VACoolDownLvl)
+	{
+		m_VACurrentCoolDown += secTime;
+	}
+	if (m_INCurrentCoolDown < m_INCoolDownLvl)
+	{
+		m_INCurrentCoolDown += secTime;
+	}
 	return retour;
 }
 
@@ -234,7 +254,9 @@ void Player::dash()
 {
 	m_energy -= m_FDCostLvl;
 	m_FDCurrentDist = 0.0;
+	m_FDCurrentCoolDown = 0.0;
 	playerState = DASH;
+    dash_sound.play();
 }
 
 int Player::getVanishCost()
@@ -246,6 +268,43 @@ void Player::vanish()
 {
 	m_energy -= m_VACostLvl;
 	m_VACurrentDist = 0.0;
+	m_VACurrentCoolDown = 0.0;
 	playerState = VANISH;
 	m_etheral = 1;
+}
+
+int Player::isFDReady()
+{
+	if (m_FDCurrentCoolDown >= m_FDCoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int Player::isVAReady()
+{
+	if (m_VACurrentCoolDown >= m_VACoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int Player::isINReady()
+{
+	if (m_INCurrentCoolDown >= m_INCoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
