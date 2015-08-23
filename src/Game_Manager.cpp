@@ -40,7 +40,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 
 		Map = generationMap(m_app, &m_view1,1);
-
+	
 		affichage_Level(Map);
 		affichage_Level_light(Map);
 		affichage_Level_patern(Map);

@@ -9,7 +9,7 @@
 
 #define NBCASE 5
 #define NBLIGNE 10
-#define NBTYPE 3
+
 using namespace std;
 
 
@@ -45,7 +45,7 @@ public:
 
 
 	/************************            fonction                          *****************************/
-	
+	void afficher();
 
 
 	/************************            operator                          *****************************/
@@ -63,7 +63,7 @@ public:
 
 };
 
-void afficher_box(Box Box);
+
 Box* creationType();
 
 

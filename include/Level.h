@@ -39,7 +39,7 @@ public:
 
 
 	/************************            fonction                          *****************************/
-		void afficher_box(int valeur);
+		//void afficher_box(int valeur);
 
 	friend Level * generationMap(RenderWindow *app, View *view1, int difficulter);
 
