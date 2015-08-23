@@ -44,7 +44,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	difficulter = 5;
+	_difficulter = 5;
 	for (int i = 0; i < 14; i++)
     {
         string path = "resources/obstacle" + std::to_string(i) + ".png";
@@ -62,50 +62,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               string path = "resources/light" + std::to_string(i) + ".png";
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
-		  /*
-		  int choix = 0;
 
-	
-			  cout << endl << " choix du generateur de map (de monde) entre 0 et x :";
-			  cin >>  ;
 
-	
 
-		  do{
-			  cout << endl << " choix de la difficulter entre 2 et 5 :";
-			  cin >> difficulter;
+		  //////MAP GENERATION////////
+		  ChoixMonde(1, difficulter);
+		 
 
-		  } while (difficulter <= 2 && difficulter >= 5);
-
-		  if (difficulter < 3){ difficulter = 2; }
-		  
-		  switch (choix)
-		  {
-		  case 1:CreationMonde1(difficulter);
-			  break;
-		  case 2:CreationMonde2(difficulter);
-			  break;
-		  case 3:CreationMonde3(difficulter);
-			  break;
-		  case 4:CreationMonde4(difficulter);
-			  break;
-		  case 5:CreationMonde5(difficulter);
-			  break;
-		  case 11:CreationMonde1obsolete1(difficulter);
-			  break;
-		  case 12:CreationMonde1obsolete2(difficulter);
-			  break;
-		  default:CreationMonde1(difficulter);
-			  break;
-		  }
-		  */
-
-	 CreationMonde2(difficulter);
-	//////MAP GENERATION////////
-	
-	afficherMapobjet(Map);
-	cout << endl;
-	afficherMapLight(Map);
 
 		
     for (int i = 0; i < 2; i++)
@@ -1186,7 +1149,47 @@ void Game_Manager::CreationMonde5(int difficulter)
 }
 
 
+void Game_Manager::ChoixMonde(int choix,int difficulter)
+{
+	switch (choix)
+	{
+	case 1:CreationMonde4(difficulter);//classic			=Normal	
+		break;
+	case 2:CreationMonde1(difficulter);//simple				=Classic
+		break;
+	case 3:CreationMonde2(difficulter);//monde que de mob	=time to eat
+		break;
+	case 4:CreationMonde3(difficulter);//monde sans mob		=peacefull
+		break;
+	case 5:CreationMonde5(difficulter);//simple				=easy
+		break;
 
+	default:CreationMonde4( difficulter);
+		break;
+	}
+
+}
+
+void Game_Manager::ChoixDifficulter(int difficulter)
+{
+	switch (difficulter)
+	{
+	case 1:_difficulter = 2;//classic			=Normal	
+		break;
+	case 2:_difficulter = 3;//simple				=Classic
+		break;
+	case 3:_difficulter = 4;//monde que de mob	=time to eat
+		break;
+	case 4:_difficulter = 5;//monde que de mob	=time to eat
+		break;
+
+	default:_difficulter = 2;
+		break;
+	}
+
+
+
+}
 
 int Game_Manager::modifcourant(int actuel)
 {

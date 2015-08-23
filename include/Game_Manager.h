@@ -57,11 +57,15 @@ public:
 
 	void CreationMonde1obsolete1(int difficulter);
 	void CreationMonde1obsolete2(int difficulter);
-	void CreationMonde1(int difficulter);
-	void CreationMonde2(int difficulter);//monde que de mob
-	void CreationMonde3(int difficulter);//monde sans mob
-	void CreationMonde4(int difficulter);
-	void CreationMonde5(int difficulter);
+
+
+
+	void CreationMonde4(int difficulter);//classic			=Normal	
+	void CreationMonde1(int difficulter);//simple			=Classic
+	void CreationMonde2(int difficulter);//monde que de mob =time to eat
+	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
+	void CreationMonde5(int difficulter);//simple			=easy
+
 
 	void passagesecuriser(int colonne, int difficulter);
 	void passagesecuriserMonde1(int difficulter);
@@ -70,6 +74,9 @@ public:
 
 	void resetMap();
 	void Lumiere(int portee);
+
+	void ChoixDifficulter(int difficulter);
+	void ChoixMonde(int choix, int difficulter);
 
     virtual ~Game_Manager() = default;
     Hud interface1;
@@ -133,7 +140,8 @@ private:
 	Player myPlayer;
 	My_Sprite world_sprite;
 	Box Map[MAXY][MAXX];//[5][20]
-	int difficulter;
+	int TypeMap;
+	int _difficulter;
 }; 
 
 
