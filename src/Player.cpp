@@ -40,6 +40,7 @@ Player::Player(RenderWindow *app, View *view1)
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_light.png", m_view1, 248, 5, 1.0f });
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_smashed.png", m_view1, 248, 5, 1.0f });
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_dash.png", m_view1, 248, 5, 1.0f });
+    player_sprite.push_back(My_Sprite{ m_app, "resources/player_vanish.png", m_view1, 248, 5, 1.0f });
 
 }
 
@@ -65,6 +66,10 @@ void Player::draw()
     else  if (playerState == DASH)
     {
         player_sprite[3].draw((m_posX * 248 - 20), m_posY * 216);
+    }
+    else  if (playerState == VANISH)
+    {
+        player_sprite[4].draw((m_posX * 248 - 20), m_posY * 216);
     }
 }
 
