@@ -154,7 +154,7 @@ void Game_Manager::execute_action(Action action)
 		}
 		break;
 	case ACT_VANISH:
-		if (myPlayer.getEnergy() - myPlayer.getVanishCost() >= 0)
+		if ((myPlayer.getEnergy() - myPlayer.getVanishCost() >= 0) && (myPlayer.isVAReady()))
 		{
 			myPlayer.vanish();
 		}
@@ -169,7 +169,7 @@ void Game_Manager::execute_action(Action action)
 		if (myPlayer.getPosY() < 4)
 		{
 			if (((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (Map[posYpla + 1][posXPla].getObject() == 0))
-				|| ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05)))
+				|| ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) /*|| (hitLimit < 0.05)*/))
 				||  (myPlayer.playerState == VANISH))
 			{
 				myPlayer.moveDown();
@@ -269,19 +269,20 @@ return ret;
 void Game_Manager::update(float secTime)
 {
 	//cout << "test1" << endl;
-    if (is_menu_visible)
-    {
-        menu1.update();
-        if (menu1.is_playing() == true)
-        {
-            is_menu_visible = false;
-        }
-        if (menu1.is_quitting() == true)
-        {
-            execute_action(ACT_CLOSE_APP);
-        }
-    }
-	else{
+	if (is_menu_visible)
+	{
+		menu1.update();
+		if (menu1.is_playing() == true)
+		{
+			is_menu_visible = false;
+		}
+		if (menu1.is_quitting() == true)
+		{
+			execute_action(ACT_CLOSE_APP);
+		}
+	}
+	else
+	{
 		int retour = myPlayer.update(secTime);
 		if (retour == 1)
 		{
@@ -298,7 +299,15 @@ void Game_Manager::update(float secTime)
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 		//cout << posXPla << "     " << hitLimit << endl;
 
-
+		if (((hitLimit > 0.75)) && (Map[posYpla][posXPla + 1].getObject() == 0) && (myPlayer.isEtheral()) && (myPlayer.playerState != VANISH))
+		{
+			//system("PAUSE");
+			myPlayer.setEtheral(0);
+		}
+		if (myPlayer.isEtheral())
+		{
+			retour = 2;
+		}
 		/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 		sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
 		//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
@@ -339,11 +348,11 @@ void Game_Manager::update(float secTime)
 					myPlayer.setLight(0);
 				}
 			}
-		}		
-    }
-    bool isEvent = handle_input_events();
+		}
+	}
+	bool isEvent = handle_input_events();
 
-	
+
 }
 
 void Game_Manager::draw()
