@@ -62,7 +62,31 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
       
-		  CreationMapbis1(difficuler);
+		  int choix = 0;
+
+		  do{
+			  cout << endl << " choix du generateur de map (de monde) entre 0 et x :";
+			  cin >> choix;
+
+		  } while (choix <= 0 && choix >= 2);
+
+		  do{
+			  cout << endl << " choix de la difficulter entre 2 et 5 :";
+			  cin >> difficuler;
+
+		  } while (difficuler <= 2 && difficuler >= 5);
+
+		  switch (choix)
+		  {
+		  case 1:CreationMapbis1(difficuler);
+			  break;
+		  case 2:CreationMapbis(difficuler);
+			  break;
+		  case 3:CreationMap(difficuler);
+			  break;
+		  default:CreationMapbis1(difficuler);
+			  break;
+		  }
 
 
 	//////MAP GENERATION////////
