@@ -62,7 +62,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
       
-		  CreationMapbis(difficuler);
+		  CreationMapbis1(difficuler);
 
 
 	//////MAP GENERATION////////
@@ -303,8 +303,6 @@ void Game_Manager::update(float secTime)
 	
 }
 
-
-
 void Game_Manager::draw()
 {
     static sf::Clock render_clock;
@@ -351,7 +349,6 @@ void Game_Manager::create_map(int map_width, int map_height)
     //sur 200
    
 }
-
 
 void Game_Manager::highlight_selected_tile()
 {
@@ -415,7 +412,6 @@ void Game_Manager::set_info()
     is_info = true;
     m_info.activate();
 }
-
 
 void Game_Manager::CreationMap(int difficulter)
 {
@@ -492,9 +488,10 @@ void Game_Manager::CreationMapbis(int difficulter)
 
 	for (int x = 5; x < MAXX; x++)
 	{
+		cout << " =";
 		if (x % 2 != 0)
 		{
-
+			cout << " d";
 			currentObst = NULL;
 			currentLight = NULL;
 			currentMob = NULL;
@@ -509,7 +506,7 @@ void Game_Manager::CreationMapbis(int difficulter)
 			{
 				while (currentObst < obstacle)
 				{
-					rndY = rand() % 5;
+					rndY = rand() % MAXY;
 					if (Map[rndY][x].getObject() == 0)
 					{
 						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
@@ -518,7 +515,7 @@ void Game_Manager::CreationMapbis(int difficulter)
 				}
 			}
 			//pose des mobs
-
+		
 			if (nbrmob != 0)
 			{
 				while (currentMob < nbrmob)
@@ -548,10 +545,10 @@ void Game_Manager::CreationMapbis(int difficulter)
 		}
 		else
 		{ //a faire recherche de chemin safe §§§§§§§§§§§§§§§§§§§§§ pour l'instant entierement vide
-			for (int y = 0; y < MAXY; y++){ Map[y][x].setMajoriter(y, x, 1, 0, 0, 0); }
+			
 		}
 
-
+	}
 	
 
 
@@ -585,14 +582,138 @@ void Game_Manager::CreationMapbis(int difficulter)
 		}
 
 
-		for (x = 4; x < MAXX; x = x + 4)
+		for (int x = 4; x < MAXX; x = x + 4)
 		{
 			passagesecuriser(x, difficulter); cout << " securiser ";
 		}
 
-	}
+	
 
 }
+
+void Game_Manager::CreationMapbis1(int difficulter)
+{
+
+	int background = 0;// a remplacer par rand()%NBbackground
+
+	for (int x = 0; x < MAXX; x++)
+	{
+		for (int y = 0; y < MAXY; y++)
+		{
+			Map[y][x].setMajoriter(y, x, background, 0, 0, 0);
+		}
+	}
+
+
+
+
+	int nbrmob = 0, obstacle = 0, nbrLight = 0;
+	int *ordre = NULL;
+	int currentLight = 0, currentObst = 0;
+	int rndY = 0;
+
+	for (int x = 5; x < MAXX; x++)
+	{
+		cout << " =";
+		if (x % 2 != 0)
+		{
+			cout << " d";
+			currentObst = NULL;
+			currentLight = NULL;
+		
+
+			obstacle = rand() % difficulter;
+			nbrLight = rand() % difficulter;
+
+
+			//pose des obstacles
+			if (obstacle != 0)
+			{
+				while (currentObst < obstacle)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getObject() == 0)
+					{
+						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
+						currentObst++;
+					}
+				}
+			}
+
+			//pose des lumiere natuel
+			if (nbrLight != 0)
+			{
+				while (currentLight < nbrLight)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getObject() == 0)
+					{
+						Map[rndY][x].setLight(rand() % 2 + 3);////////////Differents sprites
+						currentLight++;
+					}
+				}
+			}
+		}
+		else
+		{ //pose des mobs
+			int currentMob = 0, rndY = 0;
+			int nbrmob = rand() % difficulter;
+			if (nbrmob != 0)
+			{
+				while (currentMob < nbrmob)
+				{
+					rndY = rand() % MAXY;
+					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
+					if (Map[rndY][x].getMob() == 0)
+					{
+						Map[rndY][x].setMob(1);////////////Differents sprites
+						currentMob++;
+					}
+				}
+			}
+
+		}
+
+	}
+
+	//-------------------------------------------------------------------------------
+	//---------------  Mise de la lumiere du au mob  --------------------------------
+	//-------------------------------------------------------------------------------
+
+
+
+	for (int y = 0; y < MAXY; y++)
+	{
+		for (int x = 0; x < MAXX - 1; x++)
+		{
+			if (Map[y][x + 1].getMob() != 0)
+			{
+				Map[y][x].setLight(2);
+			}
+			else
+			{
+
+			}
+		}
+	}
+
+	//la derniere ligne est toujour dans le noir
+	for (int y = 0; y < MAXY; y++)
+	{
+		Map[y][MAXX].setLight(0);
+	}
+
+
+	for (int x = 4; x < MAXX; x = x + 4)
+	{
+		passagesecuriser1(x, difficulter); cout << " securiser ";
+	}
+
+
+
+}
+
+
 	/**/
 void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
@@ -714,10 +835,9 @@ void Game_Manager::passagesecuriser(int colonne,int difficulter)
 					}
 					else
 					{
-						objet = ((rand() % 2) % 2)*(rand() % 10);
-						mob =   ((rand() % 2) % 2)*(1);
-						light = ((rand() % 2) % 2)*(rand() % 2 + 3);
-						Map[y][colonne].setType(objet, mob, light);	
+						mob =   ((rand() % (1 + difficulter) % 2))*(1);
+						light = ((rand() % (1 + difficulter) % 2))*(rand() % 2 + 3);
+						Map[y][colonne].setType(0, mob, light);	
 					}
 				}
 			else if (choixD < choixG)
@@ -756,4 +876,122 @@ void Game_Manager::passagesecuriser(int colonne,int difficulter)
 //-------------------------------------------------------------------------------------------------	
 }
 
+void Game_Manager::passagesecuriser1(int colonne, int difficulter)
+{
 
+	int repere[MAXY][2];
+	int videD = 0, videG = 0, choix;
+	int choixG, choixD;
+	int cmp1, cmp2;
+	int mob, light;
+
+
+	//-------------------------------------------------------------------------------------------------	
+	for (int y = 0; y < MAXY; y++)
+	{ //trouver case vide gauche
+		if (Map[y][colonne].getObject() == 0)
+		{
+			repere[y][0] = 0;
+			videD++;
+		}
+		else
+		{
+			repere[y][0] = 1;
+		}
+		//trouver case vide droite
+		if (Map[y][colonne].getObject() == 0)
+		{
+			repere[y][1] = 0;
+			videG++;
+		}
+		else
+		{
+			repere[y][1] = 1;
+		}
+	}
+	//-------------------------------------------------------------------------------------------------	
+
+	//selection des cases de passage Gauche
+	if (videG == 0)
+	{
+		cout << endl << "WARNING passagebloquer" << endl;
+	}
+	else
+	{
+		choix = rand() % videG;
+
+		cmp1 = 0, cmp2 = 0;
+		while (cmp2 < choix)
+		{
+			while (repere[cmp1][0] != 0) { cmp1++; }//on parcour les cases et ont sarrete au vide
+			cmp2++; cmp1++;
+		}
+		choixG = cmp1;
+	}
+	//selection des cases de passage Droite
+	if (videD == 0){ cout << endl << "WARNING passagebloquer" << endl; }
+	else
+	{
+		choix = rand() % videD;
+
+		cmp1 = 0, cmp2 = 0;
+		while (cmp2 < choix)
+		{
+			while (repere[cmp1][1] != 0)
+			{
+				cmp1++;
+			}//on parcour les cases et ont sarrete au vide
+			cmp2++; cmp1++;
+		}
+		choixD = cmp1;
+	}
+	//-------------------------------------------------------------------------------------------------	
+
+	for (int y = 0; y < MAXY; y++)
+	{
+		if (Map[y][colonne].getLight() == 0 && rand() % difficulter == 0)
+		{
+			if (choixD == choixG)
+			{
+				if (choixD == y)
+				{//la case reste vide obligatoirement
+				}
+				else
+				{
+					light = ((rand() % 2) % 2)*(rand() % 2 + 3);
+					Map[y][colonne].setLight(light);
+				}
+			}
+			else if (choixD < choixG)
+			{
+				if (y >= choixD && y <= choixG)
+				{//la case reste vide obligatoirement
+				}
+				else
+				{
+					light = ((rand() % 2) % 2)*(rand() % 2 + 3);
+					Map[y][colonne].setLight(light);
+				}
+
+			}
+			else if (choixD < choixG)
+			{
+				if (y <= choixD && y >= choixG)
+				{//la case reste vide obligatoirement
+				}
+				else
+				{
+					light = ((rand() % 2) % 2)*(rand() % 2 + 3);
+					Map[y][colonne].setLight(light);
+				}
+			}
+			else
+			{
+				cout << endl << "WARNING " << endl;
+			}
+		}
+	}
+	//-------------------------------------------------------------------------------------------------	
+
+
+}

@@ -28,7 +28,7 @@
 #define NBCAILLOU 2
 #define NBMOB 2*/
 #define MAXY 5
-#define MAXX 20
+#define MAXX 200
 using namespace sf;
 
 enum Caracteristic {
@@ -52,10 +52,12 @@ public:
     void create_city(int x, int y);
     void CreationMap(int difficulter);
 	void CreationMapbis(int difficulter);
+	void CreationMapbis1(int difficulter);
     int* randomplace();
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
 	void passagesecuriser(int colonne, int difficulter);
+	void passagesecuriser1(int colonne, int difficulter);
 
 
 
