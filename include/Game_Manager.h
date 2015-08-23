@@ -120,7 +120,7 @@ private:
 	Player myPlayer;
 	My_Sprite world_sprite;
 	Box Map[MAXY][MAXX];//[5][20]
-	
+	int difficuler;
 }; 
 
 
