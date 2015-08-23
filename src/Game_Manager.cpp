@@ -106,13 +106,13 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
 	case ACT_FRONT_DASH:		
-		if (myPlayer.getEnergy() - myPlayer.getDashCost() > 0)
+		if (myPlayer.getEnergy() - myPlayer.getDashCost() >= 0)
 		{
 			myPlayer.dash();
 		}
 		break;
 	case ACT_VANISH:
-		if (myPlayer.getEnergy() - myPlayer.getVanishCost() > 0)
+		if (myPlayer.getEnergy() - myPlayer.getVanishCost() >= 0)
 		{
 			myPlayer.vanish();
 		}
