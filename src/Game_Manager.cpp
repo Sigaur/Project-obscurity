@@ -8,17 +8,18 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	: m_view1(view1)
 	, menu1(app, &m_view2)
 	, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-    , selection_sprite(app, "resources/selection.png", &m_view1)
-    , light_bar(app, "resources/light_bar.png", &m_view1)
-    , light_bar_background(app, "resources/light_bar_background.png", &m_view1)
-    , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
-    , mob_sprite(app, "resources/opponent0.png", &m_view1)
-    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
+	, selection_sprite(app, "resources/selection.png", &m_view1)
+	, light_bar(app, "resources/light_bar.png", &m_view1)
+	, light_bar_background(app, "resources/light_bar_background.png", &m_view1)
+	, light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
+	, mob_sprite(app, "resources/opponent0.png", &m_view1)
+	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
+	, difficulter(2)
 {
     is_menu_visible = true;
     is_info = false;
@@ -43,8 +44,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	int difficulter=5;
-  for (int i = 0; i < 14; i++)
+	difficulter = 5;
+	for (int i = 0; i < 14; i++)
     {
         string path = "resources/obstacle" + std::to_string(i) + ".png";
         m_box_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
@@ -128,7 +129,8 @@ void Game_Manager::execute_action(Action action)
 		if (myPlayer.getPosY() > 0)
 		{
 			if (((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (Map[posYpla - 1][posXPla].getObject() == 0))
-				|| ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75)))
+				|| ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75))
+				|| (myPlayer.playerState == VANISH))
 			{
 				myPlayer.moveUp();
 			}
@@ -160,7 +162,8 @@ void Game_Manager::execute_action(Action action)
 		if (myPlayer.getPosY() < 4)
 		{
 			if (((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (Map[posYpla + 1][posXPla].getObject() == 0))
-				|| ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05))))
+				|| ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05)))
+				||  (myPlayer.playerState == VANISH))
 			{
 				myPlayer.moveDown();
 			}
@@ -174,7 +177,7 @@ void Game_Manager::execute_action(Action action)
 		myPlayer.playerState = SMASHED;
 		if (myPlayer.getPosX() > 0)
 		{
-			myPlayer.moveLeft(248.0/50000.0 * 5);//5 = SPEED/////////////////////////////////////
+			myPlayer.moveLeft(248.0/3000.0);//5 = SPEED/////////////////////////////////////
 		}
 		else
 		{
@@ -294,7 +297,7 @@ void Game_Manager::update(float secTime)
 		//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
 
-		m_view2.move(5, 0);
+		m_view2.move(500 * secTime, 0);
 		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
 		if ((((Map[posYpla][posXPla + 1].getObject() != 0) || (Map[posYpla][posXPla].getObject() != 0))
 			&& (!(((hitLimit > 0.75)) && (Map[posYpla][posXPla + 1].getObject() == 0)))
