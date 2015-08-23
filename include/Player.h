@@ -31,7 +31,7 @@ public:
 	float getPosX();
     void draw(float y, float x);
     void draw();
-    void update(float secTime);
+    int update(float secTime);
 	void moveDown();
 	void moveUp();
 	void moveRight(float move);

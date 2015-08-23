@@ -16,7 +16,7 @@ Box::Box()
 	: m_Y(0)
 	, m_X(0)
 	, m_background(0)
-	, m_object(0)
+	, m_object(1)
 	, m_mob(0)
 	, m_light(0)
 {
