@@ -9,7 +9,7 @@
 #include <cmath>
 #include <stdlib.h>
 #include <time.h>
-
+#include <SFML/Audio.hpp>
 #include "Box.h"
 #include "Button.h"
 #include "Key_event.h"
@@ -60,10 +60,13 @@ public:
 	void CreationMonde1(int difficulter);
 	void CreationMonde2(int difficulter);//monde que de mob
 	void CreationMonde3(int difficulter);//monde sans mob
+	void CreationMonde4(int difficulter);
+	void CreationMonde5(int difficulter);
 
 	void passagesecuriser(int colonne, int difficulter);
 	void passagesecuriserMonde1(int difficulter);
 	void passagesecuriserMonde3(int difficulter);
+	int  modifcourant(int actuel);
 
 	void resetMap();
 	void Lumiere(int portee);
@@ -83,7 +86,8 @@ private:
 	void highlight_selected_tile();
     void execute_action(Action action);
     void handle_mouse_at_window_border(int x_mouse, int y_mouse);
-
+ Music music;
+   
     Key_event_handler key_event;
     RenderWindow *m_app;
     View m_view1;

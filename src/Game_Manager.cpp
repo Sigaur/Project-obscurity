@@ -87,7 +87,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 			  break;
 		  case 3:CreationMonde3(difficulter);
 			  break;
-
+		  case 4:CreationMonde4(difficulter);
+			  break;
 
 		  case 11:CreationMonde1obsolete1(difficulter);
 			  break;
@@ -111,7 +112,14 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
         selection_text[i].change_font("resources/font2.ttf");
     }
 
-  
+
+    if (!music.openFromFile("resources/music.ogg"))
+    {
+        cout << "music init failed" << endl;
+    }
+    music.setLoop(true);
+
+    music.play();
 
 }
 
@@ -1054,7 +1062,144 @@ void Game_Manager::CreationMonde3(int difficulter)
 
 }
 
+void Game_Manager::CreationMonde4(int difficulter)
+{//parfois chemin totalment bloquer
 
+	resetMap();
+
+
+
+	int current = 3,precedent;
+
+	for (int x = 3; x < MAXX; x++)
+	{
+		precedent = current;
+		current = modifcourant(current); 
+		cout << " diff =" << current - precedent << endl;
+
+	
+
+		for (int y = 0; y < MAXY; y++)
+		{
+			
+			if (y == current)
+				{ }
+			else if ( y != precedent)
+			{	
+				if (rand() % 3!=0)
+				{
+					if (rand() % 2) 
+					{
+						Map[y][x].setObject(2 + rand() % 8);
+					}
+					else
+					{
+						Map[y][x].setLight(rand() % 2 + 3);
+					}
+					Map[y][x].setObject(2 + rand() % 8);//temporaire on voit pas les lampes
+				}
+				else
+				{
+					//vide
+				}
+
+			}
+			else
+			{
+				if (rand() % 2 == 0)
+				{
+					Map[y][x].setMob(1);
+				}
+				else
+				{
+					//vide
+				}
+			}
+
+		}
+	}
+
+		Lumiere(1);
+}
+
+void Game_Manager::CreationMonde5(int difficulter)
+{//un chemin de lumiere le reste du vide
+
+	resetMap();
+
+
+
+	int current = 3, precedent;
+
+	for (int x = 3; x < MAXX; x++)
+	{
+		precedent = current;
+		current = modifcourant(current);
+		cout << " diff =" << current - precedent << endl;
+
+
+
+		for (int y = 0; y < MAXY; y++)
+		{
+
+			if (y == current)
+			{
+				Map[y][x].setLight(rand() % 2 + 3);
+			}
+			else if (y != precedent)
+			{
+				if (rand() % 3 != 0)
+				{
+					
+				}
+				else
+				{
+					//vide
+				}
+
+			}
+			else
+			{
+				if (rand() % 2 == 0)
+				{
+					Map[y][x].setMob(1);
+				}
+				else
+				{
+					//vide
+				}
+			}
+
+		}
+	}
+
+	Lumiere(1);
+}
+
+
+int Game_Manager::modifcourant(int actuel)
+{
+	int test = rand() % 5;
+
+	if (actuel == 0)
+		{if (test < 3)
+			{ return 0; }return 1; 
+		}
+	else if (actuel == 5)
+		{
+			if (test < 3)
+			{
+				return 5;
+			}return 4;
+		}
+	else
+	{
+		if (test == 3){ return actuel; }
+		else if (test < 3){ return actuel-1; }
+		else	{ return actuel+1; }
+	}
+
+}
 
 void Game_Manager::resetMap()
 {
