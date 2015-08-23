@@ -118,7 +118,7 @@ private:
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
-	Box Map[MAXY][MAXX];
+	Box Map[MAXY][MAXX];//[5][20]
 	
 }; 
 
