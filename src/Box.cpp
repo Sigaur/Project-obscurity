@@ -92,6 +92,13 @@ void Box::setMajoriter(int Y, int X, int Background, int Object, int Mob,int lig
 	m_mob = Mob;
 	m_light = light;
 }
+void Box::setType(int Object, int Mob, int light)
+{
+	m_object = Object;
+	m_mob = Mob;
+	m_light = light;
+
+}
 
 void Box::reset()
 {

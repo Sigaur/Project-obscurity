@@ -55,7 +55,7 @@ public:
     int* randomplace();
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
-
+	void passagesecuriser(int colonne);
 
 
 
