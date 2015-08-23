@@ -18,17 +18,17 @@ Player::Player(RenderWindow *app, View *view1)
 
 	, m_VAIsUnlocked(1)
 	, m_VACostLvl(20)
-	, m_VACoolDownLvl(5)
+	, m_VACoolDownLvl(10)
 	, m_VADistanceLvl(10)
 	, m_VACurrentDist(1)
-	, m_VACurrentCoolDown(0)
+	, m_VACurrentCoolDown(10)
 
 	, m_INIsUnlocked(0)
 	, m_INCostLvl(0)
-	, m_INCoolDownLvl(0)
+	, m_INCoolDownLvl(30)
 	, m_INDistanceLvl(0)
 	, m_INCurrentDist(0)
-	, m_INCurrentCoolDown(0)
+	, m_INCurrentCoolDown(30)
 
 	, playerState(MOVING)
 	, m_etheral(0)
@@ -307,4 +307,14 @@ int Player::isINReady()
 	{
 		return 0;
 	}
+}
+
+int Player::isEtheral()
+{
+	return m_etheral;
+}
+
+void Player::setEtheral(int set)
+{
+	m_etheral = set;
 }

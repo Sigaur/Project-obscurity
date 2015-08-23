@@ -51,6 +51,8 @@ public:
 	int isFDReady();
 	int isVAReady();
 	int isINReady();
+	int isEtheral();
+	void setEtheral(int set);
 
 private:
 
