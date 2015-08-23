@@ -50,16 +50,23 @@ public:
     void set_info();
     void set_building_menu();
     void create_city(int x, int y);
-    void CreationMap(int difficulter);
-	void CreationMapbis(int difficulter);
-	void CreationMapbis1(int difficulter);
-    int* randomplace();
+
+
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
+
+	void CreationMonde1obsolete1(int difficulter);
+	void CreationMonde1obsolete2(int difficulter);
+	void CreationMonde1(int difficulter);
+	void CreationMonde2(int difficulter);//monde que de mob
+	void CreationMonde3(int difficulter);//monde sans mob
+
 	void passagesecuriser(int colonne, int difficulter);
-	void passagesecuriser1(int colonne, int difficulter);
+	void passagesecuriserMonde1(int difficulter);
+	void passagesecuriserMonde3(int difficulter);
 
-
+	void resetMap();
+	void Lumiere(int portee);
 
     virtual ~Game_Manager() = default;
     Hud interface1;
