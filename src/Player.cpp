@@ -126,8 +126,7 @@ void Player::update(float secTime)
 	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
-       
-
+		cout << "LUMIERE!!!!" << endl;
 		playerState = LIGHT;
 		m_totalLight += secTime;
 		while (m_totalLight > m_LALvl + 0.1)
@@ -148,12 +147,13 @@ void Player::update(float secTime)
 			m_totalLight = 0.0;
 		}
 	}
+	
 	if (m_FDCurrentDist < m_FDDistanceLvl)
 	{
 		m_FDCurrentDist += 0.1;
 		moveRight(0.1);
 	}
-	else
+	else if (playerState == DASH)
 	{
 		playerState = MOVING;
 	}
