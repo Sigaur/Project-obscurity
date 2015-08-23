@@ -19,7 +19,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
-	, difficulter(2)
+	, _difficulter(2)
 {
     is_menu_visible = true;
     is_info = false;
@@ -64,10 +64,10 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
           }
 
 
-
 		  //////MAP GENERATION////////
-		  ChoixMonde(1, difficulter);
+		  ChoixMonde(1);
 		 
+
 
 
 		
@@ -286,6 +286,14 @@ void Game_Manager::update(float secTime)
 		{
 			execute_action(ACT_GO_LEFT);
 		}
+		else 
+		{
+			if ((myPlayer.playerState == SMASHED) && (Map[posYpla][posXPla + 2].getObject() == 0))
+			{
+				myPlayer.playerState = MOVING;
+			}
+			
+		}
 
 		if ((Map[posYpla][posXPla + 1].getLight() != 0) || (Map[posYpla][posXPla].getLight() != 0))
 			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
@@ -430,136 +438,7 @@ void Game_Manager::set_info()
     m_info.activate();
 }
 
-void Game_Manager::CreationMonde1obsolete1(int difficulter)
-{//il n'y a pas de mob 
 
-	resetMap();
-
-	for (size_t x = 5; x < MAXX; x++)
-	{
-
-		if (x % 2 == 1)////LIGNE OBSTACLE
-		{
-			int nbrObst = rand() % difficulter;
-			int currentObst = 0, rndY;
-
-
-			while (currentObst < nbrObst)
-			{
-				 rndY = rand() % 5;
-				if (Map[rndY][x].getObject() == 0)
-				{
-					Map[rndY][x].setObject(rand()%10);////////////Differents sprites
-					currentObst++;
-				}
-			}
-
-			int nbrLight = rand() % difficulter;
-			int currentLight = 0;
-
-			while (currentLight < nbrLight)
-			{
-				 rndY = rand() % 5;
-				if (Map[rndY][x].getLight() == 0)
-				{
-                    Map[rndY][x].setLight(3);////////////Differents sprites
-					currentLight++;
-				}
-			}
-		}	
-
-	}
-
-}
-
-void Game_Manager::CreationMonde1obsolete2(int difficulter)
-{//map avec mob pouvant etre sur les obstacle //version obsolete
-
-	resetMap();
-
-
-
-
-	int nbrmob = 0,  obstacle = 0, nbrLight = 0;
-	int *ordre = NULL;
-	int currentLight = 0, currentObst = 0, currentMob = 0;
-	int rndY=0;
-
-	for (int x = 5; x < MAXX; x++)
-	{
-		
-		if (x % 2 != 0)
-		{
-			currentObst = NULL;
-			currentLight = NULL;
-			currentMob = NULL;
-
-			obstacle = rand() % difficulter;
-			nbrmob = rand() % difficulter;
-			nbrLight = rand() % difficulter;
-
-
-			//pose des obstacles
-			if (obstacle != 0)
-			{
-				while (currentObst < obstacle)
-				{
-					rndY = rand() % MAXY;
-					if (Map[rndY][x].getObject() == 0)
-					{
-						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
-						currentObst++;
-					}
-				}
-			}
-			//pose des mobs
-		
-			if (nbrmob != 0)
-			{
-				while (currentMob < nbrmob)
-				{
-					rndY = rand() % MAXY;
-					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
-					if (Map[rndY][x].getMob() == 0)
-					{
-						Map[rndY][x].setMob(1 + rand() % 8);////////////Differents sprites
-						currentMob++;
-					}
-				}
-			}
-			//pose des lumiere natuel
-			if (nbrLight != 0)
-			{
-				while (currentLight < nbrLight)
-				{
-					rndY = rand() % MAXY;
-					if (Map[rndY][x].getObject() == 0)
-					{
-						Map[rndY][x].setLight(3);////////////Differents sprites
-						currentLight++;
-					}
-				}
-			}
-		}
-		else
-		{ //a faire recherche de chemin safe §§§§§§§§§§§§§§§§§§§§§ pour l'instant entierement vide
-			
-		}
-
-	}
-
-			Lumiere(1);
-
-
-
-		for (int x = 4; x < MAXX; x = x + 4)
-		{
-			passagesecuriser(x, difficulter);
-		}
-
-	
-
-}
 
 void Game_Manager::CreationMonde1(int difficulter)
 {
@@ -639,103 +518,6 @@ void Game_Manager::CreationMonde1(int difficulter)
 
 
 
-}
-
-void Game_Manager::passagesecuriser(int colonne,int difficulter)
-{
-
-	int repere[MAXY][2];
-	int videD = 0, videG = 0, choix;
-	int choixG, choixD;
-	int cmp1, cmp2;
-	int mob, light, objet;
-
-
-
-//-------------------------------------------------------------------------------------------------	
-		for (int y = 0; y < MAXY; y++)
-			{ //trouver case vide gauche
-				if (Map[y][colonne].getObject() == 0)
-				{
-					repere[y][0] = 0;
-					videD++;
-				}
-				else
-					{
-						repere[y][0] = 1;
-					}
-				//trouver case vide droite
-				if (Map[y][colonne].getObject() == 0)
-					{
-						repere[y][1] = 0;
-						videG++;
-					}
-				else
-				{repere[y][1] = 1;}
-			}
-//-------------------------------------------------------------------------------------------------	
-
-	//selection des cases de passage Gauche
-	if (videG == 0)
-		{ cout << endl << "WARNING passagebloquer" << endl; }
-	else
-	{
-		choix = rand() % videG;
-
-		 cmp1 = 0, cmp2 = 0;
-		while (cmp2 < choix)
-		{
-			while (repere[cmp1][0] != 0) { cmp1++; }//on parcour les cases et ont sarrete au vide
-			cmp2++; cmp1++;
-		}
-		choixG = cmp1;
-	}
-	//selection des cases de passage Droite
-	if (videD == 0){ cout << endl << "WARNING passagebloquer" << endl; }
-	else
-	{
-		choix = rand() % videD;
-
-		 cmp1 = 0, cmp2 = 0;
-		while (cmp2 < choix)
-			{
-				while (repere[cmp1][1] != 0)
-				{
-					cmp1++;
-				}//on parcour les cases et ont sarrete au vide
-				cmp2++; cmp1++;
-			}
-		choixD = cmp1;
-	}
-//-------------------------------------------------------------------------------------------------	
-
-	for (int y = 0; y < MAXY; y++)
-	{
-		if (Map[y][colonne].getLight() == 0 && rand() % difficulter == 0)
-		{ 
-			if ((choixD == choixG) && !(choixD == y) )
-				{
-						mob =   ((rand() % (1 + difficulter) % 2))*(1);
-						light = ((rand() % (1 + difficulter) % 2))*(rand() % 2 + 3);
-						Map[y][colonne].setType(0, mob, light);	
-				}
-			else if ((choixD < choixG) && !(y >= choixD && y <= choixG))
-				{
-						objet = ((rand() % 2) % 2)*(rand() % 10);
-						mob = ((rand() % 2) % 2)*(1);
-						light = ((rand() % 2) % 2)*(rand() % 2 + 3);
-						Map[y][colonne].setType(objet, mob, light);
-				}
-			else if ((choixD > choixG) && !(y <= choixD && y >= choixG))
-				{
-						objet = ((rand() % 2) % 2)*(rand() % 10);
-						mob = ((rand() % 2) % 2)*(1);
-						light = ((rand() % 2) % 2)*(rand() % 2 + 3);
-						Map[y][colonne].setType(objet, mob, light);
-				}	
-		}
-	}
-//-------------------------------------------------------------------------------------------------	
 }
 
 void Game_Manager::passagesecuriserMonde1(int difficulter)
@@ -1149,22 +931,22 @@ void Game_Manager::CreationMonde5(int difficulter)
 }
 
 
-void Game_Manager::ChoixMonde(int choix,int difficulter)
+void Game_Manager::ChoixMonde(int choix)
 {
 	switch (choix)
 	{
-	case 1:CreationMonde4(difficulter);//classic			=Normal	
+	case 1:CreationMonde4(_difficulter);//classic			=Normal	
 		break;
-	case 2:CreationMonde1(difficulter);//simple				=Classic
+	case 2:CreationMonde1(_difficulter);//simple				=Classic
 		break;
-	case 3:CreationMonde2(difficulter);//monde que de mob	=time to eat
+	case 3:CreationMonde2(_difficulter);//monde que de mob	=time to eat
 		break;
-	case 4:CreationMonde3(difficulter);//monde sans mob		=peacefull
+	case 4:CreationMonde3(_difficulter);//monde sans mob		=peacefull
 		break;
-	case 5:CreationMonde5(difficulter);//simple				=easy
+	case 5:CreationMonde5(_difficulter);//simple				=easy
 		break;
 
-	default:CreationMonde4( difficulter);
+	default:CreationMonde4(_difficulter);
 		break;
 	}
 

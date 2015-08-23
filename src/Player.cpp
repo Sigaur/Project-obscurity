@@ -6,7 +6,7 @@ Player::Player(RenderWindow *app, View *view1)
 	, m_energy(100)
 	, m_isMovable(1)
 	, m_isLight(0)
-	, m_LALvl(1.0)
+	, m_LALvl(0.1)
 	, m_SRLvl(0)
 
 	, m_FDIsUnlocked(1)
@@ -317,4 +317,9 @@ int Player::isEtheral()
 void Player::setEtheral(int set)
 {
 	m_etheral = set;
+}
+
+void Player::gainEnergy(int gain)
+{
+	m_energy += gain;
 }

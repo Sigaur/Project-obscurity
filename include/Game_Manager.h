@@ -55,8 +55,7 @@ public:
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);
 
-	void CreationMonde1obsolete1(int difficulter);
-	void CreationMonde1obsolete2(int difficulter);
+
 
 
 
@@ -67,7 +66,7 @@ public:
 	void CreationMonde5(int difficulter);//simple			=easy
 
 
-	void passagesecuriser(int colonne, int difficulter);
+	
 	void passagesecuriserMonde1(int difficulter);
 	void passagesecuriserMonde3(int difficulter);
 	int  modifcourant(int actuel);
@@ -76,7 +75,7 @@ public:
 	void Lumiere(int portee);
 
 	void ChoixDifficulter(int difficulter);
-	void ChoixMonde(int choix, int difficulter);
+	void ChoixMonde(int choix);
 
     virtual ~Game_Manager() = default;
     Hud interface1;

@@ -53,6 +53,7 @@ public:
 	int isINReady();
 	int isEtheral();
 	void setEtheral(int set);
+	void gainEnergy(int gain);
 
 private:
 
