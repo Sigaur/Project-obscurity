@@ -12,7 +12,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     , light_bar(app, "resources/light_bar.png", &m_view1)
     , light_bar_background(app, "resources/light_bar_background.png", &m_view1)
     , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
-  
+    , mob_sprite(app, "resources/opponent0.png", &m_view1)
     , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
@@ -615,6 +615,10 @@ void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
             if (Map[i][j].getLight() < 3)
             {
                 m_light_sprites[Map[i][j].getLight()].draw(j * 248, i * 216);
+            }
+            if (Map[i][j].getMob() == 1)
+            {
+                mob_sprite.draw(j * 248, i * 216);
             }
 			//cout << "obj"<< Map[i][j].getObject()<<" ";
 		}

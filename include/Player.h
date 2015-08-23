@@ -16,7 +16,8 @@ enum State
 	LIGHT,
 	SMASHED,
 	DASH,
-	VANISH
+	VANISH,
+    INVINCIBILITY
 };
 
 using namespace sf;
