@@ -23,10 +23,12 @@
 #include "Player.h"
 
 #include "Random.h"
-#define NBCASE 5
+/*#define NBCASE 5
 #define NBLIGNE 20
 #define NBCAILLOU 2
-#define NBMOB 2
+#define NBMOB 2*/
+#define MAXY 5
+#define MAXX 20
 using namespace sf;
 
 enum Caracteristic {
@@ -104,14 +106,14 @@ private:
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
-	Box Map[NBCASE][NBLIGNE];
+	Box Map[MAXY][MAXX];
 	
 };
 
 
 int* randomplace();
-void afficherMapobjet(Box Map[NBCASE][NBLIGNE]);
-void afficherMapLight(Box Map[NBCASE][NBLIGNE]);
+void afficherMapobjet(Box Map[MAXY][MAXX]);
+void afficherMapLight(Box Map[MAXY][MAXX]);
 
 
 

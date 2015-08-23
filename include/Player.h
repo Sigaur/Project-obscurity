@@ -43,6 +43,8 @@ public:
 	int getEnergy();
 	int getDashCost();
 	void dash();
+	int getVanishCost();
+	void vanish();
 	State playerState;
 
 private:

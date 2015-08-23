@@ -37,18 +37,18 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	int difficuler=1;
+	int difficuler=5;
 
 	CreationMap(difficuler);
 
-	cout << "1";
+	
 	//////MAP GENERATION////////
-
+	
 	afficherMapobjet(Map);
 
 	afficherMapLight(Map);
 
-		while (true){}
+		//while (true){}
 		
     for (int i = 0; i < 2; i++)
     {
@@ -84,6 +84,12 @@ void Game_Manager::execute_action(Action action)
 		if (myPlayer.getEnergy() - myPlayer.getDashCost() > 0)
 		{
 			myPlayer.dash();
+		}
+		break;
+	case ACT_VANISH:
+		if (myPlayer.getEnergy() - myPlayer.getVanishCost() > 0)
+		{
+			myPlayer.vanish();
 		}
 		break;
     case ACT_GO_RIGHT:
@@ -206,40 +212,42 @@ void Game_Manager::update(float secTime)
             execute_action(ACT_CLOSE_APP);
         }
     }
-    else{
-		if (myPlayer.update(secTime))
+	else{
+		if (myPlayer.update(secTime) == 1)
 		{
 			execute_action(ACT_GO_RIGHT);
 		}
-        /*cout << secTime << "   ";
-        cout << myPlayer.getPosY() << endl;*/
-        //cout << (m_view2.getCenter().x / 248) - 4 << endl;
-        int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
+		/*cout << secTime << "   ";
+		cout << myPlayer.getPosY() << endl;*/
+		//cout << (m_view2.getCenter().x / 248) - 4 << endl;
+		int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
 		//cout << endl << posXPla << endl;
-        int posYpla = myPlayer.getPosY();
+		int posYpla = myPlayer.getPosY();
 
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 		//cout << posXPla << "     " << hitLimit << endl;
 
 
-        /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
-        sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
-        //sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+		/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
+		sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
+		//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
 
 
 		m_view2.move(5, 0);
 		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
-		if (!((Map[posYpla][posXPla + 1].getObject() == 0) && (Map[posYpla][posXPla].getObject() == 0) || (hitLimit > 0.85)))
+		if (!(((Map[posYpla][posXPla + 1].getObject() == 0) && (Map[posYpla][posXPla].getObject() == 0))
+			|| ((hitLimit > 0.85) && (Map[posYpla][posXPla].getObject() == 0))))
 		{
-				execute_action(ACT_GO_LEFT);
+			execute_action(ACT_GO_LEFT);
 		}
 
-		if ((Map[posYpla][posXPla + 1].getLight() != 0) && (Map[posYpla][posXPla].getLight() != 0))
-		//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
+		if ((Map[posYpla][posXPla + 1].getLight() != 0) || (Map[posYpla][posXPla].getLight() != 0))
+
+			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
 
-			if ((Map[posYpla][posXPla + 1].getLight() != 0) || (hitLimit < 0.85))
-			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
+			if ((Map[posYpla][posXPla + 1].getLight() != 0) || (hitLimit > 0.85))
+				//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
@@ -248,27 +256,20 @@ void Game_Manager::update(float secTime)
 					//lightTime = lightClock.restart();
 				}
 			}
-			else if (myPlayer.isMovable() == 0)
+		}
+		else
+		{
+			if (myPlayer.isMovable() == 0)
 			{
 				myPlayer.setMovable(1);
-				if (myPlayer.isLight() == 1)
-				{
-					myPlayer.setLight(0);
-				}
+			}
+			if (myPlayer.isLight() == 1)
+			{
+				cout << "UNLIGHT" << endl;
+				system("PAUSE");
+				myPlayer.setLight(0);
 			}
 		}
-		
-
-		if (myPlayer.isLight())
-		{
-			//lightTime = lightClock.restart();
-			//lightSec = lightTime.asSeconds();
-			
-			//lightTot += secTime;
-			//cout << lightTot << endl;
-		}
-
-
     }
 
     bool isEvent = handle_input_events();
@@ -388,7 +389,7 @@ void Game_Manager::set_info()
 
 void Game_Manager::CreationMap(int difficulter)
 {
-	int mob, caillou, obstacle;
+	/*int mob, caillou, obstacle;
 	int *ordre = NULL;
 
 
@@ -444,19 +445,63 @@ void Game_Manager::CreationMap(int difficulter)
 	for (int j = 0; j < NBCASE; j++)
 	{
 		Map[j][NBLIGNE].setLight(0);
+	}*/
+
+
+	for (size_t x = 0; x < MAXX; x++)
+	{
+		for (size_t y = 0; y < MAXY; y++)
+		{
+			Map[y][x].reset();
+		}
 	}
 
-	
+	for (size_t x = 5; x < MAXX; x++)
+	{
 
+		if (x % 2 == 1)////LIGNE OBSTACLE
+		{
+			int nbrObst = rand() % difficulter;
+			int currentObst = 0;
+
+			while (currentObst < nbrObst)
+			{
+				int rndY = rand() % 5;
+				if (Map[rndY][x].getObject() == 0)
+				{
+					Map[rndY][x].setObject(1);////////////Differents sprites
+					currentObst++;
+				}
+			}
+
+			int nbrLight = rand() % difficulter;
+			int currentLight = 0;
+
+			while (currentLight < nbrLight)
+			{
+				int rndY = rand() % 5;
+				if (Map[rndY][x].getLight() == 0)
+				{
+					Map[rndY][x].setLight(1);////////////Differents sprites
+					currentLight++;
+				}
+			}
+		}
+		else/////LIGNE REPOS
+		{
+
+		}
+
+	}
 
 }
 
-void afficherMapobjet(Box Map[NBCASE][NBLIGNE])
+void afficherMapobjet(Box Map[MAXY][MAXX])
 {
 	cout << endl;
-	for (int i = 0; i < NBLIGNE ; i++)
+	for (int i = 0; i < MAXY ; i++)
 	{
-		for (int j = 0; j < NBCASE; j++)
+		for (int j = 0; j < MAXX; j++)
 		{
 			
 			cout << Map[i][j].getObject()<<" ";
@@ -466,15 +511,15 @@ void afficherMapobjet(Box Map[NBCASE][NBLIGNE])
 	cout << endl;
 }
 
-void afficherMapLight(Box Map[NBCASE][NBLIGNE])
+void afficherMapLight(Box Map[MAXY][MAXX])
 {
 	cout << endl;
-	for (int i = 0; i < NBLIGNE; i++)
+	for (int i = 0; i < MAXY; i++)
 	{
-		for (int j = 0; j < NBCASE; j++)
+		for (int j = 0; j < MAXX; j++)
 		{
 
-			cout << Map[i][j].getLight();
+			cout << Map[i][j].getLight() <<" ";
 		}
 		cout << endl;
 	}
@@ -488,16 +533,16 @@ int* randomplace()
 	//genere aleatoirement la suite de 0 a 4
 	int j = 4;
 	int tampon;
-	int *lign = new int[NBCASE];
+	int *lign = new int[MAXY];
 
-	for (int i = 0; i < NBCASE; i++)
+	for (int i = 0; i < MAXY; i++)
 	{
 		lign[i] = 0;
 	}
 
 
 	do{
-		tampon = rand() % (NBCASE + 1);
+		tampon = rand() % (MAXY + 1);
 
 		if (lign[tampon] == 0)
 		{

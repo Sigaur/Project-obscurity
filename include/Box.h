@@ -75,7 +75,7 @@ public:
 	void setObject(int Object);
 	void setMob(int Mob);
 	void setLight(int Light);
-
+	void reset();
 	void setMajoriter(int Y, int X, int Background, int Object, int Mob);
 
 private:

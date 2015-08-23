@@ -16,11 +16,11 @@ Player::Player(RenderWindow *app, View *view1)
 	, m_FDCurrentDist(1)
 	, m_FDCurrentCoolDown(0)
 
-	, m_VAIsUnlocked(0)
-	, m_VACostLvl(0)
-	, m_VACoolDownLvl(0)
-	, m_VADistanceLvl(0)
-	, m_VACurrentDist(0)
+	, m_VAIsUnlocked(1)
+	, m_VACostLvl(20)
+	, m_VACoolDownLvl(5)
+	, m_VADistanceLvl(1)
+	, m_VACurrentDist(1)
 	, m_VACurrentCoolDown(0)
 
 	, m_INIsUnlocked(0)
@@ -136,16 +136,19 @@ int Player::update(float secTime)
 			m_energy--;
 		}
 	}
-	else if (m_totalLight != 0.0)
+	else
 	{
 		playerState = MOVING;
-		if (m_totalLight > 0.0)
+		if (m_totalLight != 0.0)
 		{
-			m_totalLight -= secTime;
-		}
-		if (m_totalLight < 0.0)
-		{
-			m_totalLight = 0.0;
+			if (m_totalLight > 0.0)
+			{
+				m_totalLight -= secTime;
+			}
+			if (m_totalLight < 0.0)
+			{
+				m_totalLight = 0.0;
+			}
 		}
 	}
 	
@@ -159,6 +162,17 @@ int Player::update(float secTime)
 	{
 		playerState = MOVING;
 	}
+
+	if (m_VACurrentDist < m_VADistanceLvl)
+	{
+		m_VACurrentDist += 0.1;
+		retour = 2;
+	}
+	else if (playerState == VANISH)
+	{
+		playerState = MOVING;
+	}
+
 	return retour;
 }
 
@@ -187,4 +201,16 @@ void Player::dash()
 	m_energy -= m_FDCostLvl;
 	m_FDCurrentDist = 0.0;
 	playerState = DASH;
+}
+
+int Player::getVanishCost()
+{
+	return m_VACostLvl;
+}
+
+void Player::vanish()
+{
+	m_energy -= m_VACostLvl;
+	m_VACurrentDist = 0.0;
+	playerState = LIGHT;
 }

@@ -16,7 +16,7 @@ Box::Box()
 	: m_Y(0)
 	, m_X(0)
 	, m_background(0)
-	, m_object(1)
+	, m_object(0)
 	, m_mob(0)
 	, m_light(0)
 {
@@ -37,7 +37,7 @@ int Box::getBackground()
 }
 int Box::getObject()
 {
-	return m_object;
+  	return m_object;
 }
 int Box::getMob()
 {
@@ -80,6 +80,16 @@ void Box::setMajoriter(int Y, int X, int Background, int Object, int Mob)
 	m_background = Background;
 	m_object = Object;
 	m_mob = Mob;
+}
+
+void Box::reset()
+{
+	m_Y = 0;
+	m_X = 0;
+	m_background = 0;
+	m_object = 0;
+	m_mob = 0;
+	m_light = 0;
 }
 
 /************************            Constructeur Destructeur          *****************************/

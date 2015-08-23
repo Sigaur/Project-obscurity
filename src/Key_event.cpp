@@ -12,6 +12,7 @@ Key_event_handler::Key_event_handler()
         {sf::Keyboard::Down, ACT_GO_DOWN},
         {sf::Keyboard::Q, ACT_GO_LEFT},
         {sf::Keyboard::Left, ACT_GO_LEFT},
+		{ sf::Keyboard::Space, ACT_VANISH},
         /*{sf::Keyboard::T, ACT_ZOOM_IN},
         {sf::Keyboard::G, ACT_ZOOM_OUT},
 		{sf::Keyboard::C, ACT_ROTATE_RIGHT},
