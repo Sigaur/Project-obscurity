@@ -51,6 +51,7 @@ public:
     void set_building_menu();
     void create_city(int x, int y);
     void CreationMap(int difficulter);
+	void CreationMapbis(int difficulter);
     int* randomplace();
     void afficherMapobjet(Box Map[MAXY][MAXX]);
     void afficherMapLight(Box Map[MAXY][MAXX]);

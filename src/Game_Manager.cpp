@@ -514,7 +514,119 @@ void Game_Manager::CreationMap(int difficulter)
 	}
 
 }
+void Game_Manager::CreationMapbis(int difficulter)
+{
 
+	int background = 0;// a remplacer par rand()%NBbackground
+
+	for (size_t x = 0; x < MAXX; x++)
+	{
+		for (size_t y = 0; y < MAXY; y++)
+		{
+			Map[y][x].setMajoriter(y, x, background, 0, 0, 0);
+		}
+	}
+
+
+
+
+	int mob = 0, caillou = 0, obstacle = 0, nbrLight = 0;
+	int *ordre = NULL;
+	int currentLight = 0, currentObst = 0;
+	int rndY;
+
+	for (int y = 0; y < MAXY; y++)
+	{
+		if (y % 4 == 0)//ligne vide
+		{
+			for (int x = 0; x < MAXX; x++){ Map[y][x].setMajoriter(y, x, 1, 0, 0, 0); }
+
+
+		}
+		else if (y % 2 == 0)
+		{ //a faire recherche de chemin safe §§§§§§§§§§§§§§§§§§§§§ pour l'instant entierement vide
+			for (int x = 0; x < MAXX; x++){ Map[y][x].setMajoriter(y, x, 1, 0, 0, 0); }
+		}
+		else{
+			currentObst = NULL;
+			currentLight = NULL;
+			obstacle = rand() % difficulter;
+			nbrLight = rand() % difficulter;
+
+			/*
+			ordre = randomplace();
+			caillou = rand() % (obstacle + 1);
+			mob = obstacle - caillou;
+			*/
+			//	cout << endl << obstacle << " " << caillou << " " << mob << " ";
+
+
+			while (currentObst < obstacle)
+			{//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+				//set des mob a rajouter
+				rndY = rand() % MAXX;
+				if (Map[y][rndY].getObject() == 0)
+				{
+					Map[y][rndY].setObject(1);////////////Differents sprites
+					currentObst++;
+				}
+			}
+
+
+
+			while (currentLight < nbrLight)
+			{
+				rndY = rand() % MAXX;
+				if (Map[y][rndY].getLight() == 0)
+				{
+					Map[y][rndY].setLight(1);////////////Differents sprites
+					currentLight++;
+				}
+			}
+		}
+	}
+
+
+	//la derniere ligne est toujour dans le noir depuis les monstres
+	for (int y = 0; y < MAXY; y++)
+	{
+		Map[y][MAXY].setLight(0);
+	}
+
+
+
+	//-----------------------------------------------------------------
+
+
+
+	//-------------------------------------------------------------------------------
+	//---------------  Mise de la lumiere du au mob  --------------------------------
+	//-------------------------------------------------------------------------------
+	for (int y = 0; y < MAXY - 1; y++)
+	{
+		for (int x = 0; x < MAXX; x++)
+		{
+			if (Map[y + 1][x].getMob() != 0)
+			{
+				Map[y][x].setLight(1);
+			}
+			else
+			{
+				Map[y][x].setLight(0);
+			}
+		}
+	}
+
+	//la derniere ligne est toujour dans le noir
+	for (int x = 0; x < MAXX; x++)
+	{
+		Map[MAXY][x].setLight(0);
+	}
+
+
+
+
+}
 void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
 
