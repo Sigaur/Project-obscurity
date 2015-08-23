@@ -92,7 +92,7 @@ void Game_Manager::execute_action(Action action)
 		}
 		break;
     case ACT_GO_RIGHT:
-		if ((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0))
+		if (((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0)) || (myPlayer.playerState == VANISH))
 		{
 			myPlayer.moveRight(0.1);
 		}
@@ -212,10 +212,12 @@ void Game_Manager::update(float secTime)
         }
     }
 	else{
-		if (myPlayer.update(secTime) == 1)
+		int retour = myPlayer.update(secTime);
+		if (retour == 1)
 		{
 			execute_action(ACT_GO_RIGHT);
 		}
+
 		/*cout << secTime << "   ";
 		cout << myPlayer.getPosY() << endl;*/
 		//cout << (m_view2.getCenter().x / 248) - 4 << endl;
@@ -235,7 +237,8 @@ void Game_Manager::update(float secTime)
 		m_view2.move(5, 0);
 		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
 		if (!(((Map[posYpla][posXPla + 1].getObject() == 0) && (Map[posYpla][posXPla].getObject() == 0))
-			|| ((hitLimit > 0.85) && (Map[posYpla][posXPla].getObject() == 0))))
+			|| ((hitLimit > 0.85) && (Map[posYpla][posXPla].getObject() == 0))
+			|| (retour == 2)))
 		{
 			execute_action(ACT_GO_LEFT);
 		}

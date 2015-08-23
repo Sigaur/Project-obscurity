@@ -88,4 +88,6 @@ private:
 	float m_INDistanceLvl;
 	float m_INCurrentDist;
 	float m_INCurrentCoolDown;
+
+	int m_etheral;
 };
