@@ -11,10 +11,10 @@ Player::Player(RenderWindow *app, View *view1)
 
 	, m_FDIsUnlocked(1)
 	, m_FDCostLvl(20)
-	, m_FDCoolDownLvl(5)
+	, m_FDCoolDownLvl(10)
 	, m_FDDistanceLvl(1)
 	, m_FDCurrentDist(1)
-	, m_FDCurrentCoolDown(0)
+	, m_FDCurrentCoolDown(10)
 
 	, m_VAIsUnlocked(1)
 	, m_VACostLvl(20)
@@ -207,6 +207,18 @@ int Player::update(float secTime)
 		playerState = MOVING;
 	}
 
+	if (m_FDCurrentCoolDown < m_FDCoolDownLvl)
+	{
+		m_FDCurrentCoolDown += secTime;
+	}
+	if (m_VACurrentCoolDown < m_VACoolDownLvl)
+	{
+		m_VACurrentCoolDown += secTime;
+	}
+	if (m_INCurrentCoolDown < m_INCoolDownLvl)
+	{
+		m_INCurrentCoolDown += secTime;
+	}
 	return retour;
 }
 
@@ -234,6 +246,7 @@ void Player::dash()
 {
 	m_energy -= m_FDCostLvl;
 	m_FDCurrentDist = 0.0;
+	m_FDCurrentCoolDown = 0.0;
 	playerState = DASH;
 }
 
@@ -246,6 +259,43 @@ void Player::vanish()
 {
 	m_energy -= m_VACostLvl;
 	m_VACurrentDist = 0.0;
+	m_VACurrentCoolDown = 0.0;
 	playerState = VANISH;
 	m_etheral = 1;
+}
+
+int Player::isFDReady()
+{
+	if (m_FDCurrentCoolDown >= m_FDCoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int Player::isVAReady()
+{
+	if (m_VACurrentCoolDown >= m_VACoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int Player::isINReady()
+{
+	if (m_INCurrentCoolDown >= m_INCoolDownLvl)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
