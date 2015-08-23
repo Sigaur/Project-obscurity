@@ -113,6 +113,7 @@ private:
     My_Sprite light_bar;
     My_Sprite light_bar_background;
     My_Sprite light_bar_grad;
+    My_Sprite mob_sprite;
     My_Text selection_text[5], tile_info;
     My_Text energy_text;
 	/////////////////NEW
