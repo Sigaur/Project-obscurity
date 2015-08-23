@@ -38,7 +38,24 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_w = static_cast<int>(vecsize.x);
 
 	int difficuler=5;
-
+  for (int i = 0; i < 14; i++)
+    {
+        string path = "resources/obstacle" + std::to_string(i) + ".png";
+        m_box_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
+    }
+  
+      for (int i = 0; i < 3; i++)
+      {
+          string path = "resources/background" + std::to_string(i) + ".png";
+          m_box_background.push_back(My_Sprite{ m_app, path, &m_view1 });
+      }
+      
+          for (int i = 0; i < 3; i++)
+          {
+              string path = "resources/light" + std::to_string(i) + ".png";
+              m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
+          }
+      
 	CreationMap(difficuler);
 
 
@@ -54,6 +71,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
         selection_text[i].init(app, "rien", 12, 1);
         selection_text[i].change_font("resources/font2.ttf");
     }
+
+  
 
 }
 
@@ -299,7 +318,7 @@ void Game_Manager::draw()
 	m_app->setView(m_view2);
 	//Changes on the world
 	world_sprite.draw(0, 0);
-
+    afficherMapobjet(Map);
     //affichage_Level(Map);//pour afficher la map en valeu numerique
 
 	//m_view2.move(5, 0);
@@ -472,7 +491,7 @@ void Game_Manager::CreationMap(int difficulter)
 				int rndY = rand() % 5;
 				if (Map[rndY][x].getObject() == 0)
 				{
-					Map[rndY][x].setObject(1);////////////Differents sprites
+					Map[rndY][x].setObject(rand()%10);////////////Differents sprites
 					currentObst++;
 				}
 			}
@@ -485,7 +504,7 @@ void Game_Manager::CreationMap(int difficulter)
 				int rndY = rand() % 5;
 				if (Map[rndY][x].getLight() == 0)
 				{
-					Map[rndY][x].setLight(1);////////////Differents sprites
+                    Map[rndY][x].setLight(rand() % 3 + 2);////////////Differents sprites
 					currentLight++;
 				}
 			}
@@ -499,24 +518,29 @@ void Game_Manager::CreationMap(int difficulter)
 
 }
 
-void afficherMapobjet(Box Map[MAXY][MAXX])
+void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
-	cout << endl;
 
 	for (int i = 0; i < MAXY ; i++)
 	{
 		for (int j = 0; j < MAXX; j++)
 
 		{
-			
-			cout << Map[i][j].getObject()<<" ";
+            m_box_background[0].draw(j * 248, i * 216);
+            if (Map[i][j].getObject() != 0)
+            {
+                m_box_sprites[Map[i][j].getObject() - 1].draw(j * 248, i * 216);
+            }
+            if (Map[i][j].getLight() < 3)
+            {
+                m_light_sprites[Map[i][j].getLight()].draw(j * 248, i * 216);
+            }
+			//cout << "obj"<< Map[i][j].getObject()<<" ";
 		}
-	cout << endl;
 	}
-	cout << endl;
 }
 
-void afficherMapLight(Box Map[MAXY][MAXX])
+void Game_Manager::afficherMapLight(Box Map[MAXY][MAXX])
 {
 	cout << endl;
 	for (int i = 0; i < MAXY; i++)

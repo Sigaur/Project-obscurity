@@ -50,7 +50,12 @@ public:
     void set_info();
     void set_building_menu();
     void create_city(int x, int y);
-	void CreationMap(int difficulter);
+    void CreationMap(int difficulter);
+    int* randomplace();
+    void afficherMapobjet(Box Map[MAXY][MAXX]);
+    void afficherMapLight(Box Map[MAXY][MAXX]);
+
+
 
 
     virtual ~Game_Manager() = default;
@@ -100,6 +105,9 @@ private:
     int m_screen_x; //width of the game window in pixels
 
     My_Sprite selection_sprite;
+    vector<My_Sprite> m_box_sprites;
+    vector<My_Sprite> m_box_background;
+    vector<My_Sprite> m_light_sprites;
     My_Sprite action_sprite;
     My_Text selection_text[5], tile_info;
 
@@ -109,11 +117,6 @@ private:
 	Box Map[MAXY][MAXX];
 	
 }; 
-
-
-int* randomplace();
-void afficherMapobjet(Box Map[MAXY][MAXX]);
-void afficherMapLight(Box Map[MAXY][MAXX]);
 
 
 
