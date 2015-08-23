@@ -22,7 +22,11 @@
 #include "My_window.h"
 #include "Player.h"
 
-
+#include "Random.h"
+#define NBCASE 5
+#define NBLIGNE 20
+#define NBCAILLOU 2
+#define NBMOB 2
 using namespace sf;
 
 enum Caracteristic {
@@ -44,6 +48,9 @@ public:
     void set_info();
     void set_building_menu();
     void create_city(int x, int y);
+	void CreationMap(int difficulter);
+
+
     virtual ~Game_Manager() = default;
     Hud interface1;
 
@@ -97,8 +104,16 @@ private:
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
-	Box Map[5][20];
+	Box Map[NBCASE][NBLIGNE];
 	
 };
+
+
+int* randomplace();
+void afficherMapobjet(Box Map[NBCASE][NBLIGNE]);
+void afficherMapLight(Box Map[NBCASE][NBLIGNE]);
+
+
+
 
 #endif // GAME_MANAGER_H

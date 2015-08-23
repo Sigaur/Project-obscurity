@@ -11,6 +11,7 @@ Box::Box(int Y, int X, int Background, int Object, int Mob, int Light)
 	
 }
 
+
 Box::Box()
 	: m_Y(0)
 	, m_X(0)
@@ -46,31 +47,40 @@ int Box::getLight()
 {
 	return m_light;
 }
-int Box::setX(int X)
+
+void Box::setX(int X)
 {
-	return m_X;
+	 m_X=X;
 }
-int Box::setY(int Y)
+void Box::setY(int Y)
 {
-	return m_Y;
+	 m_Y=Y;
 }
-int Box::setBackground(int Background)
+void Box::setBackground(int Background)
 {
-	return m_background;
+	m_background = Background;
 }
-int Box::setObject(int Object)
+void Box::setObject(int Object)
 {
-	return m_object;
+	m_object = Object;
 }
-int Box::setMob(int Mob)
+void Box::setMob(int Mob)
 {
-	return m_mob;
+	m_mob = Mob;
 }
-int Box::setLight(int Light)
+void Box::setLight(int Light)
 {
-	return m_light;
+	m_light = Light;
 }
 
+void Box::setMajoriter(int Y, int X, int Background, int Object, int Mob)
+{
+	m_X = X;
+	m_Y = Y;
+	m_background = Background;
+	m_object = Object;
+	m_mob = Mob;
+}
 
 /************************            Constructeur Destructeur          *****************************/
 /*Box::Box() :_contenu(0), _light(0)

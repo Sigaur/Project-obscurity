@@ -1,6 +1,8 @@
 #include "Game_Manager.h"
 
-#include "Random.h"
+
+
+
 
 Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int screen_x, int screen_y)
 	: m_view1(view1)
@@ -35,20 +37,18 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
+	int difficuler=1;
 
+	CreationMap(difficuler);
 
-	/*
-		Map = generationMap(m_app, &m_view1,1);
-	
-		affichage_Level(Map);
-		affichage_Level_light(Map);
-		affichage_Level_patern(Map);
-	*/
-
+	cout << "1";
 	//////MAP GENERATION////////
 
-	
-		//while (true){}
+	afficherMapobjet(Map);
+
+	afficherMapLight(Map);
+
+		while (true){}
 		
     for (int i = 0; i < 2; i++)
     {
@@ -383,4 +383,132 @@ void Game_Manager::set_info()
 {
     is_info = true;
     m_info.activate();
+}
+
+
+void Game_Manager::CreationMap(int difficulter)
+{
+	int mob, caillou, obstacle;
+	int *ordre = NULL;
+
+
+	for (int i = 0; i < NBCASE; i++)
+	{
+		ordre = randomplace();
+		obstacle = rand() % (NBLIGNE - 1);
+		caillou = rand() % (obstacle + 1);
+		mob = obstacle - caillou;
+
+		for (int j = 0; j < NBLIGNE; j++)
+		{
+		
+			//la premiere ligne est vide
+			if (i == 0)
+			{
+				Map[i][j].setMajoriter(i, j, 1, 0, 0);
+			}
+			else if(caillou > 0)
+			{
+				Map[i][j].setMajoriter(i, j, 1, 1 + rand() % NBCAILLOU, 0);
+				caillou--;
+			}
+			else if (mob > 0)
+			{	//on definie un mob de la liste de mob definie
+				Map[i][j].setMajoriter(i, j, 1, 0, 1 + rand() % NBMOB);
+				mob--;
+			}
+			else
+			{//par defaut on met du vide sinon
+				Map[i][j].setMajoriter(i, j, 1, 0, 0);
+			}
+			
+		}
+	}
+
+	for (int i = 0; i < NBCASE - 1; i++)
+	{
+		for (int j = 0; j < NBLIGNE; j++)
+		{
+			if (Map[i + 1][j].getMob() != 0)
+			{
+				Map[i][j].setLight(1);
+			}
+			else
+			{
+				Map[i][j].setLight(0);
+			}
+		}
+	}
+
+	//la derniere ligne est toujour dans le noir
+	for (int j = 0; j < NBCASE; j++)
+	{
+		Map[j][NBLIGNE].setLight(0);
+	}
+
+	
+
+
+}
+
+void afficherMapobjet(Box Map[NBCASE][NBLIGNE])
+{
+	cout << endl;
+	for (int i = 0; i < NBLIGNE ; i++)
+	{
+		for (int j = 0; j < NBCASE; j++)
+		{
+			
+			cout << Map[i][j].getObject()<<" ";
+		}
+	cout << endl;
+	}
+	cout << endl;
+}
+
+void afficherMapLight(Box Map[NBCASE][NBLIGNE])
+{
+	cout << endl;
+	for (int i = 0; i < NBLIGNE; i++)
+	{
+		for (int j = 0; j < NBCASE; j++)
+		{
+
+			cout << Map[i][j].getLight();
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+int* randomplace()
+{
+	int max = 4, min = 0;
+
+	//genere aleatoirement la suite de 0 a 4
+	int j = 4;
+	int tampon;
+	int *lign = new int[NBCASE];
+
+	for (int i = 0; i < NBCASE; i++)
+	{
+		lign[i] = 0;
+	}
+
+
+	do{
+		tampon = rand() % (NBCASE + 1);
+
+		if (lign[tampon] == 0)
+		{
+			lign[tampon] = j; j--;
+
+			if (tampon >= max){ max = tampon - 1; }
+			if (tampon <= min){ min = tampon + 1; }
+
+		}
+
+	} while (j > 0);
+
+	return lign;
 }
