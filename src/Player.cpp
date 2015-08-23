@@ -121,8 +121,9 @@ void Player::setLight(int set)
 	m_isLight = set;
 }
 
-void Player::update(float secTime)
+int Player::update(float secTime)
 {	
+	int retour = 0;
 	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)
 	{
@@ -151,12 +152,14 @@ void Player::update(float secTime)
 	if (m_FDCurrentDist < m_FDDistanceLvl)
 	{
 		m_FDCurrentDist += 0.1;
-		moveRight(0.1);
+		//moveRight(0.1);
+		retour = 1;
 	}
 	else if (playerState == DASH)
 	{
 		playerState = MOVING;
 	}
+	return retour;
 }
 
 void Player::moveRight(float move)

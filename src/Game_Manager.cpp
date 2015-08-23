@@ -89,7 +89,7 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_RIGHT:
 		if ((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0))
 		{
-			myPlayer.moveRight(0.01);
+			myPlayer.moveRight(0.1);
 		}
         break;
     case ACT_GO_DOWN:
@@ -207,7 +207,10 @@ void Game_Manager::update(float secTime)
         }
     }
     else{
-		myPlayer.update(secTime);
+		if (myPlayer.update(secTime))
+		{
+			execute_action(ACT_GO_RIGHT);
+		}
         /*cout << secTime << "   ";
         cout << myPlayer.getPosY() << endl;*/
         //cout << (m_view2.getCenter().x / 248) - 4 << endl;
