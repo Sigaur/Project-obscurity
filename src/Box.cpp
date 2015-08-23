@@ -3,7 +3,6 @@
 Box::Box() :_contenu(0), _light(0)
 {
 
-	srand(time(0));
 	//_pattern = rand() % 10;
 	_pattern = _contenu ;
 

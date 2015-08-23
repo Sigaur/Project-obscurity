@@ -3,6 +3,7 @@
 /************************            Constructeur Destructeur          ************************/
 Level::Level(RenderWindow *app, View *view1)
 {
+    srand(time(0));
 
 	cout << " Constructeur Map";
     int i = 0;
@@ -314,7 +315,7 @@ void affichage_Level_patern(Level* leLevel)
 		for (j = 0; j<NBCASE; j++)
 		{
 			cout << leLevel->getBox(i, j).getPattern();
-			afficher_box(leLevel->getBoxPattern(i, j));
+            leLevel->afficher_box(leLevel->getBoxPattern(i, j), i, j);
 		}
 
 		cout << endl;
