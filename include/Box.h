@@ -18,14 +18,14 @@ using namespace std;
 
 class Box
 {
-private:
+/*private:
 	int _contenu;//0= vide   1=un obstacle physique  2=personnage
     int _pattern;
 	int _light;
     My_Sprite m_sprite;
 public:
 	/************************            Constructeur Destructeur          *****************************/
-
+	/*
     Box();
 	Box(int contenu);
 	Box(const Box&);
@@ -33,7 +33,7 @@ public:
 
 
 	/************************            get set                           *****************************/
-	int   getPattern()const;
+	/*int   getPattern()const;
 	void  setPattern(int Pattern);
 
 	int   getContenu()const;
@@ -49,7 +49,7 @@ public:
 
 
 	/************************            operator                          *****************************/
-	Box operator = (const Box& original);
+	/*Box operator = (const Box& original);
 
 
 
@@ -59,11 +59,34 @@ public:
 
 
 
-	friend class Level;
+	friend class Level;*/
 
+public:
+	Box();
+	Box(int Y, int X, int Background, int Object, int Mob, int Light);
+	int getX();
+	int getY();
+	int getBackground();
+	int getObject();
+	int getMob();
+	int getLight();
+	int setX(int Y);
+	int setY(int X);
+	int setBackground(int Background);
+	int setObject(int Object);
+	int setMob(int Mob);
+	int setLight(int Light);
+
+private:
+	int m_X;
+	int m_Y;
+	int m_background;
+	int m_object;
+	int m_mob;
+	int m_light;
 };
-
+/*
 void afficher_box(Box Box);
-Box* creationType();
+Box* creationType();*/
 
 

@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "Box.h"
 #include <iostream>
 #include <stdlib.h>
@@ -17,14 +17,14 @@ private:
 public:
 
 	/************************            Constructeur Destructeur          *****************************/
-    Level(RenderWindow *app, View *view1);
+   /* Level(RenderWindow *app, View *view1);
 	Level(const Level&);
 	~Level();
 
 
 	/************************            get set                           *****************************/
 
-	void setBox		(int y, int x, Box valeur);
+	/*void setBox		(int y, int x, Box valeur);
 	void setBoxInt	(int y, int x, int contenu);
 	void setBoxLight(int y, int x, int light);
 	void setBoxPattern(int y, int x, int Pattern);
@@ -39,7 +39,7 @@ public:
 
 
 	/************************            fonction                          *****************************/
-		void afficher_box(int valeur);
+	/*	void afficher_box(int valeur);
 
 	friend Level * generationMap(RenderWindow *app, View *view1, int difficulter);
 
@@ -48,7 +48,7 @@ public:
 
 	/************************            operator                          *****************************/
 
-
+/*
 
 	friend class Box;
 
@@ -63,3 +63,4 @@ int random();
 void affichage_Level		(Level* leniveau);
 void affichage_Level_light	(Level* leLevel);
 void affichage_Level_patern (Level* leLevel);
+*/

@@ -37,12 +37,15 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 
 
-
+	/*
 		Map = generationMap(m_app, &m_view1,1);
 
 		affichage_Level(Map);
 		affichage_Level_light(Map);
 		affichage_Level_patern(Map);
+	*/
+
+	//////MAP GENERATION////////
 
 	
 		//while (true){}
@@ -67,11 +70,11 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_UP:
 		if (myPlayer.getPosY() > 0)
 		{
-			if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla - 1, posXPla) != 1))
+			if ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (Map[posYpla - 1][posXPla].getObject() == 0))
 			{
 				myPlayer.moveUp();
 			}
-			else if ((Map->getBoxint(posYpla - 1, posXPla + 1) != 1) && (hitLimit > 0.75))
+			else if ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75))
 			{
 				myPlayer.moveUp();
 			}
@@ -84,7 +87,7 @@ void Game_Manager::execute_action(Action action)
 		}
 		break;
     case ACT_GO_RIGHT:
-		if ((myPlayer.getPosX() < 1000) && (Map->getBoxint(posYpla, posXPla + 1) == 0))
+		if ((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0))
 		{
 			myPlayer.moveRight(0.01);
 		}
@@ -92,11 +95,11 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_DOWN:
 		if (myPlayer.getPosY() < 4)
 		{
-			if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (Map->getBoxint(posYpla + 1, posXPla) != 1))
+			if ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (Map[posYpla + 1][posXPla].getObject() == 0))
 			{
 				myPlayer.moveDown();
 			}
-			else if ((Map->getBoxint(posYpla + 1, posXPla + 1) != 1) && (hitLimit > 0.75))
+			else if ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75))
 			{
 				myPlayer.moveDown();
 			}
@@ -222,18 +225,18 @@ void Game_Manager::update(float secTime)
 
 
 		m_view2.move(5, 0);
-		if (!((Map->getBoxint(posYpla, posXPla + 1) != 1) && (Map->getBoxint(posYpla, posXPla) != 1) || (hitLimit > 0.85)))
-			{
+		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
+		if (!((Map[posYpla][posXPla + 1].getObject() == 0) && (Map[posYpla][posXPla].getObject() == 0) || (hitLimit > 0.85)))
+		{
 				execute_action(ACT_GO_LEFT);
-			}
+		}
 
-		
-		if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
+		if ((Map[posYpla][posXPla + 1].getLight() != 0) && (Map[posYpla][posXPla].getLight() != 0))
+		//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
 
-
-			if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
-
+			if ((Map[posYpla][posXPla + 1].getLight() != 0) || (hitLimit < 0.85))
+			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
 			{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)

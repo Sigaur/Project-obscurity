@@ -1,7 +1,7 @@
-#include "..\include\Level.h"
+/*#include "..\include\Level.h"
 
 /************************            Constructeur Destructeur          ************************/
-Level::Level(RenderWindow *app, View *view1)
+/*Level::Level(RenderWindow *app, View *view1)
 {
 
 	cout << " Constructeur Map";
@@ -39,7 +39,7 @@ Level::~Level()
 }
 
 /************************            get set                           *****************************/
-
+/*
 void Level::setMap(Box** arg){ _carte = arg; }
 Box**  Level::getMap()const{ return _carte; }
 
@@ -95,7 +95,7 @@ int Level::getBoxPattern(int y, int x)const{
 
 /************************            fonction                          *****************************/
 
-
+/*
 Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 {
 	
@@ -266,7 +266,7 @@ void Level::afficher_box(int valeur, int x_get, int y_get)
 
 
 /************************            hors class                          *****************************/
-
+/*
 void affichage_Level(Level* leLevel)
 {
 	//cout << endl;
@@ -329,6 +329,6 @@ int random()
 {
 	return (int)time(0);
 }
-
+*/
 
 

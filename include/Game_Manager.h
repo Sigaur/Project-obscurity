@@ -97,7 +97,7 @@ private:
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
-	Level* Map;
+	Box Map[5][20];
 	
 };
 
