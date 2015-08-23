@@ -89,7 +89,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 			  break;
 		  case 4:CreationMonde4(difficulter);
 			  break;
-
+		  case 5:CreationMonde5(difficulter);
+			  break;
 		  case 11:CreationMonde1obsolete1(difficulter);
 			  break;
 		  case 12:CreationMonde1obsolete2(difficulter);
@@ -557,7 +558,7 @@ void Game_Manager::CreationMonde1obsolete2(int difficulter)
 					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
 					if (Map[rndY][x].getMob() == 0)
 					{
-						Map[rndY][x].setMob(1);////////////Differents sprites
+						Map[rndY][x].setMob(1 + rand() % 4);////////////Differents sprites
 						currentMob++;
 					}
 				}
@@ -656,7 +657,7 @@ void Game_Manager::CreationMonde1(int difficulter)
 					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
 					if (Map[rndY][x].getMob() == 0)
 					{
-						Map[rndY][x].setMob(1);////////////Differents sprites
+						Map[rndY][x].setMob(1 + rand() % 4);////////////Differents sprites
 						currentMob++;
 					}
 				}
@@ -996,7 +997,8 @@ void Game_Manager::CreationMonde2(int difficulter)
 					rndY = rand() % MAXY;
 					if (Map[rndY][x].getMob() == 0)
 					{
-						Map[rndY][x].setMob(1);////////////Differents sprites
+						Map[rndY][x].setMob(1 + rand() % 4);////////////Differents sprites
+					
 						currentMob++;
 					}
 				}
@@ -1076,17 +1078,12 @@ void Game_Manager::CreationMonde4(int difficulter)
 
 	resetMap();
 
-
-
 	int current = 3,precedent;
 
 	for (int x = 3; x < MAXX; x++)
 	{
 		precedent = current;
 		current = modifcourant(current); 
-		cout << " diff =" << current - precedent << endl;
-
-	
 
 		for (int y = 0; y < MAXY; y++)
 		{
@@ -1095,7 +1092,7 @@ void Game_Manager::CreationMonde4(int difficulter)
 				{ }
 			else if ( y != precedent)
 			{	
-				if (rand() % 3!=0)
+				if (rand() % (difficulter+1)!=0)
 				{
 					if (rand() % 2) 
 					{
@@ -1117,7 +1114,7 @@ void Game_Manager::CreationMonde4(int difficulter)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map[y][x].setMob(1);
+					Map[y][x].setMob(1+rand()%4);
 				}
 				else
 				{
@@ -1144,16 +1141,20 @@ void Game_Manager::CreationMonde5(int difficulter)
 	{
 		precedent = current;
 		current = modifcourant(current);
-		cout << " diff =" << current - precedent << endl;
+
 
 
 
 		for (int y = 0; y < MAXY; y++)
 		{
-
 			if (y == current)
 			{
-				Map[y][x].setLight(rand() % 2 + 3);
+				if (y % 3 != 0)
+				{
+					//Map[y][x].setLight(rand() % 2 + 3);
+					Map[y][x].setObject(2 + rand() % 8);//temporaire on voit pas les lampes
+				}
+				
 			}
 			else if (y != precedent)
 			{
@@ -1171,7 +1172,7 @@ void Game_Manager::CreationMonde5(int difficulter)
 			{
 				if (rand() % 2 == 0)
 				{
-					Map[y][x].setMob(1);
+					Map[y][x].setMob(1 + rand() % 4);
 				}
 				else
 				{
@@ -1186,25 +1187,27 @@ void Game_Manager::CreationMonde5(int difficulter)
 }
 
 
+
+
 int Game_Manager::modifcourant(int actuel)
 {
-	int test = rand() % 5;
+	int test = rand() % 7;
 
 	if (actuel == 0)
-		{if (test < 3)
+		{if (test < 4)
 			{ return 0; }return 1; 
 		}
 	else if (actuel == 5)
 		{
-			if (test < 3)
+			if (test < 4)
 			{
 				return 5;
 			}return 4;
 		}
 	else
 	{
-		if (test == 3){ return actuel; }
-		else if (test < 3){ return actuel-1; }
+		if (test == 4){ return actuel; }
+		else if (test < 4){ return actuel-1; }
 		else	{ return actuel+1; }
 	}
 
@@ -1232,20 +1235,57 @@ void Game_Manager::Lumiere(int portee)
 
 	for (int y = 0; y < MAXY; y++)
 	{
-		for (int x = 0; x < MAXX - 1; x++)
-		{
-			if (Map[y][x + 1].getMob() != 0)
-			{
-				Map[y][x].setLight(2);
-			}
-			else if (x<MAXX-2 &&  Map[y][x + 2].getMob() == 2)
-			{ 
-				Map[y][x].setLight(2);
-			}
-			else
-			{
+	//     6
+	//     2 
+	// 5 1 O 3 7
+	//	   4 
+	//     8
 
-			}
+
+		for (int x = 0; x < MAXX ; x++)
+		{
+		//lumiere gauche 1 5
+			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 1 || Map[y][x-1].getMob() == 5) )
+				{
+					Map[y][x].setLight(2);
+				}
+			else if (x - 2 > 0  && Map[y][x-2].getMob() == 5)
+				{
+					Map[y][x].setLight(2);
+				}
+			//lumiere bas 4 8
+			else if (y - 1> 0 && (Map[y-1][x].getMob() == 4 || Map[y-1][x].getMob() == 8))
+				{
+					Map[y][x].setLight(2);
+				}
+			else if (y - 2 > 0 && Map[y-2][x].getMob() == 8)
+				{
+					Map[y][x].setLight(2);
+				}
+			//lumiere haut 2 6
+			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 2 || Map[y+1][x].getMob() == 6))
+				{
+					Map[y][x].setLight(2);
+				}
+			else if (y+2 < MAXY  && Map[y+2][x].getMob() == 6)
+				{
+					Map[y][x].setLight(2);
+				}
+			//lumiere droite 3 7
+			else if (x+1 < MAXX && (Map[y][x+1].getMob() == 3 || Map[y][x+1].getMob() == 7))
+				{
+					Map[y][x].setLight(2);
+				}
+			else if (x+2 < MAXX  && Map[y][x+2].getMob() == 7)
+				{
+					Map[y][x].setLight(2);
+				}
+			
+			else
+				{ }
+			
+
+
 		}
 	}
 
@@ -1276,7 +1316,7 @@ void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 			{
 				m_light_sprites[Map[i][j].getLight()].draw(j * 248, i * 216);
 			}
-			if (Map[i][j].getMob() == 1)
+			if (Map[i][j].getMob() != 0)
 			{
 				mob_sprite.draw(j * 248, i * 216);
 			}
