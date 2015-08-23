@@ -39,7 +39,7 @@ public:
 	void reset();
 	void setMajoriter(int Y, int X, int Background, int Object, int Mob);
 	void setMajoriter(int Y, int X, int Background, int Object, int Mob, int light);
-
+	void setType( int Object, int Mob, int light);
 private:
 	int m_X;
 	int m_Y;
