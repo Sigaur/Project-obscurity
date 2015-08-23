@@ -291,7 +291,7 @@ void Game_Manager::draw()
 	//Changes on the world
 	world_sprite.draw(0, 0);
 
-    //affichage_Level(Map);//pour afficher la map en valeu numerique
+    affichage_Level(Map);//pour afficher la map en valeu numerique
 
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
