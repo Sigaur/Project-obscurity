@@ -8,8 +8,12 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	: m_view1(view1)
 	, menu1(app, &m_view2)
 	, m_grid(GRID_WIDTH, GRID_HEIGHT, &m_view1, app)
-	, selection_sprite(app, "resources/selection.png", &m_view1)
-	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , selection_sprite(app, "resources/selection.png", &m_view1)
+    , light_bar(app, "resources/light_bar.png", &m_view1)
+    , light_bar_background(app, "resources/light_bar_background.png", &m_view1)
+    , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
+  
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
@@ -23,6 +27,8 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
+
+    energy_text.init(app, "100", 50, 1);
 
     m_app = app;
     m_app->setView(m_view1);
@@ -88,30 +94,31 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_UP:
 		if (myPlayer.getPosY() > 0)
 		{
-			if ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (Map[posYpla - 1][posXPla].getObject() == 0))
+			if (((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (Map[posYpla - 1][posXPla].getObject() == 0))
+				|| ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05))))
 			{
 				myPlayer.moveUp();
 			}
-			else if ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75))
+			/*else if ((Map[posYpla - 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.80))
 			{
 				myPlayer.moveUp();
-			}
+			}*/
 		}
         break;
 	case ACT_FRONT_DASH:		
-		if (myPlayer.getEnergy() - myPlayer.getDashCost() > 0)
+		if (myPlayer.getEnergy() - myPlayer.getDashCost() >= 0)
 		{
 			myPlayer.dash();
 		}
 		break;
 	case ACT_VANISH:
-		if (myPlayer.getEnergy() - myPlayer.getVanishCost() > 0)
+		if (myPlayer.getEnergy() - myPlayer.getVanishCost() >= 0)
 		{
 			myPlayer.vanish();
 		}
 		break;
     case ACT_GO_RIGHT:
-		if ((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0))
+		if (((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0)) || (myPlayer.playerState == VANISH))
 		{
 			myPlayer.moveRight(0.1);
 		}
@@ -119,14 +126,15 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_DOWN:
 		if (myPlayer.getPosY() < 4)
 		{
-			if ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (Map[posYpla + 1][posXPla].getObject() == 0))
+			if (((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (Map[posYpla + 1][posXPla].getObject() == 0))
+				|| ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && ((hitLimit > 0.75) || (hitLimit < 0.05))))
 			{
 				myPlayer.moveDown();
 			}
-			else if ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.75))
+			/*else if ((Map[posYpla + 1][posXPla + 1].getObject() == 0) && (hitLimit > 0.80))
 			{
 				myPlayer.moveDown();
-			}
+			}*/
 		}
         break;
     case ACT_GO_LEFT:
@@ -231,10 +239,12 @@ void Game_Manager::update(float secTime)
         }
     }
 	else{
-		if (myPlayer.update(secTime) == 1)
+		int retour = myPlayer.update(secTime);
+		if (retour == 1)
 		{
 			execute_action(ACT_GO_RIGHT);
 		}
+
 		/*cout << secTime << "   ";
 		cout << myPlayer.getPosY() << endl;*/
 		//cout << (m_view2.getCenter().x / 248) - 4 << endl;
@@ -253,18 +263,17 @@ void Game_Manager::update(float secTime)
 
 		m_view2.move(5, 0);
 		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
-		if (!(((Map[posYpla][posXPla + 1].getObject() == 0) && (Map[posYpla][posXPla].getObject() == 0))
-			|| ((hitLimit > 0.85) && (Map[posYpla][posXPla].getObject() == 0))))
+		if ((((Map[posYpla][posXPla + 1].getObject() != 0) || (Map[posYpla][posXPla].getObject() != 0))
+			&& (!(((hitLimit > 0.75)) && (Map[posYpla][posXPla + 1].getObject() == 0)))
+			&& (retour != 2)))
 		{
 			execute_action(ACT_GO_LEFT);
 		}
 
 		if ((Map[posYpla][posXPla + 1].getLight() != 0) || (Map[posYpla][posXPla].getLight() != 0))
-
 			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
 		{
-
-			if ((Map[posYpla][posXPla + 1].getLight() != 0) || (hitLimit > 0.85))
+			if ((!((Map[posYpla][posXPla].getLight() != 0) && (hitLimit > 0.75))) && (Map[posYpla][posXPla + 1].getLight() == 0))
 				//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
 			{
 				myPlayer.setMovable(0);
@@ -274,22 +283,21 @@ void Game_Manager::update(float secTime)
 					//lightTime = lightClock.restart();
 				}
 			}
-		}
-		else
-		{
-			if (myPlayer.isMovable() == 0)
+			else
 			{
-				myPlayer.setMovable(1);
+				if (myPlayer.isMovable() == 0)
+				{
+					myPlayer.setMovable(1);
+				}
+				if (myPlayer.isLight() == 1)
+				{
+					cout << "UNLIGHT" << endl;
+					//system("PAUSE");
+					myPlayer.setLight(0);
+				}
 			}
-			if (myPlayer.isLight() == 1)
-			{
-				cout << "UNLIGHT" << endl;
-				system("PAUSE");
-				myPlayer.setLight(0);
-			}
-		}
+		}		
     }
-
     bool isEvent = handle_input_events();
 
 	
@@ -322,7 +330,11 @@ void Game_Manager::draw()
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
     myPlayer.draw();
-
+    light_bar_background.draw(m_screen_x - light_bar_background.get_w(), 0);
+    light_bar.draw(m_screen_x + 28 - light_bar_background.get_w(), 40);
+    light_bar_grad.draw(m_screen_x - light_bar_background.get_w(), 0);
+    energy_text.refill(to_string(myPlayer.getEnergy() ) );
+    energy_text.draw(0, 0, 55);
     }
     m_app->display();
 }
