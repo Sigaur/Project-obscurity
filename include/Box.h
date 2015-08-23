@@ -8,8 +8,8 @@
 #include <time.h>
 
 #define NBCASE 5
-#define NBLIGNE 10
-#define NBTYPE 3
+#define NBLIGNE 20
+
 using namespace std;
 
 
@@ -45,7 +45,7 @@ public:
 
 
 	/************************            fonction                          *****************************/
-	
+	void afficher();
 
 
 	/************************            operator                          *****************************/
@@ -76,6 +76,7 @@ public:
 	int setObject(int Object);
 	int setMob(int Mob);
 	int setLight(int Light);
+
 
 private:
 	int m_X;
