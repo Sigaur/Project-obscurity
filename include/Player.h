@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <sstream>
 #include <iostream>
 #include <cstdlib>
@@ -57,6 +58,9 @@ private:
     My_Sprite dash_sprite;
     My_Sprite invincibility_sprite;
     My_Sprite vanish_sprite;
+
+    sf::SoundBuffer dash_buffer;
+    sf::Sound dash_sound;
 
 	float m_posY;
 	float m_posX;

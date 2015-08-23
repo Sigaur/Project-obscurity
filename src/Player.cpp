@@ -46,6 +46,9 @@ Player::Player(RenderWindow *app, View *view1)
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_vanish.png", m_view1, 248, 5, 1.0f });
     player_sprite.push_back(My_Sprite{ m_app, "resources/player_invincibility.png", m_view1, 248, 5, 1.0f });
 
+    dash_buffer.loadFromFile("resources/dash.ogg");
+
+    dash_sound.setBuffer(dash_buffer);
 }
 
 void Player::draw(float y, float x)
@@ -235,6 +238,7 @@ void Player::dash()
 	m_energy -= m_FDCostLvl;
 	m_FDCurrentDist = 0.0;
 	playerState = DASH;
+    dash_sound.play();
 }
 
 int Player::getVanishCost()

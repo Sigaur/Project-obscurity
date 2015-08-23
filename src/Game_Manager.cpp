@@ -111,7 +111,14 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
         selection_text[i].change_font("resources/font2.ttf");
     }
 
-  
+
+    if (!music.openFromFile("resources/music.ogg"))
+    {
+        cout << "music init failed" << endl;
+    }
+    music.setLoop(true);
+
+    music.play();
 
 }
 
