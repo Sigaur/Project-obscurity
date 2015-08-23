@@ -587,7 +587,7 @@ void Game_Manager::CreationMapbis(int difficulter)
 
 		for (x = 4; x < MAXX; x = x + 4)
 		{
-			passagesecuriser(x); cout << " securiser ";
+			passagesecuriser(x, difficulter); cout << " securiser ";
 		}
 
 	}
@@ -632,7 +632,7 @@ void Game_Manager::afficherMapLight(Box Map[MAXY][MAXX])
 	cout << endl;
 }
 
-void Game_Manager::passagesecuriser(int colonne)
+void Game_Manager::passagesecuriser(int colonne,int difficulter)
 {
 
 	int repere[MAXY][2];
@@ -702,7 +702,7 @@ void Game_Manager::passagesecuriser(int colonne)
 
 	for (int y = 0; y < MAXY; y++)
 	{
-		if (Map[y][colonne].getLight() == 0)
+		if (Map[y][colonne].getLight() == 0 && rand() % difficulter == 0)
 		{ 
 			if (choixD == choixG )
 				{if (choixD == y)
@@ -718,7 +718,7 @@ void Game_Manager::passagesecuriser(int colonne)
 				}
 			else if (choixD < choixG)
 				{
-					if (y >= choixD && y <= choixG)
+					if (y >= choixD && y <= choixG )
 					{//la case reste vide obligatoirement
 					}
 					else
