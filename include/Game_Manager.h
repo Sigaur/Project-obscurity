@@ -96,7 +96,6 @@ private:
 
 	/////////////////NEW
 	Player myPlayer;
-	My_Sprite player_sprite;
 	My_Sprite world_sprite;
 	Level* Map;
 	

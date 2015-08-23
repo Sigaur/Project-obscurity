@@ -2,10 +2,18 @@
 
 
 
+
+
+
+
 /************************            Constructeur Destructeur          *****************************/
 Box::Box() :_contenu(0), _light(0), _pattern(0){}
 
 Box::Box(int contenu) : _contenu(contenu), _light(0), _pattern(0){}
+
+	
+
+
 
 Box::Box(const Box& arg) : _contenu(arg.getContenu()), _light(arg.getLight()), _pattern(arg.getPattern())
 {}

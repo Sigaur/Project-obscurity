@@ -8,7 +8,7 @@
 #include <time.h>
 
 #define NBCASE 5
-#define NBLIGNE 10
+#define NBLIGNE 20
 
 using namespace std;
 

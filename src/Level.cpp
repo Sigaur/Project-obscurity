@@ -3,6 +3,7 @@
 /************************            Constructeur Destructeur          ************************/
 Level::Level(RenderWindow *app, View *view1)
 {
+    srand(time(0));
 
     int i = 0;
     m_view1 = view1;
@@ -168,8 +169,10 @@ Level * generationMap(RenderWindow *app, View *view1, int difficulter)
 					else if (Map->getBoxint(i, j) == 1)
 						{Map->setBoxPattern(i, j, 1);}
 					else
-						{Map->setBoxPattern(i, j, 2+rand()%9);}
-						
+						//{Map->setBoxPattern(i, j, 2+rand()%9);}
+							{
+								Map->setBoxPattern(i, j, 2);
+							}
 
 				}
 			}
@@ -277,8 +280,10 @@ void affichage_Level_patern(Level* leLevel)
 		for (j = 0; j<NBCASE; j++)
 		{
 			cout << leLevel->getBox(i, j).getPattern();
-			//afficher_box(leLevel->getBoxPattern(i, j));
-			leLevel->afficher_box(1, i, j);
+
+
+            leLevel->afficher_box(leLevel->getBoxPattern(i, j), i, j);
+
 		}
 		cout << endl;
 	}

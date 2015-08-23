@@ -10,8 +10,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
-	, myPlayer()
-	, player_sprite(app, "resources/player_moving.png", &m_view1, 248, 5, 1.05f)
+	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
 {
@@ -104,6 +103,7 @@ void Game_Manager::execute_action(Action action)
 		}
         break;
     case ACT_GO_LEFT:
+		myPlayer.playerState = SMASHED;
 		if (myPlayer.getPosX() > 0)
 		{
 			myPlayer.moveLeft(248.0/50000.0 * 5);//5 = SPEED/////////////////////////////////////
@@ -209,11 +209,11 @@ void Game_Manager::update(float secTime)
         cout << myPlayer.getPosY() << endl;*/
         //cout << (m_view2.getCenter().x / 248) - 4 << endl;
         int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
-		cout << endl << posXPla << endl;
+		//cout << endl << posXPla << endl;
         int posYpla = myPlayer.getPosY();
 
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
-		cout << posXPla << "     " << hitLimit << endl;
+		//cout << posXPla << "     " << hitLimit << endl;
 
 
         /*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
@@ -291,12 +291,12 @@ void Game_Manager::draw()
 	//Changes on the world
 	world_sprite.draw(0, 0);
 
-    //affichage_Level(Map);//pour afficher la map en valeu numerique
+    affichage_Level(Map);//pour afficher la map en valeu numerique
 
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
-    player_sprite.draw((myPlayer.getPosX() * 248 - 20), (myPlayer.getPosY() * 216));
+    myPlayer.draw();
 
     }
     m_app->display();
