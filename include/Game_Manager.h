@@ -24,7 +24,7 @@
 
 #include "Random.h"
 #define NBCASE 5
-#define NBLIGNE 20
+#define NBLIGNE 10
 #define NBCAILLOU 2
 #define NBMOB 2
 using namespace sf;
@@ -106,7 +106,7 @@ private:
 	My_Sprite world_sprite;
 	Box Map[NBCASE][NBLIGNE];
 	
-};
+}; 
 
 
 int* randomplace();

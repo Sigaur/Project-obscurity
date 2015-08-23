@@ -17,48 +17,9 @@ using namespace std;
 
 class Box
 {
-/*private:
-	int _contenu;//0= vide   1=un obstacle physique  2=personnage
-    int _pattern;
-	int _light;
-    My_Sprite m_sprite;
-public:
-	/************************            Constructeur Destructeur          *****************************/
-	/*
-    Box();
-	Box(int contenu);
-	Box(const Box&);
-	~Box(){};
+void afficher();
 
 
-	/************************            get set                           *****************************/
-	/*int   getPattern()const;
-	void  setPattern(int Pattern);
-
-	int   getContenu()const;
-	void  setContenu(int contenu);
-
-	int  getLight()const;
-	void  setLight(int light);
-
-
-
-	/************************            fonction                          *****************************/
-	void afficher();
-
-
-	/************************            operator                          *****************************/
-	/*Box operator = (const Box& original);
-
-
-
-
-	friend bool operator==(const Box& left, const Box& right);
-	friend bool operator!=(const Box& left, const Box& right);
-
-
-
-	friend class Level;*/
 
 public:
 	Box();
@@ -77,6 +38,7 @@ public:
 	void setLight(int Light);
 
 	void setMajoriter(int Y, int X, int Background, int Object, int Mob);
+	void setMajoriter(int Y, int X, int Background, int Object, int Mob, int light);
 
 private:
 	int m_X;
@@ -86,8 +48,5 @@ private:
 	int m_mob;
 	int m_light;
 };
-/*
-void afficher_box(Box Box);
-Box* creationType();*/
 
 

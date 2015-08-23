@@ -80,6 +80,17 @@ void Box::setMajoriter(int Y, int X, int Background, int Object, int Mob)
 	m_background = Background;
 	m_object = Object;
 	m_mob = Mob;
+	m_light = 0;//on initialise mais c'est surtout une securiter
+}
+
+void Box::setMajoriter(int Y, int X, int Background, int Object, int Mob,int light)
+{
+	m_X = X;
+	m_Y = Y;
+	m_background = Background;
+	m_object = Object;
+	m_mob = Mob;
+	m_light = light;
 }
 
 /************************            Constructeur Destructeur          *****************************/
