@@ -13,6 +13,7 @@ enum Action
     ACT_GO_RIGHT,
     ACT_GO_LEFT,
     ACT_CLOSE_APP,
+	ACT_RESTART_APP,
 	ACT_ROTATE_RIGHT,	//counter clockwise
 	ACT_ROTATE_LEFT,		//clockwise
 	ACT_FRONT_DASH,

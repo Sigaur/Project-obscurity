@@ -19,7 +19,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
-	, _difficulter(5)
+	, _difficulter(0)
 {
     is_menu_visible = true;
     is_info = false;
@@ -158,7 +158,7 @@ void Game_Manager::execute_action(Action action)
 		else
 		{
 			cout << endl << " Game over" << endl;
-			execute_action(ACT_CLOSE_APP);///////////////////GAME OVER MENU
+			execute_action(ACT_RESTART_APP);///////////////////GAME OVER MENU
 
 		}
         break;
@@ -168,10 +168,14 @@ void Game_Manager::execute_action(Action action)
         break;
     case ACT_CLOSE_APP:
         cout << "close app\n";
-        //m_app->close();
+        m_app->close();
 
         break;
-  
+	case ACT_RESTART_APP:
+		cout << "restart app\n";
+		//m_app->close();
+
+		break;
     default:
         break;
     }
@@ -251,6 +255,8 @@ void Game_Manager::update(float secTime)
 		menu1.update();
 		if (menu1.is_playing() == true)
 		{
+			ChoixDifficulter(2);
+			ChoixMonde(menu1.getWorld());
 			is_menu_visible = false;
 		}
 		if (menu1.is_quitting() == true)
@@ -954,22 +960,25 @@ void Game_Manager::ChoixDifficulter(int difficulter)
 {
 	switch (difficulter)
 	{
-	case 1:_difficulter = 2;//classic			=Normal	
+	case 1:_difficulter = 2;
 		break;
-	case 2:_difficulter = 3;//simple				=Classic
+	case 2:_difficulter = 3;
 		break;
-	case 3:_difficulter = 4;//monde que de mob	=time to eat
+	case 3:_difficulter = 4;
 		break;
-	case 4:_difficulter = 5;//monde que de mob	=time to eat
+	case 4:_difficulter = 5;
 		break;
 
 	default:_difficulter = 2;
 		break;
 	}
-
-
-
 }
+
+
+
+
+
+
 
 int Game_Manager::modifcourant(int actuel)
 {

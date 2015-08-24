@@ -17,6 +17,7 @@ public:
     bool is_playing();
     bool is_quitting();
     void update();
+	int getWorld();
 
 private:
     RenderWindow *m_app;
@@ -24,6 +25,8 @@ private:
     vector<Button> m_button;
     My_Sprite sprite;
     My_Text text1;
+	My_Text text2;
     bool m_playing, m_quit;
+	int monde;
 };
 
