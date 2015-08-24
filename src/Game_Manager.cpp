@@ -1343,25 +1343,17 @@ void Game_Manager::Manger(int y,int x)
 		Map[y][x].setMob(0);
 	}
 }
-<<<<<<< HEAD
-=======
+
 void Game_Manager::activate_skill_tree()
 {
     is_tree = true;
 }
->>>>>>> c6557a87fbd9ad14fff2800eb8c61a72f0bfc132
+
 void Game_Manager::actualisationNiveau(int x)
 {
 	int energy = myPlayer.getEnergy();
 	if (x+5 > MAXX )
 	{
-<<<<<<< HEAD
-=======
-		cout << "on change le niveau" << endl;
-		cout << "inserer ici le menu de competence" << endl;
-        activate_skill_tree();
->>>>>>> c6557a87fbd9ad14fff2800eb8c61a72f0bfc132
-
 		ChoixDifficulter(_difficulter++);
 		ChoixMonde(menu1.getWorld());
 		myPlayer.resetPosition();
