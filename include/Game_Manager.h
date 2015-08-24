@@ -23,7 +23,7 @@
 
 #include "Random.h"
 #define MAXY 5
-#define MAXX 50
+#define MAXX 75
 using namespace sf;
 
 enum Caracteristic {
@@ -75,7 +75,7 @@ private:
 	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
 	void CreationMonde5(int difficulter);//simple			=easy
 	void CreationMonde6();
-	void CreationMonde7(int difficulter);//full light
+	void CreationMonde7(int difficulter);					//full light
 
 
 	void passagesecuriserMonde1(int difficulter);
