@@ -19,7 +19,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, myPlayer(app, &m_view1)
 	, m_view2(view2)
 	, world_sprite(app, "resources/test.png", &m_view1)
-	, _difficulter(2)
+	, _difficulter(5)
 {
     is_menu_visible = true;
     is_info = false;
@@ -44,7 +44,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_h = static_cast<int>(vecsize.y);
     m_w = static_cast<int>(vecsize.x);
 
-	_difficulter = 5;
+	
 	for (int i = 0; i < 14; i++)
     {
         string path = "resources/obstacle" + std::to_string(i) + ".png";
@@ -64,6 +64,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
           }
 
 
+		  ChoixDifficulter(4);//la valeur reel vaut x+1
 		  //////MAP GENERATION////////
 		  ChoixMonde(1);
 		 

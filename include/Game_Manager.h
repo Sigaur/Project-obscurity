@@ -97,6 +97,7 @@ private:
     RenderWindow *m_app;
     View m_view1;
     View m_view2;
+
     Vector2u window_vec;
     //mouse related stuff:
     Vector2f m_selection_vector;
