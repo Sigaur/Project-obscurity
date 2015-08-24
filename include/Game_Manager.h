@@ -28,7 +28,7 @@
 #define NBCAILLOU 2
 #define NBMOB 2*/
 #define MAXY 5
-#define MAXX 10
+#define MAXX 100
 using namespace sf;
 
 enum Caracteristic {
