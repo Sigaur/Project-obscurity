@@ -25,7 +25,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 {
     is_menu_visible = true;
     is_info = false;
-    is_tree = true;
+    is_tree = false;
     m_mouse_over_actions = false;
     m_screen_x = screen_x;
     m_screen_y = screen_y;
