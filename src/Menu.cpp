@@ -18,7 +18,8 @@ Menu::Menu(RenderWindow *app, View *view1)
 	m_button.push_back(Button{ app, "Time to eat", 0, 0, 1920, 1080, m_view1 });
 	m_button.push_back(Button{ app, "Peacefull", 0, 0, 1920, 1080, m_view1 });
 	m_button.push_back(Button{ app, "Easy", 0, 0, 1920, 1080, m_view1 });
-	m_button.push_back(Button{ app, "Checkerboard", 0, 0, 1920, 1080, m_view1 });
+	m_button.push_back(Button{ app, "Checkerboard (HARD)", 0, 0, 1920, 1080, m_view1 });
+	m_button.push_back(Button{ app, "Light burnt", 0, 0, 1920, 1080, m_view1 });
 
     m_playing = false;
     m_quit = false;
@@ -34,7 +35,7 @@ void Menu::draw()
     sprite.draw(0, 0);
 
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		m_button[i].draw();
 	}
@@ -69,7 +70,7 @@ void Menu::update()
 		m_playing = true;
 	}
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		m_button[3+i].update(1400, 800-i*100);
 		if (m_button[3+i].is_activated())

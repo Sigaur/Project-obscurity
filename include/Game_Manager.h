@@ -16,7 +16,6 @@
 #include "Grid.h"
 #include "Hud.h"
 #include "Info.h"
-#include "Level.h"
 #include "Menu.h"
 #include "My_Sprite.h"
 #include "My_window.h"
@@ -24,7 +23,7 @@
 
 #include "Random.h"
 #define MAXY 5
-#define MAXX 25
+#define MAXX 50
 using namespace sf;
 
 enum Caracteristic {
@@ -47,13 +46,10 @@ public:
     void set_building_menu();
     void create_city(int x, int y);
 
-
     void afficherMapobjet();
     void afficherMapLight();
 	void afficherMapMob();
 
-
-	void Manger();
 	void Manger(int y, int x);
 	void actualisationNiveau(int x);
 
@@ -79,6 +75,7 @@ private:
 	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
 	void CreationMonde5(int difficulter);//simple			=easy
 	void CreationMonde6();
+	void CreationMonde7(int difficulter);//full light
 
 
 	void passagesecuriserMonde1(int difficulter);

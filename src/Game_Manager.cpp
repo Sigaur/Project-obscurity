@@ -338,7 +338,7 @@ void Game_Manager::update(float secTime)
 	}
 	else
 	{
-		int retour = myPlayer.update(secTime);
+		int retour = myPlayer.update(secTime, _difficulter);
 	
 		if (retour == 1)
 		{
@@ -856,7 +856,7 @@ void Game_Manager::CreationMonde2(int difficulter)
 	}
 
 	Lumiere();
-	passagesecuriserMonde1(difficulter);
+	
 
 }
 void Game_Manager::CreationMonde3(int difficulter)
@@ -1034,34 +1034,32 @@ void Game_Manager::CreationMonde5(int difficulter)
 }
 
 void Game_Manager::CreationMonde6()
-{
+{//damier
+
 	resetMap();
 
 	int test,choix;
 
-	ChoixDifficulter(1); cout << "blockage de la difficulter a 1" << endl;
-
-
-
+	
 	for (int x = 5; x < MAXX; x++)
 	{
 		choix = (rand() % 4) * 2;
 		for (int y = 0; y < MAXY; y++)
 		{
-			if (x%2==0 &&y%2==1)
+			if (x%2==0 &&y%2==1)//regle a
 				{
 					
 					Map[y][x].setObject(1 + rand() % 9);
 				}
-			else if (y % 2 == 0 && y == choix)
+			else if (y % 2==0 && x%2==0 &&  y == choix)//regle b1
 			{
-				Map[y][x].setType(1 + rand() % 9, 1 + rand() % 8, 0);
+				Map[y][x].setType(1 + rand() % 9, 1 + rand() % 8, 2);
 			}
-			else if (y % 2 == 0 && y != choix)
+			else if (y % 2 == 0 && x % 2 == 0 && y != choix)//regle b2
 			{ 
 			//vide
 			}
-			else if (x % 2 == 1 && y % 2 == 1)
+			else if (x % 2 == 1 && y % 2 == 1)//regle c
 			{ 
 				if (rand()%2==0)
 				{
@@ -1072,7 +1070,7 @@ void Game_Manager::CreationMonde6()
 					Map[y][x].setLight(2);
 				}
 
-			}
+			}//regle d
 			else
 			{
 
@@ -1086,7 +1084,44 @@ void Game_Manager::CreationMonde6()
 	Lumiere();
 }
 
+void Game_Manager::CreationMonde7(int difficulter)
+{
 
+	resetMap();
+
+	int nbrlight = 0;
+	int *ordre = NULL;
+	int currentLight = 0, rndY = 0;
+
+
+	for (int x = 5; x < MAXX; x++)
+	{
+		//pose des light
+		currentLight = 0, rndY = 0;
+
+		nbrlight =2+ rand() % difficulter;
+		if (nbrlight > 5)
+			{ nbrlight =4;}
+
+		if (nbrlight != 0)
+		{
+			while (currentLight < nbrlight)
+			{
+				rndY = rand() % MAXY;
+				if (Map[rndY][x].getMob() == 0)
+				{
+					Map[rndY][x].setLight(2);
+					currentLight++;
+				}
+			}
+		}
+
+	}
+
+	
+	
+
+}
 
 void Game_Manager::ChoixMonde(int choix)
 {
@@ -1104,6 +1139,9 @@ void Game_Manager::ChoixMonde(int choix)
 		break;
 	case 6:CreationMonde6();//damier///				=easy
 		break;
+	case 7:CreationMonde7(_difficulter);//full light///				=easy
+		break;
+
 	default:CreationMonde4(_difficulter);
 		break;
 	}
@@ -1312,57 +1350,32 @@ void Game_Manager::afficherMapLight()
 	cout << endl;
 }
 
-void Game_Manager::Manger()
-{//fonction jamais utiliser
-	
-	if (Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].getMob() != 0)
-	{
-	
-		myPlayer.gainEnergy( _difficulter);
-		Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].setMob(0);
-	}
-
-}
-
 void Game_Manager::Manger(int y,int x)
 {
 
-	//cout << endl << " Position =" << y << " " << m_view2.getCenter().x << " " << myPlayer.getPosX() << " "<<x << endl;
-
-
-
-
 	if (Map[y][x].getMob() != 0)
 	{
-		myPlayer.gainEnergy( _difficulter);
+		myPlayer.gainEnergy(_difficulter* _difficulter);
 		Map[y][x].setMob(0);
 	}
-
-
-
 }
+
 void Game_Manager::activate_skill_tree()
 {
     is_tree = true;
 }
+
 void Game_Manager::actualisationNiveau(int x)
 {
 	int energy = myPlayer.getEnergy();
-	if (x+5 > MAXX )
+	if (x > MAXX )
 	{
-		cout << "on change le niveau" << endl;
-		cout << "inserer ici le menu de competence" << endl;
-        activate_skill_tree();
-
 		ChoixDifficulter(_difficulter++);
 		ChoixMonde(menu1.getWorld());
 		myPlayer.resetPosition();
-
-		cout << m_view2.getCenter().x << "  " << m_view2.getCenter().y<< endl;
-
 		m_view2.setCenter(Vector2f(960, 540));
 
-		myPlayer.gainEnergy(energy);
+		myPlayer.gainEnergy(energy + 20 * _difficulter);
 	
 		draw();
 
