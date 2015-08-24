@@ -103,7 +103,7 @@ private:
     Vector2u window_vec;
     //mouse related stuff:
     Vector2f m_selection_vector;
-    int m_x_cursor, m_y_cursor;
+    int m_x_cursor, m_y_cursor, skill_level;
 
     Texture tile_texture[10];
     bool is_menu_visible, is_building_menu;
@@ -130,6 +130,7 @@ private:
     vector<My_Sprite> m_box_sprites;
     vector<My_Sprite> m_box_background;
     vector<My_Sprite> m_light_sprites;
+    My_Sprite empty;
     My_Sprite action_sprite;
     My_Sprite light_bar;
     My_Sprite light_bar_background;

@@ -11,8 +11,9 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, selection_sprite(app, "resources/selection.png", &m_view1)
 	, light_bar(app, "resources/light_bar.png", &m_view1)
 	, light_bar_background(app, "resources/light_bar_background.png", &m_view1)
-	, light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
-	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
+    , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
+    , empty(app, "resources/empty.png", &m_view1)
+    , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
@@ -29,7 +30,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_screen_y = screen_y;
     x_offset = 0;
     y_offset = 0;
-
+    skill_level = 0;
     energy_text.init(app, "100", 50, 1);
 	difficulter_text.init(app, "1", 50, 1);
 
@@ -240,75 +241,83 @@ void Game_Manager::update(float secTime)
             is_tree = false;
         }
 
-        skill_button[1].update(20, 500);
+        skill_button[1].update(20, 290);
 
         if (skill_button[1].is_activated())
         {
             skill_button[1].desactivate();
+            skill_level++;
 
         }
 
-        skill_button[2].update(350, 500);
+        skill_button[2].update(350, 290);
 
-        if (skill_button[2].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[2].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[2].desactivate();
-          
+            skill_level++;
+
 
         }
-        skill_button[3].update(670, 500);
+        skill_button[3].update(670, 290);
 
-        if (skill_button[3].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[3].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[3].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_FDReduceCost(-10);
+            skill_level++;
 
         }
         skill_button[4].update(870, 290);
 
-        if (skill_button[4].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[4].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[4].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_FDReduceCooldown(-1.0f);
+            skill_level++;
 
         }
         skill_button[5].update(1070, 290);
 
-        if (skill_button[5].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[5].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[5].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_FDIncreaseDistance(1);
+            skill_level++;
 
         }
 
         skill_button[6].update(1310, 290);
 
-        if (skill_button[6].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[6].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[6].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_VAReduceCost(-10);
+            skill_level++;
 
         }
         skill_button[7].update(1450, 290);
 
-        if (skill_button[7].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[7].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[7].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_VAReduceCooldown(-1.0f);
+            skill_level++;
 
         }
         skill_button[8].update(1650, 290);
 
-        if (skill_button[8].is_activated() && myPlayer.getEnergy() >= cost)
+        if (skill_button[8].is_activated() && myPlayer.getEnergy() > cost)
         {
             skill_button[8].desactivate();
             myPlayer.gainEnergy(-cost);
             myPlayer.m_VAIncreaseDistance(1);
+            skill_level++;
 
         }
     }
@@ -434,7 +443,14 @@ void Game_Manager::draw()
 
         energy_text.refill(to_string(myPlayer.getEnergy()));
         energy_text.draw(0, 0, 55);
-
+        if (skill_level < 3)
+        {
+            empty.draw(0, 500);
+        }
+        else if (skill_level >= 3)
+        {
+            empty.draw(0, 700);
+        }
     }
     else if (is_menu_visible)
     {
