@@ -1195,52 +1195,53 @@ void Game_Manager::Lumiere()
 
 	for (int y = 0; y < MAXY; y++)
 	{
-	//     6
-	//     2 
-	// 5 1 O 3 7
-	//	   4 
-	//     8
+	//     7		   8
+	//     3 		   4
+	// 5 1 O 2 6     51026
+	//	   4		   x
+	//     8		   x
 
 
 		for (int x = 0; x < MAXX ; x++)
 		{
 		//lumiere gauche  37
-			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 3 || Map[y][x-1].getMob() == 7) )
+			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 2 || Map[y][x-1].getMob() == 6) )
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (x - 2 > 0  && Map[y][x-2].getMob() == 7)
+			else if (x - 2 > 0  && Map[y][x-2].getMob() == 6)
 				{
 					Map[y][x].setLight(2);
 				}
+		//lumiere droite  15=BON
+			else if (x + 1 < MAXX && (Map[y][x + 1].getMob() == 1 || Map[y][x + 1].getMob() == 5))
+			{
+				Map[y][x].setLight(2);
+			}
+			else if (x + 2 < MAXX  && Map[y][x + 2].getMob() == 5)
+			{
+				Map[y][x].setLight(2);
+			}
+
+
 			//lumiere bas 4 8 
-			else if (y - 1> 0 && (Map[y-1][x].getMob() == 4 || Map[y-1][x].getMob() == 8))
+			else if (y - 1> 0 && (Map[y-1][x].getMob() == 3 || Map[y-1][x].getMob() == 7))
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (y - 2 > 0 && Map[y-2][x].getMob() == 8)
+			else if (y - 2 > 0 && Map[y-2][x].getMob() == 7)
 				{
 					Map[y][x].setLight(2);
 				}
 			//lumiere haut 2 6 
-			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 2 || Map[y+1][x].getMob() == 6))
+			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 4 || Map[y+1][x].getMob() == 8))
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (y+2 < MAXY  && Map[y+2][x].getMob() == 6)
+			else if (y+2 < MAXY  && Map[y+2][x].getMob() ==8)
 				{
 					Map[y][x].setLight(2);
-				}
-			//lumiere droite  15
-			else if (x+1 < MAXX && (Map[y][x+1].getMob() == 1 || Map[y][x+1].getMob() == 5))
-				{
-					Map[y][x].setLight(2);
-				}
-			else if (x+2 < MAXX  && Map[y][x+2].getMob() == 5)
-				{
-					Map[y][x].setLight(2);
-				}
-			
+				}	
 			else
 				{ }
 			
