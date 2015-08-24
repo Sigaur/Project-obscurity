@@ -79,8 +79,6 @@
     <ClCompile Include="src\Hud.cpp" />
     <ClCompile Include="src\Info.cpp" />
     <ClCompile Include="src\Key_event.cpp" />
-    <ClCompile Include="src\Level.cpp" />
-    <ClCompile Include="src\Lign.cpp" />
     <ClCompile Include="src\Loading_bar.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\My_Sprite.cpp" />
@@ -100,8 +98,6 @@
     <ClInclude Include="include\Hud.h" />
     <ClInclude Include="include\Info.h" />
     <ClInclude Include="include\Key_event.h" />
-    <ClInclude Include="include\Level.h" />
-    <ClInclude Include="include\Lign.h" />
     <ClInclude Include="include\Loading_bar.h" />
     <ClInclude Include="include\Menu.h" />
     <ClInclude Include="include\My_Sprite.h" />
@@ -110,7 +106,6 @@
     <ClInclude Include="include\My_window.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Random.h" />
-    <ClInclude Include="include\Skills.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\utilitaire.h" />
