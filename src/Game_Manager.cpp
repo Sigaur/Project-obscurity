@@ -108,9 +108,9 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 void Game_Manager::execute_action(Action action)
 {
 	
-	int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
+	int posXPla =(int) ((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
 	
-	int posYpla = myPlayer.getPosY();
+	int posYpla = (int) myPlayer.getPosY();
 	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 	
 	
@@ -143,7 +143,7 @@ void Game_Manager::execute_action(Action action)
     case ACT_GO_RIGHT:
 		if (((myPlayer.getPosX() < 1000) && (Map[posYpla][posXPla + 1].getObject() == 0)) || (myPlayer.playerState == VANISH))
 		{
-			myPlayer.moveRight(0.1);
+			myPlayer.moveRight((float)0.1);
 		}
         break;
     case ACT_GO_DOWN:
@@ -161,7 +161,7 @@ void Game_Manager::execute_action(Action action)
 		myPlayer.playerState = SMASHED;
 		if (myPlayer.getPosX() > 0)
 		{
-			myPlayer.moveLeft(248.0/3000.0);//5 = SPEED/////////////////////////////////////
+			myPlayer.moveLeft((float)  (248.0/3000.0));//5 = SPEED/////////////////////////////////////
 		}
 		else
 		{
@@ -228,8 +228,8 @@ return ret;
 void Game_Manager::update(float secTime)
 {
 
-	Manger(myPlayer.getPosY(), (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
-	actualisationNiveau((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
+	Manger((int)myPlayer.getPosY(), (int)((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4));
+	actualisationNiveau((int) ((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4));
     if (myPlayer.getEnergy() <= 0)
     {
         execute_action(ACT_RESTART_APP);
@@ -330,9 +330,9 @@ void Game_Manager::update(float secTime)
 			execute_action(ACT_GO_RIGHT);
 		}
 
-		int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
+		int posXPla =(int) ((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
 		
-		int posYpla = myPlayer.getPosY();
+		int posYpla =(int) myPlayer.getPosY();
 
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 	
@@ -528,7 +528,7 @@ void Game_Manager::passagesecuriserMonde1(int difficulter)
 	int videD = 0, videG = 0, choix;
 	int choixG, choixD;
 	int cmp1, cmp2;
-	int mob, light;
+	int  light;
 
 	for (int x = 4; x < MAXX; x++)
 	{	
@@ -625,8 +625,7 @@ void Game_Manager::passagesecuriserMonde3(int difficulter)
 	int videD = 0, videG = 0, choix;
 	int choixG, choixD;
 	int cmp1, cmp2;
-	int mob, light;
-
+	
 	for (int x = 4; x < MAXX; x++)
 	{
 		//-------------------------------------------------------------------------------------------------	
@@ -1006,7 +1005,7 @@ void Game_Manager::CreationMonde6()
 
 	resetMap();
 
-	int test,choix;
+	int choix;
 
 	
 	for (int x = 5; x < MAXX; x++)

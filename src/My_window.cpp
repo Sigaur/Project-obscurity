@@ -39,7 +39,7 @@ void My_window::draw()
    
     if (is_text)
     {
-        for (int i = 0; i <m_texts.size() ; i++)
+        for (int i = 0; i < m_texts.size() ; i++)
         {
             m_texts[i].draw(m_x + m_text_x[i], m_y + m_text_y[i], 20);
         }
@@ -47,7 +47,7 @@ void My_window::draw()
     }
     if (is_image)
     {
-        for (int i = 0; i <sprites.size(); i++)
+        for (int i = 0; i < sprites.size(); i++)
         {
             sprites[i].draw(m_x + m_image_x[i], m_y + m_image_y[i]);
         }
@@ -129,8 +129,8 @@ void My_window::update()
         Vector2i b= Mouse::getPosition(*m_app);
         Vector2f a = m_app->mapPixelToCoords(b, *m_view1);
 
-        m_x += (a.x - mouse_save_vec.x);
-        m_y += (a.y - mouse_save_vec.y);
+		m_x += ((int)a.x - (int)mouse_save_vec.x);
+		m_y += ((int)a.y - (int)mouse_save_vec.y);
         cout<<m_x<<endl;
         if(m_x > m_screen_x -  window_w)
         {
