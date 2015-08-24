@@ -1,7 +1,9 @@
 #include "Menu.h"
 
 Menu::Menu(RenderWindow *app, View *view1)
-    : sprite(app, "resources/menu_background.png", view1)
+: help(app, "resources/help.png", view1)
+
+    , sprite(app, "resources/menu_background.png", view1)
 {
     m_app = app;
     m_view1 = view1;
@@ -34,7 +36,11 @@ void Menu::draw()
 {
     sprite.draw(0, 0);
 
-
+    m_button[2].update(550, 550);
+    if (m_button[2].is_activated())
+    {
+        help.draw(0, 0);
+    }
 	for (int i = 0; i < 10; i++)
 	{
 		m_button[i].draw();
@@ -63,12 +69,7 @@ void Menu::update()
         m_quit = true;
     }
 
-	m_button[2].update(550, 550);
-	if (m_button[2].is_activated())
-	{
-		m_button[2].desactivate();
-		m_playing = true;
-	}
+
 
 	for (int i = 0; i < 7; i++)
 	{
