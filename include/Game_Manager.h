@@ -23,12 +23,8 @@
 #include "Player.h"
 
 #include "Random.h"
-/*#define NBCASE 5
-#define NBLIGNE 20
-#define NBCAILLOU 2
-#define NBMOB 2*/
 #define MAXY 5
-#define MAXX 100
+#define MAXX 25
 using namespace sf;
 
 enum Caracteristic {
@@ -52,9 +48,9 @@ public:
     void create_city(int x, int y);
 
 
-    void afficherMapobjet(Box Map[MAXY][MAXX]);
-    void afficherMapLight(Box Map[MAXY][MAXX]);
-
+    void afficherMapobjet();
+    void afficherMapLight();
+	void afficherMapMob();
 
 
 	void Manger();
@@ -75,20 +71,22 @@ private:
     void update_units();
 	void highlight_selected_tile();
     void execute_action(Action action);
-    void handle_mouse_at_window_border(int x_mouse, int y_mouse);
+ 
 
 	void CreationMonde4(int difficulter);//classic			=Normal	
 	void CreationMonde1(int difficulter);//simple			=Classic
 	void CreationMonde2(int difficulter);//monde que de mob =time to eat
 	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
 	void CreationMonde5(int difficulter);//simple			=easy
+	void CreationMonde6();
+
 
 	void passagesecuriserMonde1(int difficulter);
 	void passagesecuriserMonde3(int difficulter);
 	int  modifcourant(int actuel);
 
 	void resetMap();
-	void Lumiere(int portee);
+	void Lumiere();
 
 	void ChoixDifficulter(int difficulter);
     void ChoixMonde(int choix);
