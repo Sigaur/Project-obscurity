@@ -62,14 +62,14 @@ void Player::resetplayer(){
 	m_SRLvl = 0;
 
 	m_FDIsUnlocked = 1;
-	m_FDCostLvl = 20;
+	m_FDCostLvl = 10;
 	m_FDCoolDownLvl = 10;
 	m_FDDistanceLvl = 1;
 	m_FDCurrentDist = 1;
 	m_FDCurrentCoolDown = 10;
 
 	m_VAIsUnlocked = 1;
-	m_VACostLvl = 20;
+	m_VACostLvl = 10;
 	m_VACoolDownLvl = 10;
 	m_VADistanceLvl = 10;
 	m_VACurrentDist = 1;
@@ -208,7 +208,7 @@ int Player::update(float secTime)
 		while (m_totalLight > m_LALvl + 0.1)
 		{
 			m_totalLight -= 0.1;
-			m_energy--;
+			m_energy-=2;
 		}
 	}
 	else
