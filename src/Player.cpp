@@ -290,6 +290,35 @@ void Player::vanish()
 	playerState = VANISH;
 	m_etheral = 1;
 }
+void Player::m_FDReduceCost(int value)
+{
+    m_FDCostLvl += value;
+}
+
+void Player::m_FDReduceCooldown(float value)
+{
+    m_FDCurrentCoolDown += value;
+}
+void Player::m_FDIncreaseDistance(int value)
+{
+    m_FDCurrentDist += value;
+
+}
+
+void Player::m_VAReduceCost(int value)
+{
+    m_VACostLvl += value;
+}
+
+void Player::m_VAReduceCooldown(float value)
+{
+    m_VACurrentCoolDown += value;
+}
+void Player::m_VAIncreaseDistance(int value)
+{
+    m_VACurrentDist += value;
+
+}
 
 int Player::isFDReady()
 {

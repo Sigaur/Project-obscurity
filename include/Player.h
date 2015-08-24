@@ -55,7 +55,13 @@ public:
 	void setEtheral(int set);
 	void gainEnergy(int gain);
 	void resetPosition();
-	void resetplayer();
+    void resetplayer();
+    void m_FDReduceCost(int value);
+    void m_FDReduceCooldown(float value);
+    void m_FDIncreaseDistance(int value);
+    void m_VAReduceCost(int value);
+    void m_VAReduceCooldown(float value);
+    void m_VAIncreaseDistance(int value);
 
 private:
 
@@ -83,8 +89,8 @@ private:
 	int m_SRLvl;
 
 	///DASH///
-	int m_FDIsUnlocked;
-	int m_FDCostLvl;
+    int m_FDIsUnlocked;
+    int m_FDCostLvl;
 	float m_FDCoolDownLvl;
 	float m_FDDistanceLvl;
 	float m_FDCurrentDist;

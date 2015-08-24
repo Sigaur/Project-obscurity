@@ -12,17 +12,18 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, light_bar(app, "resources/light_bar.png", &m_view1)
 	, light_bar_background(app, "resources/light_bar_background.png", &m_view1)
 	, light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
-	, mob_sprite(app, "resources/opponent0.png", &m_view1)
 	, interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
 	, myPlayer(app, &m_view1)
 	, m_view2(view2)
-	, world_sprite(app, "resources/test.png", &m_view1)
-	, _difficulter(0)
+    , world_sprite(app, "resources/test.png", &m_view1)
+    , tree_background(app, "resources/skill_tree.png", &m_view1)
+    , _difficulter(0)
 {
     is_menu_visible = true;
     is_info = false;
+    is_tree = true;
     m_mouse_over_actions = false;
     m_screen_x = screen_x;
     m_screen_y = screen_y;
@@ -64,6 +65,11 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
 
+          for (int i = 0; i < 10; i++)
+          {
+              string path = "resources/opponent" + std::to_string(i) + ".png";
+              mob_sprite.push_back(My_Sprite{ m_app, path, &m_view1 });
+          }
 
 
     for (int i = 0; i < 2; i++)
@@ -80,7 +86,15 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     music.setLoop(true);
 
     music.play();
-
+    skill_button.push_back(Button{ app, "continuer" , 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "light resistance", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "sharp reflex", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "D cost", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "D cooldown", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "D distance", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "V cost", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "V Cooldown", 0, 0, 1920, 1080, &m_view1 });
+    skill_button.push_back(Button{ app, "V distance", 0, 0, 1920, 1080, &m_view1 });
 }
 
 void Game_Manager::execute_action(Action action)
@@ -211,9 +225,94 @@ void Game_Manager::update(float secTime)
 
 	Manger(myPlayer.getPosY(), (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
 	actualisationNiveau((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
+    if (myPlayer.getEnergy() <= 0)
+    {
+        execute_action(ACT_RESTART_APP);
+    }
 
-	
-	if (is_menu_visible)
+    if (is_tree)
+    {
+        int cost = 20;
+        skill_button[0].update(100, 100);
+        if (skill_button[0].is_activated())
+        {
+            skill_button[0].desactivate();
+            is_tree = false;
+        }
+
+        skill_button[1].update(20, 500);
+
+        if (skill_button[1].is_activated())
+        {
+            skill_button[1].desactivate();
+
+        }
+
+        skill_button[2].update(350, 500);
+
+        if (skill_button[2].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[2].desactivate();
+          
+
+        }
+        skill_button[3].update(670, 500);
+
+        if (skill_button[3].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[3].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_FDReduceCost(-10);
+
+        }
+        skill_button[4].update(870, 290);
+
+        if (skill_button[4].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[4].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_FDReduceCooldown(-1.0f);
+
+        }
+        skill_button[5].update(1070, 290);
+
+        if (skill_button[5].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[5].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_FDIncreaseDistance(1);
+
+        }
+
+        skill_button[6].update(1310, 290);
+
+        if (skill_button[6].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[6].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_VAReduceCost(-10);
+
+        }
+        skill_button[7].update(1450, 290);
+
+        if (skill_button[7].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[7].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_VAReduceCooldown(-1.0f);
+
+        }
+        skill_button[8].update(1650, 290);
+
+        if (skill_button[8].is_activated() && myPlayer.getEnergy() >= cost)
+        {
+            skill_button[8].desactivate();
+            myPlayer.gainEnergy(-cost);
+            myPlayer.m_VAIncreaseDistance(1);
+
+        }
+    }
+	else if (is_menu_visible)
 	{
 		
 		menu1.update();
@@ -320,7 +419,24 @@ void Game_Manager::draw()
     render_clock.restart();
     m_app->clear();
 
-    if (is_menu_visible)
+    if (is_tree)
+    {
+        tree_background.draw(0, 0);
+        skill_button[0].draw();
+        skill_button[1].draw();
+        skill_button[2].draw();
+        skill_button[3].draw();
+        skill_button[4].draw();
+        skill_button[5].draw();
+        skill_button[6].draw();
+        skill_button[7].draw();
+        skill_button[8].draw();
+
+        energy_text.refill(to_string(myPlayer.getEnergy()));
+        energy_text.draw(0, 0, 55);
+
+    }
+    else if (is_menu_visible)
     {
         menu1.draw();
     }
@@ -1164,7 +1280,23 @@ void Game_Manager::afficherMapobjet()
 			}
 			if (Map[i][j].getMob() != 0)
 			{
-				mob_sprite.draw(j * 248, i * 216);
+                if ((Map[i][j].getMob() == 1 || Map[i][j].getMob() == 5))
+                {
+                    mob_sprite[0].draw(j * 248, i * 216);
+                }
+                if ((Map[i][j].getMob() == 2 || Map[i][j].getMob() == 6))
+                {
+                    mob_sprite[1].draw(j * 248, i * 216);
+                }
+                if ((Map[i][j].getMob() == 3 || Map[i][j].getMob() == 7))
+                {
+                    mob_sprite[2].draw(j * 248, i * 216);
+                }
+                if ((Map[i][j].getMob() == 4 || Map[i][j].getMob() == 8))
+                {
+                    mob_sprite[4].draw(j * 248, i * 216);
+                }
+
 			}
 			//cout << Map[i][j].getObject()<<" ";
 		}
@@ -1211,11 +1343,24 @@ void Game_Manager::Manger(int y,int x)
 		Map[y][x].setMob(0);
 	}
 }
+<<<<<<< HEAD
+=======
+void Game_Manager::activate_skill_tree()
+{
+    is_tree = true;
+}
+>>>>>>> c6557a87fbd9ad14fff2800eb8c61a72f0bfc132
 void Game_Manager::actualisationNiveau(int x)
 {
 	int energy = myPlayer.getEnergy();
 	if (x+5 > MAXX )
 	{
+<<<<<<< HEAD
+=======
+		cout << "on change le niveau" << endl;
+		cout << "inserer ici le menu de competence" << endl;
+        activate_skill_tree();
+>>>>>>> c6557a87fbd9ad14fff2800eb8c61a72f0bfc132
 
 		ChoixDifficulter(_difficulter++);
 		ChoixMonde(menu1.getWorld());
