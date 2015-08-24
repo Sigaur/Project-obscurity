@@ -107,6 +107,9 @@ private:
     bool is_building_selected;
     bool m_mouse_over_actions;
 
+    sf::SoundBuffer death_buffer;
+    sf::Sound death_sound;
+
     Menu menu1;
     bool open_window, is_info, is_tree;
     int x_offset;
@@ -132,8 +135,8 @@ private:
     My_Sprite light_bar;
     My_Sprite light_bar_background;
     My_Sprite light_bar_grad;
-
     My_Sprite tree_background;
+    My_Sprite bone;
     vector<My_Sprite> mob_sprite;
     My_Text selection_text[5], tile_info;
     My_Text energy_text;

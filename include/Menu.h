@@ -23,6 +23,8 @@ public:
 
 private:
     RenderWindow *m_app;
+    My_Sprite help;
+
     View *m_view1;
     vector<Button> m_button;
     My_Sprite sprite;

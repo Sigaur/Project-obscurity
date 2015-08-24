@@ -13,6 +13,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 	, light_bar_background(app, "resources/light_bar_background.png", &m_view1)
     , light_bar_grad(app, "resources/light_bar_grad.png", &m_view1)
     , empty(app, "resources/empty.png", &m_view1)
+    , bone(app, "resources/bone.png", &m_view1)
     , interface1(app, m_grid, &m_view2, screen_x, screen_y)
 	, m_info(app, &view1, 1920, 1080)
 	//////////
@@ -48,13 +49,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     m_w = static_cast<int>(vecsize.x);
 
 	
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 12; i++)
     {
         string path = "resources/obstacle" + std::to_string(i) + ".png";
         m_box_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
     }
   
-      for (int i = 0; i < 3; i++)
+      for (int i = 0; i < 1; i++)
       {
           string path = "resources/background" + std::to_string(i) + ".png";
           m_box_background.push_back(My_Sprite{ m_app, path, &m_view1 });
@@ -66,7 +67,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
               m_light_sprites.push_back(My_Sprite{ m_app, path, &m_view1 });
           }
 
-          for (int i = 0; i < 10; i++)
+          for (int i = 0; i < 5; i++)
           {
               string path = "resources/opponent" + std::to_string(i) + ".png";
               mob_sprite.push_back(My_Sprite{ m_app, path, &m_view1 });
@@ -87,7 +88,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     music.setLoop(true);
 
     music.play();
-    skill_button.push_back(Button{ app, "continuer" , 0, 0, 1920, 1080, &m_view1 });
+
+
+    death_buffer.loadFromFile("resources/death.ogg");
+
+    death_sound.setBuffer(death_buffer);
+
+    skill_button.push_back(Button{ app, "resume" , 0, 0, 1920, 1080, &m_view1 });
     skill_button.push_back(Button{ app, "light resistance", 0, 0, 1920, 1080, &m_view1 });
     skill_button.push_back(Button{ app, "sharp reflex", 0, 0, 1920, 1080, &m_view1 });
     skill_button.push_back(Button{ app, "D cost", 0, 0, 1920, 1080, &m_view1 });
@@ -236,25 +243,6 @@ void Game_Manager::update(float secTime)
         {
             skill_button[0].desactivate();
             is_tree = false;
-        }
-
-        skill_button[1].update(20, 290);
-
-        if (skill_button[1].is_activated())
-        {
-            skill_button[1].desactivate();
-            skill_level++;
-
-        }
-
-        skill_button[2].update(350, 290);
-
-        if (skill_button[2].is_activated() && myPlayer.getEnergy() > cost)
-        {
-            skill_button[2].desactivate();
-            skill_level++;
-
-
         }
         skill_button[3].update(670, 290);
 
@@ -416,12 +404,13 @@ void Game_Manager::draw()
     if (is_tree)
     {
         tree_background.draw(0, 0);
-
-		for (int i = 0; i < 9;i++)
-		{
-			skill_button[i].draw();
-		}
-        
+        skill_button[0].draw();
+        skill_button[3].draw();
+        skill_button[4].draw();
+        skill_button[5].draw();
+        skill_button[6].draw();
+        skill_button[7].draw();
+        skill_button[8].draw();
 
         energy_text.refill(to_string(myPlayer.getEnergy()));
         energy_text.draw(0, 0, 55);
@@ -1286,9 +1275,12 @@ void Game_Manager::afficherMapobjet()
                 }
                 if ((Map[i][j].getMob() == 4 || Map[i][j].getMob() == 8))
                 {
-                    mob_sprite[4].draw(j * 248, i * 216);
+                    mob_sprite[3].draw(j * 248, i * 216);
                 }
-
+                if (Map[i][j].getMob() == 55)
+                {
+                   bone.draw(j * 248, i * 216);
+                }
 			}
 			
 		}
@@ -1331,8 +1323,9 @@ void Game_Manager::Manger(int y,int x)
 
 	if (Map[y][x].getMob() != 0)
 	{
+        death_sound.play();
 		myPlayer.gainEnergy(_difficulter* _difficulter);
-		Map[y][x].setMob(0);
+		Map[y][x].setMob(55);
 	}
 }
 
