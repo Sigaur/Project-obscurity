@@ -55,32 +55,11 @@ Player::Player(RenderWindow *app, View *view1)
 void Player::resetplayer(){
 	m_posY = 3;
 	m_posX = 1;
-	m_energy = 100;
+	m_energy = -70;
 	m_isMovable = 1;
 	m_isLight = 0;
 	m_LALvl = 0.1;
 	m_SRLvl = 0;
-
-	m_FDIsUnlocked = 1;
-	m_FDCostLvl = 10;
-	m_FDCoolDownLvl = 10;
-	m_FDDistanceLvl = 1;
-	m_FDCurrentDist = 1;
-	m_FDCurrentCoolDown = 10;
-
-	m_VAIsUnlocked = 1;
-	m_VACostLvl = 10;
-	m_VACoolDownLvl = 10;
-	m_VADistanceLvl = 10;
-	m_VACurrentDist = 1;
-	m_VACurrentCoolDown = 10;
-
-	m_INIsUnlocked = 0;
-	m_INCostLvl = 0;
-	m_INCoolDownLvl = 30;
-	m_INDistanceLvl = 0;
-	m_INCurrentDist = 0;
-	m_INCurrentCoolDown = 30;
 
 	playerState = MOVING;
 	m_etheral = 0;
@@ -195,7 +174,7 @@ void Player::setLight(int set)
 	m_isLight = set;
 }
 
-int Player::update(float secTime)
+int Player::update(float secTime,int difficulter)
 {	
 
 	int retour = 0;
@@ -204,11 +183,13 @@ int Player::update(float secTime)
 	{
 		cout << "LUMIERE!!!!" << endl;
 		playerState = LIGHT;
-		m_totalLight += secTime;
+		m_totalLight +=secTime;
+	
+		m_energy -= rand()%2;
 		while (m_totalLight > m_LALvl + 0.1)
 		{
 			m_totalLight -= 0.1;
-			m_energy-=2;
+			m_energy -= rand() % (difficulter+1);
 		}
 	}
 	else
@@ -222,6 +203,7 @@ int Player::update(float secTime)
 			if (m_totalLight > 0.0)
 			{
 				m_totalLight -= secTime;
+				
 			}
 			if (m_totalLight < 0.0)
 			{
