@@ -91,7 +91,8 @@ private:
 	void Lumiere(int portee);
 
 	void ChoixDifficulter(int difficulter);
-	void ChoixMonde(int choix);
+    void ChoixMonde(int choix);
+    void activate_skill_tree();
 
 	
  Music music;
@@ -112,7 +113,7 @@ private:
     bool m_mouse_over_actions;
 
     Menu menu1;
-    bool open_window, is_info;
+    bool open_window, is_info, is_tree;
     int x_offset;
     int y_offset;
 
@@ -135,7 +136,9 @@ private:
     My_Sprite light_bar;
     My_Sprite light_bar_background;
     My_Sprite light_bar_grad;
-    My_Sprite mob_sprite;
+
+    My_Sprite tree_background;
+    vector<My_Sprite> mob_sprite;
     My_Text selection_text[5], tile_info;
     My_Text energy_text;
 	My_Text difficulter_text;
@@ -145,7 +148,7 @@ private:
 	Box Map[MAXY][MAXX];//[5][20]
 	int TypeMap;
 	int _difficulter;
-
+    vector<Button> skill_button;
 
 
 }; 
