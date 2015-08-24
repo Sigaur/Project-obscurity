@@ -57,31 +57,14 @@ public:
 
 
 
-
-
-	void CreationMonde4(int difficulter);//classic			=Normal	
-	void CreationMonde1(int difficulter);//simple			=Classic
-	void CreationMonde2(int difficulter);//monde que de mob =time to eat
-	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
-	void CreationMonde5(int difficulter);//simple			=easy
-
-
-	
-	void passagesecuriserMonde1(int difficulter);
-	void passagesecuriserMonde3(int difficulter);
-	int  modifcourant(int actuel);
-
-	void resetMap();
-	void Lumiere(int portee);
-
-	void ChoixDifficulter(int difficulter);
-	void ChoixMonde(int choix);
+	void Manger();
+	void Manger(int y, int x);
 
     virtual ~Game_Manager() = default;
     Hud interface1;
 
 private:
-    void create_map(int map_width, int map_height);
+  
     void draw_tile(int type, int, int);
     void draw_gui();
     int count_neighbours(unsigned int i, unsigned int j , Caracteristic typeorzoneorheight, int value, bool diagonal);
@@ -92,6 +75,22 @@ private:
 	void highlight_selected_tile();
     void execute_action(Action action);
     void handle_mouse_at_window_border(int x_mouse, int y_mouse);
+
+	void CreationMonde4(int difficulter);//classic			=Normal	
+	void CreationMonde1(int difficulter);//simple			=Classic
+	void CreationMonde2(int difficulter);//monde que de mob =time to eat
+	void CreationMonde3(int difficulter);//monde sans mob   =peacefull
+	void CreationMonde5(int difficulter);//simple			=easy
+
+	void passagesecuriserMonde1(int difficulter);
+	void passagesecuriserMonde3(int difficulter);
+	int  modifcourant(int actuel);
+
+	void resetMap();
+	void Lumiere(int portee);
+
+	void ChoixDifficulter(int difficulter);
+	void ChoixMonde(int choix);
  Music music;
    
     Key_event_handler key_event;

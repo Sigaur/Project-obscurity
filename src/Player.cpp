@@ -162,6 +162,7 @@ void Player::setLight(int set)
 
 int Player::update(float secTime)
 {	
+
 	int retour = 0;
 	//cout << m_energy << "    " << m_totalLight<< endl;
 	if (m_isLight)

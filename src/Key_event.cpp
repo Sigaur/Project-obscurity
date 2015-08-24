@@ -30,7 +30,13 @@ bool Key_event_handler::manage_key_event(const sf::Event &event, Action &action)
 {
     switch(event.type) {
     case sf::Event::KeyPressed:
-        if (key_action.count(event.key.code) == 0) {
+		if (event.key.code == sf::Keyboard::P)
+		{
+			system("Pause");
+		}
+
+        if (key_action.count(event.key.code) == 0)
+		{
             return false;
         }
         action = key_action[event.key.code];

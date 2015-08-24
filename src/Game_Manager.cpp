@@ -90,10 +90,13 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
 
 void Game_Manager::execute_action(Action action)
 {
+	
 	int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
 	
 	int posYpla = myPlayer.getPosY();
 	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
+	
+	//this->Manger((int)posYpla, (int)posXPla);
 
     switch (action)
 	{
@@ -153,7 +156,9 @@ void Game_Manager::execute_action(Action action)
 		}
 		else
 		{
+			cout << endl << " Game over" << endl;
 			execute_action(ACT_CLOSE_APP);///////////////////GAME OVER MENU
+
 		}
         break;
     case ACT_ZOOM_IN:
@@ -162,7 +167,8 @@ void Game_Manager::execute_action(Action action)
         break;
     case ACT_CLOSE_APP:
         cout << "close app\n";
-        m_app->close();
+        //m_app->close();
+
         break;
   
     default:
@@ -233,9 +239,14 @@ return ret;
 
 void Game_Manager::update(float secTime)
 {
+
+	Manger(myPlayer.getPosY(), (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
+
+
 	//cout << "test1" << endl;
 	if (is_menu_visible)
 	{
+		
 		menu1.update();
 		if (menu1.is_playing() == true)
 		{
@@ -249,6 +260,7 @@ void Game_Manager::update(float secTime)
 	else
 	{
 		int retour = myPlayer.update(secTime);
+	
 		if (retour == 1)
 		{
 			execute_action(ACT_GO_RIGHT);
@@ -348,7 +360,7 @@ void Game_Manager::draw()
 	world_sprite.draw(0, 0);
     afficherMapobjet(Map);
     //affichage_Level(Map);//pour afficher la map en valeu numerique
-
+	this->Manger();
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
@@ -367,12 +379,6 @@ void Game_Manager::draw_gui()
     m_app->setView(m_view2);
    
     m_app->setView(m_view1);
-}
-
-void Game_Manager::create_map(int map_width, int map_height)
-{
-    //sur 200
-   
 }
 
 void Game_Manager::highlight_selected_tile()
@@ -440,85 +446,6 @@ void Game_Manager::set_info()
 
 
 
-void Game_Manager::CreationMonde1(int difficulter)
-{
-	resetMap();
-
-	int nbrmob = 0, obstacle = 0, nbrLight = 0;
-	int *ordre = NULL;
-	int currentLight = 0, currentObst = 0;
-	int rndY = 0;
-
-	for (int x = 5; x < MAXX; x++)
-	{
-		if (x % 2 != 0)
-		{
-			currentObst = NULL;
-			currentLight = NULL;
-		
-			obstacle = rand() % difficulter;
-			nbrLight = rand() % difficulter;
-
-
-			//pose des obstacles
-			if (obstacle != 0)
-			{
-				while (currentObst < obstacle)
-				{
-					rndY = rand() % MAXY;
-					if (Map[rndY][x].getObject() == 0)
-					{
-						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
-						currentObst++;
-					}
-				}
-			}
-
-			//pose des lumiere natuel
-			if (nbrLight != 0)
-			{
-				while (currentLight < nbrLight)
-				{
-					rndY = rand() % MAXY;
-					if (Map[rndY][x].getObject() == 0)
-					{
-						Map[rndY][x].setLight(3);////////////Differents sprites
-						currentLight++;
-					}
-				}
-			}
-		}
-		else
-		{ //pose des mobs
-			int currentMob = 0, rndY = 0;
-			int nbrmob = rand() % difficulter;
-			if (nbrmob != 0)
-			{
-				while (currentMob < nbrmob)
-				{
-					rndY = rand() % MAXY;
-					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
-					if (Map[rndY][x].getMob() == 0)
-					{
-						Map[rndY][x].setMob(1 + rand() % 8);////////////Differents sprites
-						currentMob++;
-					}
-				}
-			}
-
-		}
-
-	}
-
-
-	Lumiere(1);
-
-	passagesecuriserMonde1(difficulter);
-	
-
-
-
-}
 
 void Game_Manager::passagesecuriserMonde1(int difficulter)
 {
@@ -717,7 +644,81 @@ void Game_Manager::passagesecuriserMonde3(int difficulter)
 	}
 
 }
+void Game_Manager::CreationMonde1(int difficulter)
+{
+	resetMap();
 
+	int nbrmob = 0, obstacle = 0, nbrLight = 0;
+	int *ordre = NULL;
+	int currentLight = 0, currentObst = 0;
+	int rndY = 0;
+
+	for (int x = 5; x < MAXX; x++)
+	{
+		if (x % 2 != 0)
+		{
+			currentObst = NULL;
+			currentLight = NULL;
+
+			obstacle = rand() % difficulter;
+			nbrLight = rand() % difficulter;
+
+
+			//pose des obstacles
+			if (obstacle != 0)
+			{
+				while (currentObst < obstacle)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getObject() == 0)
+					{
+						Map[rndY][x].setObject(rand() % 10);////////////Differents sprites
+						currentObst++;
+					}
+				}
+			}
+
+			//pose des lumiere natuel
+			if (nbrLight != 0)
+			{
+				while (currentLight < nbrLight)
+				{
+					rndY = rand() % MAXY;
+					if (Map[rndY][x].getObject() == 0)
+					{
+						Map[rndY][x].setLight(3);////////////Differents sprites
+						currentLight++;
+					}
+				}
+			}
+		}
+		else
+		{ //pose des mobs
+			int currentMob = 0, rndY = 0;
+			int nbrmob = rand() % difficulter;
+			if (nbrmob != 0)
+			{
+				while (currentMob < nbrmob)
+				{
+					rndY = rand() % MAXY;
+					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
+					if (Map[rndY][x].getMob() == 0)
+					{
+						Map[rndY][x].setMob(1 + rand() % 8);////////////Differents sprites
+						currentMob++;
+					}
+				}
+			}
+
+		}
+
+	}
+
+	Lumiere(1);
+	passagesecuriserMonde1(difficulter);
+
+
+}
 void Game_Manager::CreationMonde2(int difficulter)
 {
 
@@ -816,7 +817,6 @@ void Game_Manager::CreationMonde3(int difficulter)
 
 
 }
-
 void Game_Manager::CreationMonde4(int difficulter)
 {//parfois chemin totalment bloquer
 
@@ -824,7 +824,7 @@ void Game_Manager::CreationMonde4(int difficulter)
 
 	int current = 3,precedent;
 
-	for (int x = 3; x < MAXX; x++)
+	for (int x = 5; x < MAXX; x++)
 	{
 		precedent = current;
 		current = modifcourant(current); 
@@ -871,7 +871,6 @@ void Game_Manager::CreationMonde4(int difficulter)
 
 		Lumiere(1);
 }
-
 void Game_Manager::CreationMonde5(int difficulter)
 {//un chemin de lumiere le reste du vide
 
@@ -881,7 +880,7 @@ void Game_Manager::CreationMonde5(int difficulter)
 
 	int current = 3, precedent;
 
-	for (int x = 3; x < MAXX; x++)
+	for (int x = 5; x < MAXX; x++)
 	{
 		precedent = current;
 		current = modifcourant(current);
@@ -930,7 +929,6 @@ void Game_Manager::CreationMonde5(int difficulter)
 	Lumiere(1);
 }
 
-
 void Game_Manager::ChoixMonde(int choix)
 {
 	switch (choix)
@@ -951,7 +949,6 @@ void Game_Manager::ChoixMonde(int choix)
 	}
 
 }
-
 void Game_Manager::ChoixDifficulter(int difficulter)
 {
 	switch (difficulter)
@@ -1004,7 +1001,7 @@ for (size_t x = 0; x < MAXX; x++)
 {
 	for (size_t y = 0; y < MAXY; y++)
 	{
-		Map[y][x].reset();//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ mettre le background en aleatoire ici voir set x et y
+		Map[y][x].reset();
 	}
 }
 
@@ -1077,7 +1074,6 @@ void Game_Manager::Lumiere(int portee)
 
 }
 
-
 void Game_Manager::afficherMapobjet(Box Map[MAXY][MAXX])
 {
 
@@ -1118,4 +1114,32 @@ void Game_Manager::afficherMapLight(Box Map[MAXY][MAXX])
 		cout << endl;
 	}
 	cout << endl;
+}
+
+void Game_Manager::Manger()
+{
+	
+	if (Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].getMob() != 0)
+	{
+		cout << " Repas" << endl;
+		system("pause");
+		myPlayer.gainEnergy(5 * _difficulter);
+		Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].setMob(0);
+	}
+
+}
+
+void Game_Manager::Manger(int y,int x)
+{
+
+	//cout << endl << " Position =" << y << " " << m_view2.getCenter().x << " " << myPlayer.getPosX() << " "<<x << endl;
+
+	if (Map[y][x].getMob() != 0)
+	{
+		myPlayer.gainEnergy( _difficulter);
+		Map[y][x].setMob(0);
+	
+	}
+
+
 }

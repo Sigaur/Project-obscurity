@@ -109,3 +109,4 @@ private:
 
 	int m_etheral;
 };
+
