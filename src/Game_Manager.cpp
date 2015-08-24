@@ -30,6 +30,7 @@ Game_Manager::Game_Manager(RenderWindow *app, View &view1, View &view2, int scre
     y_offset = 0;
 
     energy_text.init(app, "100", 50, 1);
+	difficulter_text.init(app, "1", 50, 1);
 
     m_app = app;
     m_app->setView(m_view1);
@@ -175,7 +176,7 @@ void Game_Manager::execute_action(Action action)
 
 		cout << "restart app remettre view1 et reset\n";
 		//temporaire
-		ChoixDifficulter(_difficulter-1);
+		ChoixDifficulter(_difficulter-2);
 		myPlayer.resetplayer();
 		actualisationNiveau(MAXX + 1);
 
@@ -386,6 +387,8 @@ void Game_Manager::draw()
     light_bar_grad.draw(m_screen_x - light_bar_background.get_w(), 0);
     energy_text.refill(to_string(myPlayer.getEnergy() ) );
     energy_text.draw(0, 0, 55);
+	difficulter_text.refill(to_string(_difficulter-1));
+	difficulter_text.draw(0, 100, 55);
     }
     m_app->display();
 }
@@ -977,6 +980,8 @@ void Game_Manager::ChoixDifficulter(int difficulter)
 		break;
 	case 4:_difficulter = 5;
 		break;
+	case 5:_difficulter = 5;
+		break;
 
 	default:_difficulter = 2;
 		break;
@@ -1141,7 +1146,7 @@ void Game_Manager::Manger()
 	if (Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].getMob() != 0)
 	{
 	
-		myPlayer.gainEnergy(5 * _difficulter);
+		myPlayer.gainEnergy( _difficulter);
 		Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].setMob(0);
 	}
 
@@ -1166,7 +1171,7 @@ void Game_Manager::Manger(int y,int x)
 
 void Game_Manager::actualisationNiveau(int x)
 {
-	if (x+1 > MAXX / 2)
+	if (x+1 > MAXX )
 	{
 		cout << "on change le monde" << endl;
 		cout << "inserer ici le menu de competence" << endl;

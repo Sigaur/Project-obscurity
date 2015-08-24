@@ -28,7 +28,7 @@
 #define NBCAILLOU 2
 #define NBMOB 2*/
 #define MAXY 5
-#define MAXX 100
+#define MAXX 10
 using namespace sf;
 
 enum Caracteristic {
@@ -92,6 +92,8 @@ private:
 
 	void ChoixDifficulter(int difficulter);
 	void ChoixMonde(int choix);
+
+	
  Music music;
    
     Key_event_handler key_event;
@@ -136,6 +138,7 @@ private:
     My_Sprite mob_sprite;
     My_Text selection_text[5], tile_info;
     My_Text energy_text;
+	My_Text difficulter_text;
 	/////////////////NEW
 	Player myPlayer;
 	My_Sprite world_sprite;
