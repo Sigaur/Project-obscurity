@@ -187,10 +187,7 @@ void Game_Manager::execute_action(Action action)
 		myPlayer.resetplayer();
 		actualisationNiveau(MAXX + 1);
 
-		//Pause();
 
-
-		//m_app->close();
 
 		break;
     default:
@@ -333,32 +330,24 @@ void Game_Manager::update(float secTime)
 			execute_action(ACT_GO_RIGHT);
 		}
 
-		/*cout << secTime << "   ";
-		cout << myPlayer.getPosY() << endl;*/
-		//cout << (m_view2.getCenter().x / 248) - 4 << endl;
 		int posXPla = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4;
-		//cout << endl << posXPla << endl;
+		
 		int posYpla = myPlayer.getPosY();
 
 		float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
-		//cout << posXPla << "     " << hitLimit << endl;
-
+	
 		if (((hitLimit > 0.75)) && (Map[posYpla][posXPla + 1].getObject() == 0) && (myPlayer.isEtheral()) && (myPlayer.playerState != VANISH))
 		{
-			//system("PAUSE");
+			
 			myPlayer.setEtheral(0);
 		}
 		if (myPlayer.isEtheral())
 		{
 			retour = 2;
 		}
-		/*sf::Vector2i pos((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
-		sf::Vector2i worldPos = m_app->mapPixelToCoords(pos, m_view2);*/
-		//sf::Vector2f MousePos = m_app.mapCoordsToPixel((myPlayer.getPosY() * 216), (myPlayer.getPosX() * 248 + 248));
-
-
+	
 		m_view2.move(500 * secTime, 0);
-		//((Map[posYpla][posXPla + 1].getObject == 0) && (Map[posYpla][posXPla].getObject == 0) || (hitLimit > 0.85)))
+		
 		if ((((Map[posYpla][posXPla + 1].getObject() != 0) || (Map[posYpla][posXPla].getObject() != 0))
 			&& (!(((hitLimit > 0.75)) && (Map[posYpla][posXPla + 1].getObject() == 0)))
 			&& (retour != 2)))
@@ -375,16 +364,13 @@ void Game_Manager::update(float secTime)
 		}
 
 		if ((Map[posYpla][posXPla + 1].getLight() != 0) || (Map[posYpla][posXPla].getLight() != 0))
-			//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (Map->getBoxint(posYpla, posXPla) == 2))
-		{
-			if ((!((Map[posYpla][posXPla].getLight() != 0) && (hitLimit > 0.75))) && (Map[posYpla][posXPla + 1].getLight() == 0))
-				//if ((Map->getBoxint(posYpla, posXPla + 1) == 2) || (hitLimit < 0.85))
 			{
+			if ((!((Map[posYpla][posXPla].getLight() != 0) && (hitLimit > 0.75))) && (Map[posYpla][posXPla + 1].getLight() == 0))
+				{
 				myPlayer.setMovable(0);
 				if (myPlayer.isLight() == 0)
 				{
 					myPlayer.setLight(1);
-					//lightTime = lightClock.restart();
 				}
 			}
 			else
@@ -396,7 +382,6 @@ void Game_Manager::update(float secTime)
 				if (myPlayer.isLight() == 1)
 				{
 					cout << "UNLIGHT" << endl;
-					//system("PAUSE");
 					myPlayer.setLight(0);
 				}
 			}
@@ -448,10 +433,9 @@ void Game_Manager::draw()
 	//Changes on the world
 	world_sprite.draw(0, 0);
     afficherMapobjet();
-    //affichage_Level(Map);//pour afficher la map en valeu numerique
-	
-	//m_view2.move(5, 0);
+   
 	m_app->setView(m_view1);
+
 	//Changes on the HUD, player
     myPlayer.draw();
     light_bar_background.draw(m_screen_x - light_bar_background.get_w(), 0);
@@ -611,7 +595,6 @@ void Game_Manager::passagesecuriserMonde1(int difficulter)
 
 		for (int y = 0; y < MAXY; y++)
 		{
-			//if (Map[y][colonne].getLight() == 0 && rand() % difficulter == 0)
 			if (Map[y][x].getLight() == 0 && rand() % difficulter == 0)
 			{
 				if ((choixD == choixG) && !(choixD == y))
@@ -637,7 +620,6 @@ void Game_Manager::passagesecuriserMonde1(int difficulter)
 }
 void Game_Manager::passagesecuriserMonde3(int difficulter)
 {//les cases securiser qui ne font pas partie du chemin sont des lampes
-
 
 	int repere[MAXY][2];
 	int videD = 0, videG = 0, choix;
@@ -791,7 +773,7 @@ void Game_Manager::CreationMonde1(int difficulter)
 				while (currentMob < nbrmob)
 				{
 					rndY = rand() % MAXY;
-					//if (Map[rndY][x].getObject() == 0 && Map[rndY][x].getMob()==0)
+
 					if (Map[rndY][x].getMob() == 0)
 					{
 						Map[rndY][x].setMob(1 + rand() % 8);////////////Differents sprites
@@ -1037,15 +1019,15 @@ void Game_Manager::CreationMonde6()
 					
 					Map[y][x].setObject(1 + rand() % 9);
 				}
-			else if (y % 2==0 && x%2==0 &&  y == choix)//regle b1
+			else if (y % 2==0 && x%2==0 &&  y == choix)
 			{
 				Map[y][x].setType(1 + rand() % 9, 1 + rand() % 8, 2);
 			}
-			else if (y % 2 == 0 && x % 2 == 0 && y != choix)//regle b2
+			else if (y % 2 == 0 && x % 2 == 0 && y != choix)
 			{ 
 			//vide
 			}
-			else if (x % 2 == 1 && y % 2 == 1)//regle c
+			else if (x % 2 == 1 && y % 2 == 1)
 			{ 
 				if (rand()%2==0)
 				{
@@ -1155,10 +1137,6 @@ void Game_Manager::ChoixDifficulter(int difficulter)
 
 
 
-
-
-
-
 int Game_Manager::modifcourant(int actuel)
 {
 	int test = rand() % 7;
@@ -1215,7 +1193,7 @@ void Game_Manager::Lumiere()
 
 		for (int x = 0; x < MAXX ; x++)
 		{
-		//lumiere gauche 1 5 37
+		//lumiere gauche  37
 			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 3 || Map[y][x-1].getMob() == 7) )
 				{
 					Map[y][x].setLight(2);
@@ -1224,7 +1202,7 @@ void Game_Manager::Lumiere()
 				{
 					Map[y][x].setLight(2);
 				}
-			//lumiere bas 4 8 26
+			//lumiere bas 4 8 
 			else if (y - 1> 0 && (Map[y-1][x].getMob() == 4 || Map[y-1][x].getMob() == 8))
 				{
 					Map[y][x].setLight(2);
@@ -1233,7 +1211,7 @@ void Game_Manager::Lumiere()
 				{
 					Map[y][x].setLight(2);
 				}
-			//lumiere haut 2 6 48
+			//lumiere haut 2 6 
 			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 2 || Map[y+1][x].getMob() == 6))
 				{
 					Map[y][x].setLight(2);
@@ -1242,7 +1220,7 @@ void Game_Manager::Lumiere()
 				{
 					Map[y][x].setLight(2);
 				}
-			//lumiere droite 3 7 15
+			//lumiere droite  15
 			else if (x+1 < MAXX && (Map[y][x+1].getMob() == 1 || Map[y][x+1].getMob() == 5))
 				{
 					Map[y][x].setLight(2);
@@ -1303,9 +1281,9 @@ void Game_Manager::afficherMapobjet()
                    bone.draw(j * 248, i * 216);
                 }
 			}
-			//cout << Map[i][j].getObject()<<" ";
+			
 		}
-		//cout << endl;
+		
 	}
 }
 
@@ -1360,6 +1338,8 @@ void Game_Manager::actualisationNiveau(int x)
 	int energy = myPlayer.getEnergy();
 	if (x > MAXX )
 	{
+
+		activate_skill_tree();
 		ChoixDifficulter(_difficulter++);
 		ChoixMonde(menu1.getWorld());
 		myPlayer.resetPosition();

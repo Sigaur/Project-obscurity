@@ -55,7 +55,7 @@ Player::Player(RenderWindow *app, View *view1)
 void Player::resetplayer(){
 	m_posY = 3;
 	m_posX = 1;
-	m_energy = -70;
+	m_energy = -40;
 	m_isMovable = 1;
 	m_isLight = 0;
 	m_LALvl = 0.1;
@@ -292,31 +292,52 @@ void Player::vanish()
 }
 void Player::m_FDReduceCost(int value)
 {
-    m_FDCostLvl += value;
+	if (m_FDCostLvl > -50)
+	{
+		m_FDCostLvl += value;
+	}
+
 }
 
 void Player::m_FDReduceCooldown(float value)
 {
-    m_FDCurrentCoolDown += value;
+	if (m_FDCurrentCoolDown > 1)
+	{
+		m_FDCurrentCoolDown += value;
+	}
+	
 }
 void Player::m_FDIncreaseDistance(int value)
 {
-    m_FDCurrentDist += value;
+	if (m_FDCurrentDist < 5)
+	{
+		m_FDCurrentDist += value;
+	}
 
 }
 
 void Player::m_VAReduceCost(int value)
 {
-    m_VACostLvl += value;
+	if (m_FDCostLvl > -50)
+	{
+		m_VACostLvl += value;
+	}
 }
 
 void Player::m_VAReduceCooldown(float value)
 {
-    m_VACurrentCoolDown += value;
+	if (m_VACurrentCoolDown > 1)
+	{
+		m_VACurrentCoolDown += value;
+	}
+
 }
 void Player::m_VAIncreaseDistance(int value)
 {
-    m_VACurrentDist += value;
+	if (m_FDCurrentDist < 5)
+	{
+		m_VACurrentDist += value;
+	}
 
 }
 
@@ -373,7 +394,6 @@ void Player::gainEnergy(int gain)
 
 void Player::resetPosition()
 {
-
 	m_posY = 3;
 	m_posX=1;
 	m_energy = 100;
