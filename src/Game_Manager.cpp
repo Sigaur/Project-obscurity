@@ -1352,7 +1352,7 @@ void Game_Manager::activate_skill_tree()
 void Game_Manager::actualisationNiveau(int x)
 {
 	int energy = myPlayer.getEnergy();
-	if (x+5 > MAXX )
+	if (x > MAXX )
 	{
 		ChoixDifficulter(_difficulter++);
 		ChoixMonde(menu1.getWorld());
