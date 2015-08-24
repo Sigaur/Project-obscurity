@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "My_Text.h"
 #include "My_Sprite.h"
+#include "utilitaire.h"
 
 using namespace sf;
 
@@ -18,6 +19,7 @@ public:
     bool is_quitting();
     void update();
 	int getWorld();
+	int getDifficulte();
 
 private:
     RenderWindow *m_app;
@@ -28,5 +30,7 @@ private:
 	My_Text text2;
     bool m_playing, m_quit;
 	int monde;
+	int difficulte;
+
 };
 

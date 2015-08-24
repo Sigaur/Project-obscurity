@@ -23,14 +23,11 @@ Menu::Menu(RenderWindow *app, View *view1)
     m_playing = false;
     m_quit = false;
 	monde = 1;
-
+	difficulte = 1;
 }
 
 
 	
-
-
-
 
 void Menu::draw()
 {
@@ -76,6 +73,7 @@ void Menu::update()
 	if (m_button[3].is_activated())
 	{
 		monde = 1;
+		(4);
 		m_button[3].desactivate();
 		m_playing = true;
 	}
@@ -115,4 +113,12 @@ bool Menu::is_quitting()
     return m_quit;
 }
 
-int Menu::getWorld(){ return monde; }
+int Menu::getWorld()
+{ 
+	return monde; 
+}
+
+int Menu::getDifficulte()
+{
+	return difficulte;
+}

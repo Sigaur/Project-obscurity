@@ -97,7 +97,7 @@ void Game_Manager::execute_action(Action action)
 	int posYpla = myPlayer.getPosY();
 	float hitLimit = (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4 - posXPla;
 	
-	//this->Manger((int)posYpla, (int)posXPla);
+	
 
     switch (action)
 	{
@@ -172,7 +172,16 @@ void Game_Manager::execute_action(Action action)
 
         break;
 	case ACT_RESTART_APP:
-		cout << "restart app\n";
+
+		cout << "restart app remettre view1 et reset\n";
+		//temporaire
+		ChoixDifficulter(_difficulter-1);
+		myPlayer.resetplayer();
+		actualisationNiveau(MAXX + 1);
+
+		//Pause();
+
+
 		//m_app->close();
 
 		break;
@@ -246,16 +255,16 @@ void Game_Manager::update(float secTime)
 {
 
 	Manger(myPlayer.getPosY(), (m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
+	actualisationNiveau((m_view2.getCenter().x + (myPlayer.getPosX() * 248)) / 248 - 4);
 
-
-	//cout << "test1" << endl;
+	
 	if (is_menu_visible)
 	{
 		
 		menu1.update();
 		if (menu1.is_playing() == true)
 		{
-			ChoixDifficulter(2);
+			ChoixDifficulter(menu1.getDifficulte());
 			ChoixMonde(menu1.getWorld());
 			is_menu_visible = false;
 		}
@@ -367,7 +376,7 @@ void Game_Manager::draw()
 	world_sprite.draw(0, 0);
     afficherMapobjet(Map);
     //affichage_Level(Map);//pour afficher la map en valeu numerique
-	this->Manger();
+	
 	//m_view2.move(5, 0);
 	m_app->setView(m_view1);
 	//Changes on the HUD, player
@@ -1127,12 +1136,11 @@ void Game_Manager::afficherMapLight(Box Map[MAXY][MAXX])
 }
 
 void Game_Manager::Manger()
-{
+{//fonction jamais utiliser
 	
 	if (Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].getMob() != 0)
 	{
-		cout << " Repas" << endl;
-		system("pause");
+	
 		myPlayer.gainEnergy(5 * _difficulter);
 		Map[(int)myPlayer.getPosY()][(int)myPlayer.getPosX()].setMob(0);
 	}
@@ -1144,6 +1152,7 @@ void Game_Manager::Manger(int y,int x)
 
 	//cout << endl << " Position =" << y << " " << m_view2.getCenter().x << " " << myPlayer.getPosX() << " "<<x << endl;
 
+
 	if (Map[y][x].getMob() != 0)
 	{
 		myPlayer.gainEnergy( _difficulter);
@@ -1152,4 +1161,31 @@ void Game_Manager::Manger(int y,int x)
 	}
 
 
+
 }
+
+void Game_Manager::actualisationNiveau(int x)
+{
+	if (x+1 > MAXX / 2)
+	{
+		cout << "on change le monde" << endl;
+		cout << "inserer ici le menu de competence" << endl;
+		
+		ChoixDifficulter(_difficulter++);
+		ChoixMonde(menu1.getWorld());
+		myPlayer.resetPosition();
+
+		cout << m_view2.getCenter().x << "  " << m_view2.getCenter().y<< endl;
+		Vector2f position(960, 540);
+		m_view2.setCenter(position);
+
+	
+		draw();
+
+	}
+
+
+
+}
+
+

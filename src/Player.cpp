@@ -51,6 +51,41 @@ Player::Player(RenderWindow *app, View *view1)
     dash_sound.setBuffer(dash_buffer);
 }
 
+
+void Player::resetplayer(){
+	m_posY = 3;
+	m_posX = 1;
+	m_energy = 100;
+	m_isMovable = 1;
+	m_isLight = 0;
+	m_LALvl = 0.1;
+	m_SRLvl = 0;
+
+	m_FDIsUnlocked = 1;
+	m_FDCostLvl = 20;
+	m_FDCoolDownLvl = 10;
+	m_FDDistanceLvl = 1;
+	m_FDCurrentDist = 1;
+	m_FDCurrentCoolDown = 10;
+
+	m_VAIsUnlocked = 1;
+	m_VACostLvl = 20;
+	m_VACoolDownLvl = 10;
+	m_VADistanceLvl = 10;
+	m_VACurrentDist = 1;
+	m_VACurrentCoolDown = 10;
+
+	m_INIsUnlocked = 0;
+	m_INCostLvl = 0;
+	m_INCoolDownLvl = 30;
+	m_INDistanceLvl = 0;
+	m_INCurrentDist = 0;
+	m_INCurrentCoolDown = 30;
+
+	playerState = MOVING;
+	m_etheral = 0;
+
+}
 void Player::draw(float y, float x)
 {
 }
@@ -323,4 +358,17 @@ void Player::setEtheral(int set)
 void Player::gainEnergy(int gain)
 {
 	m_energy += gain;
+}
+
+void Player::resetPosition()
+{
+
+	m_posY = 3;
+	m_posX=1;
+	m_energy = 100;
+	m_isMovable = 1;
+	m_isLight = 0;
+	m_LALvl = 0.1;
+	m_SRLvl = 0;
+
 }

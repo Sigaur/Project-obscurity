@@ -28,7 +28,7 @@
 #define NBCAILLOU 2
 #define NBMOB 2*/
 #define MAXY 5
-#define MAXX 200
+#define MAXX 100
 using namespace sf;
 
 enum Caracteristic {
@@ -59,6 +59,7 @@ public:
 
 	void Manger();
 	void Manger(int y, int x);
+	void actualisationNiveau(int x);
 
     virtual ~Game_Manager() = default;
     Hud interface1;
@@ -141,8 +142,10 @@ private:
 	Box Map[MAXY][MAXX];//[5][20]
 	int TypeMap;
 	int _difficulter;
-}; 
 
+
+
+}; 
 
 
 

@@ -54,6 +54,8 @@ public:
 	int isEtheral();
 	void setEtheral(int set);
 	void gainEnergy(int gain);
+	void resetPosition();
+	void resetplayer();
 
 private:
 

@@ -32,7 +32,7 @@ bool Key_event_handler::manage_key_event(const sf::Event &event, Action &action)
     case sf::Event::KeyPressed:
 		if (event.key.code == sf::Keyboard::P)
 		{
-			system("Pause");
+			Pause();
 		}
 
         if (key_action.count(event.key.code) == 0)
@@ -80,4 +80,5 @@ bool Key_event_handler::manage_mouse_click(const sf::Event &event, enum sf::Mous
 	//event handled
 	return true;
 }
+
 

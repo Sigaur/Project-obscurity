@@ -38,4 +38,6 @@ private:
     std::map<sf::Keyboard::Key, Action> key_action;
 };
 
+void Pause();
+
 #endif // KEY_EVENT_H

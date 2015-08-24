@@ -89,6 +89,7 @@
     <ClCompile Include="src\My_window.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Tile.cpp" />
+    <ClCompile Include="src\utilitaire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Box.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="include\Skills.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\Timer.h" />
+    <ClInclude Include="include\utilitaire.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
