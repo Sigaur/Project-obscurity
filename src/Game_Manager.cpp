@@ -1184,9 +1184,9 @@ void Game_Manager::Lumiere()
 
 	for (int y = 0; y < MAXY; y++)
 	{
-	//     7		   8
-	//     3 		   4
-	// 5 1 O 2 6     51026
+	//     6		   8
+	//     2 		   4
+	// 5 1 O 3 7     51026
 	//	   4		   x
 	//     8		   x
 
@@ -1194,11 +1194,11 @@ void Game_Manager::Lumiere()
 		for (int x = 0; x < MAXX ; x++)
 		{
 		//lumiere gauche  37
-			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 2 || Map[y][x-1].getMob() == 6) )
+			if ( x - 1> 0 && ( Map[y][x-1].getMob() == 3 || Map[y][x-1].getMob() == 7) )
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (x - 2 > 0  && Map[y][x-2].getMob() == 6)
+			else if (x - 2 > 0  && Map[y][x-2].getMob() == 7)
 				{
 					Map[y][x].setLight(2);
 				}
@@ -1214,20 +1214,20 @@ void Game_Manager::Lumiere()
 
 
 			//lumiere bas 4 8 
-			else if (y - 1> 0 && (Map[y-1][x].getMob() == 3 || Map[y-1][x].getMob() == 7))
+			else if (y - 1> 0 && (Map[y-1][x].getMob() == 4 || Map[y-1][x].getMob() == 8))
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (y - 2 > 0 && Map[y-2][x].getMob() == 7)
+			else if (y - 2 > 0 && Map[y-2][x].getMob() == 8)
 				{
 					Map[y][x].setLight(2);
 				}
 			//lumiere haut 2 6 
-			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 4 || Map[y+1][x].getMob() == 8))
+			else if (y+1 < MAXY && (Map[y+1][x].getMob() == 2 || Map[y+1][x].getMob() == 6))
 				{
 					Map[y][x].setLight(2);
 				}
-			else if (y+2 < MAXY  && Map[y+2][x].getMob() ==8)
+			else if (y+2 < MAXY  && Map[y+2][x].getMob() ==6)
 				{
 					Map[y][x].setLight(2);
 				}	
@@ -1261,22 +1261,32 @@ void Game_Manager::afficherMapobjet()
 			}
 			if (Map[i][j].getMob() != 0)
 			{
+
+				//     6		   8
+				//     2 		   4
+				// 5 1 O 3 7     51026
+				//	   4		   x
+				//     8		   x
+
+
+
                 if ((Map[i][j].getMob() == 1 || Map[i][j].getMob() == 5))
                 {
                     mob_sprite[0].draw(j * 248, i * 216);
                 }
-                if ((Map[i][j].getMob() == 2 || Map[i][j].getMob() == 6))
+                if ((Map[i][j].getMob() == 4 || Map[i][j].getMob() == 8))
                 {
                     mob_sprite[1].draw(j * 248, i * 216);
                 }
-                if ((Map[i][j].getMob() == 3 || Map[i][j].getMob() == 7))
+                if ((Map[i][j].getMob() == 2|| Map[i][j].getMob() == 6))
                 {
                     mob_sprite[2].draw(j * 248, i * 216);
                 }
-                if ((Map[i][j].getMob() == 4 || Map[i][j].getMob() == 8))
+                if ((Map[i][j].getMob() == 3 || Map[i][j].getMob() == 7))
                 {
                     mob_sprite[3].draw(j * 248, i * 216);
                 }
+
                 if (Map[i][j].getMob() == 55)
                 {
                    bone.draw(j * 248, i * 216);
